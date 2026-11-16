@@ -1,0 +1,30 @@
+<header class="topbar">
+  <h1>{{ 'app.title' | transloco }}</h1>
+  <div class="lang" role="group" [attr.aria-label]="'app.language' | transloco">
+    @for (lang of languages; track lang) {
+      <button
+        type="button"
+        [attr.data-lang]="lang"
+        [class.active]="isActive(lang)"
+        (click)="setLanguage(lang)"
+      >
+        {{ lang.toUpperCase() }}
+      </button>
+    }
+  </div>
+</header>
+
+<main class="zones">
+  <section>
+    <h2>{{ 'zones.conversation' | transloco }}</h2>
+    <p class="empty">{{ 'zones.empty' | transloco }}</p>
+  </section>
+  <section>
+    <h2>{{ 'zones.modules' | transloco }}</h2>
+    <p class="empty">{{ 'zones.empty' | transloco }}</p>
+  </section>
+  <section>
+    <h2>{{ 'zones.gallery' | transloco }}</h2>
+    <p class="empty">{{ 'zones.empty' | transloco }}</p>
+  </section>
+</main>
