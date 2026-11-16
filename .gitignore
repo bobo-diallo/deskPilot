@@ -17,7 +17,12 @@ frontend/.angular/
 *.sqlite3
 backend/data/
 
-# Éditeurs et système
+# Éditeurs et système (toujours ignorés, règle globale)
 .DS_Store
 .idea/
 .vscode/
+.vs/
+.fleet/
+*.iml
+*.code-workspace
+*.swp
