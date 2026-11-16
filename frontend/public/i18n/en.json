@@ -1,0 +1,12 @@
+{
+  "app": {
+    "title": "AI Desk",
+    "language": "Language"
+  },
+  "zones": {
+    "conversation": "Conversation",
+    "modules": "Modules",
+    "gallery": "Gallery",
+    "empty": "Empty area for now"
+  }
+}

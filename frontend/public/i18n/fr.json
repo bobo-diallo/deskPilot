@@ -1,0 +1,12 @@
+{
+  "app": {
+    "title": "Bureau IA",
+    "language": "Langue"
+  },
+  "zones": {
+    "conversation": "Conversation",
+    "modules": "Modules",
+    "gallery": "Galerie",
+    "empty": "Zone vide pour le moment"
+  }
+}
