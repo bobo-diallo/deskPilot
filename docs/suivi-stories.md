@@ -10,6 +10,7 @@
   - [x] Modèles SQLAlchemy (conversations, messages, documents, chunks, api_calls)
   - [x] Frontend Angular : écran à trois zones, bascule FR/EN (Transloco)
   - [x] Docker Compose (backend 8010, frontend 4200), README, CLAUDE.md
+  - [x] Guides d'apprentissage (`docs/apprentissage/`) et prompt de design (`docs/design/`)
 
 ## Story 01 — Adaptateur LLM, routeur et journal des coûts 📋
 ## Story 02 — Extraction PDF/image vers JSON validé 📋

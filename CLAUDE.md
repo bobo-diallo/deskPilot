@@ -3,6 +3,7 @@
 Démonstrateur d'automatisation IA pour PME : transforme des documents non structurés
 (PDF, images, audio) en données structurées validées, avec un agent IA outillé (dont un
 mini-RAG) et une évaluation chiffrée. Projet d'apprentissage « AI engineer ».
+Guides de cours : `docs/apprentissage/`. Prompt de design : `docs/design/prompt-design.md`.
 Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `docs/roadmap.md`.
 
 ## Stack
@@ -36,6 +37,11 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
   story, créée avant de modifier le code. Un commit = un changement logique, message en
   français expliquant le pourquoi, préfixé `<branche>: `. Jamais de ligne `Co-Authored-By`.
   **Jamais de push ni de pull request sans « go » explicite** (commandes `/push` et `/pr`).
+- **Mode apprentissage** : l'utilisateur découvre Python et ses frameworks. Expliquer chaque
+  nouvelle notion quand elle apparaît (avec des comparaisons PHP/JS), garder le code simple,
+  et ajouter ou compléter un guide dans `docs/apprentissage/` à chaque story.
+- **Fichiers ignorés** : jamais de fichiers d'éditeur ni de secrets dans git (`.idea/`,
+  `.vscode/`, `.vs/`, `.env`, `.venv/`…). Vérifier avec `git ls-files` avant de commiter.
 - **Données de démo** : compte Google `curioflow.demo@gmail.com`, jamais le compte personnel.
 
 ## Commandes

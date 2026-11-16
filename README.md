@@ -33,6 +33,9 @@ npx ng test --watch=false
 
 ## Documentation
 
+- Guides d'apprentissage (Python, FastAPI, base de données, tests, Angular, Docker) :
+  `docs/apprentissage/README.md`
+- Prompt de design à utiliser avec Claude : `docs/design/prompt-design.md`
 - Cahier des charges : `docs/cahier-des-charges.md` (à venir)
 - Produit : `docs/produit.md`
 - Architecture : `docs/architecture.md`
