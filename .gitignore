@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Environnement et données locales
+.env
+*.db
+*.sqlite3
+backend/data/
+
+# Éditeurs et système
+.DS_Store
+.idea/
+.vscode/
