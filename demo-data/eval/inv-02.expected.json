@@ -1,0 +1,29 @@
+{
+  "supplier_name": "Transports Beaulieu",
+  "invoice_number": "INV-98324",
+  "issue_date": "2026-01-28",
+  "currency": "CAD",
+  "lines": [
+    {
+      "description": "Licence logicielle annuelle",
+      "quantity": "5",
+      "unit_price": "1472.68",
+      "total": "7363.40"
+    },
+    {
+      "description": "Rénovation de cuisine (forfait)",
+      "quantity": "4",
+      "unit_price": "1926.72",
+      "total": "7706.88"
+    },
+    {
+      "description": "Poste de travail complet",
+      "quantity": "4",
+      "unit_price": "1052.63",
+      "total": "4210.52"
+    }
+  ],
+  "subtotal": "19280.80",
+  "tax_amount": "2887.30",
+  "total": "22168.10"
+}

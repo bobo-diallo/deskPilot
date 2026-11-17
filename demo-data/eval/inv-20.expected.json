@@ -1,0 +1,35 @@
+{
+  "supplier_name": "Vitrerie Pelletier",
+  "invoice_number": "F3235",
+  "issue_date": "2026-12-14",
+  "currency": "CAD",
+  "lines": [
+    {
+      "description": "Delivery",
+      "quantity": "1",
+      "unit_price": "24.38",
+      "total": "24.38"
+    },
+    {
+      "description": "Wood screw 4x40 (each)",
+      "quantity": "4",
+      "unit_price": "0.19",
+      "total": "0.76"
+    },
+    {
+      "description": "Network cable 5 m",
+      "quantity": "5",
+      "unit_price": "12.53",
+      "total": "62.65"
+    },
+    {
+      "description": "Desk lamp",
+      "quantity": "5",
+      "unit_price": "26.66",
+      "total": "133.30"
+    }
+  ],
+  "subtotal": "221.09",
+  "tax_amount": "33.10",
+  "total": "254.19"
+}

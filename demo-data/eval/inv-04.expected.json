@@ -1,0 +1,35 @@
+{
+  "supplier_name": "Distillerie Gauthier",
+  "invoice_number": "INV-85937",
+  "issue_date": "2026-12-15",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Desk lamp",
+      "quantity": "2.5",
+      "unit_price": "66.11",
+      "total": "165.28"
+    },
+    {
+      "description": "Delivery",
+      "quantity": "4",
+      "unit_price": "17.8",
+      "total": "71.20"
+    },
+    {
+      "description": "Wood screw 4x40 (each)",
+      "quantity": "2",
+      "unit_price": "0.23",
+      "total": "0.46"
+    },
+    {
+      "description": "Ink cartridge",
+      "quantity": "3",
+      "unit_price": "46.11",
+      "total": "138.33"
+    }
+  ],
+  "subtotal": "375.27",
+  "tax_amount": "75.05",
+  "total": "450.32"
+}

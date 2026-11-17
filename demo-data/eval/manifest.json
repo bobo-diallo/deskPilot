@@ -1,0 +1,225 @@
+{
+  "cases": [
+    {
+      "id": "inv-01",
+      "file": "inv-01.pdf",
+      "tags": [
+        "digital"
+      ]
+    },
+    {
+      "id": "inv-02",
+      "file": "inv-02.pdf",
+      "tags": [
+        "digital",
+        "multi_tax",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-03",
+      "file": "inv-03.pdf",
+      "tags": [
+        "ambiguous_date",
+        "digital",
+        "negative_line",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-04",
+      "file": "inv-04.pdf",
+      "tags": [
+        "decimal_quantity",
+        "digital",
+        "english"
+      ]
+    },
+    {
+      "id": "inv-05",
+      "file": "inv-05.pdf",
+      "tags": [
+        "digital",
+        "multi_tax"
+      ]
+    },
+    {
+      "id": "inv-06",
+      "file": "inv-06.pdf",
+      "tags": [
+        "ambiguous_date",
+        "digital",
+        "missing_number",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-07",
+      "file": "inv-07.pdf",
+      "tags": [
+        "ambiguous_date",
+        "digital"
+      ]
+    },
+    {
+      "id": "inv-08",
+      "file": "inv-08.pdf",
+      "tags": [
+        "digital",
+        "english",
+        "multi_tax",
+        "negative_line"
+      ]
+    },
+    {
+      "id": "inv-09",
+      "file": "inv-09.pdf",
+      "tags": [
+        "ambiguous_date",
+        "digital"
+      ]
+    },
+    {
+      "id": "inv-10",
+      "file": "inv-10.pdf",
+      "tags": [
+        "digital",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-11",
+      "file": "inv-11.pdf",
+      "tags": [
+        "decimal_quantity",
+        "digital",
+        "multi_tax"
+      ]
+    },
+    {
+      "id": "inv-12",
+      "file": "inv-12.pdf",
+      "tags": [
+        "ambiguous_date",
+        "digital",
+        "english",
+        "missing_number"
+      ]
+    },
+    {
+      "id": "inv-13",
+      "file": "inv-13.pdf",
+      "tags": [
+        "digital",
+        "negative_line"
+      ]
+    },
+    {
+      "id": "inv-14",
+      "file": "inv-14.pdf",
+      "tags": [
+        "ambiguous_date",
+        "digital",
+        "multi_tax",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-15",
+      "file": "inv-15.png",
+      "tags": [
+        "ambiguous_date",
+        "scan",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-16",
+      "file": "inv-16.png",
+      "tags": [
+        "ambiguous_date",
+        "english",
+        "scan"
+      ]
+    },
+    {
+      "id": "inv-17",
+      "file": "inv-17.png",
+      "tags": [
+        "multi_tax",
+        "scan"
+      ]
+    },
+    {
+      "id": "inv-18",
+      "file": "inv-18.png",
+      "tags": [
+        "ambiguous_date",
+        "decimal_quantity",
+        "missing_number",
+        "negative_line",
+        "scan",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-19",
+      "file": "inv-19.jpg",
+      "tags": [
+        "noisy",
+        "scan"
+      ]
+    },
+    {
+      "id": "inv-20",
+      "file": "inv-20.jpg",
+      "tags": [
+        "english",
+        "multi_tax",
+        "noisy",
+        "scan"
+      ]
+    },
+    {
+      "id": "inv-21",
+      "file": "inv-21.jpg",
+      "tags": [
+        "ambiguous_date",
+        "noisy",
+        "scan"
+      ]
+    },
+    {
+      "id": "inv-22",
+      "file": "inv-22.jpg",
+      "tags": [
+        "noisy",
+        "scan",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-23",
+      "file": "inv-23.jpg",
+      "tags": [
+        "multi_tax",
+        "negative_line",
+        "noisy",
+        "scan",
+        "thousands"
+      ]
+    },
+    {
+      "id": "inv-24",
+      "file": "inv-24.jpg",
+      "tags": [
+        "ambiguous_date",
+        "english",
+        "missing_number",
+        "noisy",
+        "scan",
+        "thousands"
+      ]
+    }
+  ]
+}

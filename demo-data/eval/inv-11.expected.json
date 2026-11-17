@@ -1,0 +1,23 @@
+{
+  "supplier_name": "Menuiserie Roy",
+  "invoice_number": "INV-71404",
+  "issue_date": "2026-10-08",
+  "currency": "CAD",
+  "lines": [
+    {
+      "description": "Lampe de bureau",
+      "quantity": "2.5",
+      "unit_price": "41.01",
+      "total": "102.53"
+    },
+    {
+      "description": "Chaise en chêne",
+      "quantity": "1",
+      "unit_price": "49.2",
+      "total": "49.20"
+    }
+  ],
+  "subtotal": "151.73",
+  "tax_amount": "22.73",
+  "total": "174.46"
+}

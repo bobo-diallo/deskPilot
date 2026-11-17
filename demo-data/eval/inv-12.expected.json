@@ -1,0 +1,23 @@
+{
+  "supplier_name": "Librairie Gagnon",
+  "invoice_number": null,
+  "issue_date": "2026-08-12",
+  "currency": "USD",
+  "lines": [
+    {
+      "description": "Wood screw 4x40 (each)",
+      "quantity": "2",
+      "unit_price": "0.26",
+      "total": "0.52"
+    },
+    {
+      "description": "Delivery",
+      "quantity": "5",
+      "unit_price": "24.08",
+      "total": "120.40"
+    }
+  ],
+  "subtotal": "120.92",
+  "tax_amount": "9.67",
+  "total": "130.59"
+}
