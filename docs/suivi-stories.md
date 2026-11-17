@@ -2,9 +2,9 @@
 
 ## Story 00 — Fondations ✅
 - Branche : `story/00-foundations`
-- PR : à ouvrir sur demande
+- PR : [#1](https://github.com/bobo-diallo/deskPilot/pull/1), fusionnée
 - Checklist :
-  - [x] Dépôt git local et dépôt GitHub privé `bureau-ia` (rien poussé)
+  - [x] Dépôt git local et dépôt GitHub privé (nommé d'abord `bureau-ia`, renommé `deskPilot`)
   - [x] Cadrage produit, architecture, feuille de route (`docs/`)
   - [x] Backend FastAPI : `/health`, configuration `.env`, pytest, Black, Ruff
   - [x] Modèles SQLAlchemy (conversations, messages, documents, chunks, api_calls)

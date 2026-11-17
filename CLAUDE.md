@@ -3,6 +3,7 @@
 Démonstrateur d'automatisation IA pour PME : transforme des documents non structurés
 (PDF, images, audio) en données structurées validées, avec un agent IA outillé (dont un
 mini-RAG) et une évaluation chiffrée. Projet d'apprentissage « AI engineer ».
+Dépôt GitHub : `deskPilot` (privé jusqu'à la fin de la V1). Nom d'écran : « Bureau IA ».
 Guides de cours : `docs/apprentissage/`. Prompt de design : `docs/design/prompt-design.md`.
 Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `docs/roadmap.md`.
 
