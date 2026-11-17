@@ -22,6 +22,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | [06 — Docker](06-docker.md) | Dockerfile, docker compose, ports et volumes |
 | [07 — LLM et adaptateur](07-llm-et-adaptateur.md) | Interface, injection de dépendances, coûts, routage (story 01) |
 | [08 — Extraction de documents](08-extraction-de-documents.md) | Pydantic, sortie structurée, Decimal, upload, validation (story 02) |
+| [09 — Évaluer un système d'IA](09-evaluation.md) | Vérité terrain, métriques, intervalles de confiance, jeu de validation, prompts versionnés (story 03) |
 
 ## Glossaire rapide
 

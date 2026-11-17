@@ -10,17 +10,17 @@ chaque story. Légende : ✅ fait, 🔄 en cours, 📋 prévu, ❌ pas encore pl
 | 1 | Appeler le modèle via le SDK officiel, derrière une interface (changer de fournisseur sans refonte) | `LLMProvider`, `AnthropicProvider` (story 01) | ✅ |
 | 2 | Sorties structurées : schéma contraint et validé, jamais du texte libre à parser | `messages.parse` + Pydantic (story 02) | ✅ |
 | 3 | Suivre tokens, coût et latence de chaque appel | `api_calls`, `LLMService` (story 01) | ✅ |
-| 4 | Router les tâches vers le modèle adapté (coût contre qualité) | `router.py` ; décision pilotée par la mesure (story 03) | 🔄 |
-| 5 | Évaluer sur un jeu annoté avec des métriques, avant de changer de modèle ou de prompt | module `evaluation` (story 03) | 🔄 |
+| 4 | Router les tâches vers le modèle adapté (coût contre qualité) | `router.py` : extraction vers Haiku, décision prise par la mesure (story 03) | ✅ |
+| 5 | Évaluer sur un jeu annoté avec des métriques, avant de changer de modèle ou de prompt | module `evaluation`, 460 appels mesurés (story 03) | ✅ |
 | 6 | Tests sans réseau avec des faux, tests réels séparés et ignorés sans clé | `FakeProvider`, tests `skipif` | ✅ |
 | 7 | Humain dans la boucle pour les cas douteux | statut `needs_review` (story 02), écran Revue (story 05) | 🔄 |
 | 8 | Validation métier du résultat du modèle (le modèle peut se tromper avec aplomb) | `validation.py` (story 02) | ✅ |
 | 9 | Gérer les refus du modèle | `LLMRefusedError` (story 01) | ✅ |
 | 10 | Gérer pannes, timeouts, limites de débit (429), nouvelles tentatives | réglages par défaut du SDK ; pas de traduction en erreur 502 propre | 📋 |
 | 11 | Secrets et configuration hors du code | `.env`, `pydantic-settings` | ✅ |
-| 12 | Confidentialité : choix API contre modèle local, pas de données réelles dans les démos | ADR 005, données factices | 🔄 |
-| 13 | Traitement en masse à moitié prix (Batch API) pour les évaluations | à envisager pour l'évaluation (story 03) | 📋 |
-| 14 | Versionner les prompts et relier chaque résultat à la version utilisée | prompts en constantes, sans version | 📋 |
+| 12 | Confidentialité : choix API contre modèle local, pas de données réelles dans les démos | données factices ; essai Docling (non retenu) | 🔄 |
+| 13 | Traitement en masse à moitié prix (Batch API) pour les évaluations | non utilisé (l'évaluation mesure aussi la latence) | 📋 |
+| 14 | Versionner les prompts et relier chaque résultat à la version utilisée | `prompts.py` (v1, v2), variantes épinglées ; pas encore stocké dans `extractions` | 🔄 |
 | 15 | Réduire le coût d'un contexte répété (prompt caching) | non étudié | 📋 |
 | 16 | Observabilité : journaux structurés, traces (OpenTelemetry) | journal des coûts seulement | ❌ |
 | 17 | Agents : boucle d'outils typés, limites de pas, validation des arguments | story 05 | 📋 |
@@ -36,12 +36,12 @@ vrais produits. Chacune est rattachée à une story où elle sera réellement pr
 
 | # | Compétence avancée | Ce qu'on apprend | Où | État |
 |---|---|---|---|---|
-| A1 | Évaluation rigoureuse : répétitions, intervalles de confiance, seuils décidés avant la mesure, éviter de conclure sur du bruit | Savoir si une différence de score est réelle | story 03 | 🔄 |
+| A1 | Évaluation rigoureuse : répétitions, intervalles de confiance, seuils décidés avant la mesure, jeu de validation contre la fuite de réglage | Savoir si une différence de score est réelle | story 03 | ✅ |
 | A2 | Évaluation en régression : un score minimal qui bloque une PR (qualité traitée comme les tests) | Éviter qu'un changement de prompt dégrade en silence | story 03 puis CI | 📋 |
-| A3 | Analyse d'erreurs par catégorie (étiquettes de difficulté), pas seulement une moyenne | Trouver où le système échoue vraiment | story 03 | 🔄 |
-| A4 | Ingénierie des coûts : Batch API, prompt caching, texte extrait au lieu d'images, choix du plus petit modèle suffisant | Diviser la facture sans perdre en qualité | story 03 | 🔄 |
-| A5 | Prompts versionnés, comparés par l'évaluation, reliés à chaque résultat | Traiter les prompts comme du code | story 03 | 📋 |
-| A6 | Modèles ouverts et inférence locale (Hugging Face, quantification), mesurés contre l'API | Savoir quand « local » est justifié | stories 03 et 04 | 📋 |
+| A3 | Analyse d'erreurs par catégorie (étiquettes de difficulté), pas seulement une moyenne | Trouver où le système échoue vraiment | story 03 | ✅ |
+| A4 | Ingénierie des coûts : Batch API, prompt caching, texte extrait au lieu d'images, plus petit modèle suffisant, effort de réflexion | Diviser la facture sans perdre en qualité | story 03 (fait : modèle et texte) ; reste : caching, effort | 🔄 |
+| A5 | Prompts versionnés, comparés par l'évaluation, reliés à chaque résultat | Traiter les prompts comme du code | story 03 | 🔄 |
+| A6 | Modèles ouverts et inférence locale (Hugging Face, quantification), mesurés contre l'API | Savoir quand « local » est justifié | Docling essayé en story 03 (non retenu) ; Whisper en story 04 | 🔄 |
 | A7 | Résilience : replis entre modèles, coupe-circuit, relances avec délai croissant, idempotence | Un service qui survit aux pannes du fournisseur | à planifier | ❌ |
 | A8 | Pipeline asynchrone : file de tâches, traitement en arrière-plan, statut consultable | Les documents lourds ne bloquent pas la requête | à planifier | ❌ |
 | A9 | Voix : transcription (Whisper), découpage par locuteur, extraction depuis la transcription | Multimodalité de bout en bout | story 04 | 📋 |

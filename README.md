@@ -37,6 +37,7 @@ npx ng test --watch=false
   `docs/apprentissage/README.md`
 - Prompt de design à utiliser avec Claude : `docs/design/prompt-design.md`
 - Cahier des charges : `docs/cahier-des-charges.md` (à venir)
+- Évaluation (rapports chiffrés) : `docs/evaluation/` ; pratiques IA couvertes : `docs/standards-ia.md`
 - Produit : `docs/produit.md`
 - Architecture : `docs/architecture.md`
 - Suivi des stories : `docs/suivi-stories.md`

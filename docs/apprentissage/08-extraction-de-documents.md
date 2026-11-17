@@ -90,6 +90,9 @@ TVQ) et une image légèrement inclinée qui simule un scan. Chacune a un fichie
 totaux sont cohérents. Les tests réels comparent ce que Claude extrait à ces fichiers.
 
 ## Coût et vitesse mesurés
+> **Mis à jour en story 03 :** l'extraction utilise maintenant Haiku 5.5 (environ 0,0006 $ par
+> facture). Les chiffres ci-dessous sont ceux de Sonnet 5.5, mesurés en story 02.
+
 Une facture PDF d'une page : environ 3 200 tokens en entrée, 200 en sortie, soit 0,008 $ et
 3 secondes avec Sonnet 5.5. Un PDF compte en tokens à la fois pour son texte et pour ses
 images de page.
