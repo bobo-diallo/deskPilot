@@ -64,7 +64,7 @@ def test_extractor_sends_the_file_and_asks_for_the_invoice_schema(session):
     assert request.response_schema is Invoice
     assert request.attachments[0].media_type == "application/pdf"
     assert request.attachments[0].data == b"%PDF-1"
-    assert request.model == "claude-sonnet-5-5"  # tâche d'extraction -> modèle le plus capable
+    assert request.model == "claude-haiku-5-5"  # modèle du routeur pour l'extraction
 
 
 def test_extractor_fails_clearly_when_the_model_returns_no_structured_data(session):
@@ -84,7 +84,7 @@ def test_a_consistent_invoice_is_validated_and_stored(session, document):
     assert extraction.document_id == document.id
     assert extraction.data["supplier_name"] == "Atelier Nord"
     assert extraction.issues == []
-    assert extraction.model == "claude-sonnet-5-5"
+    assert extraction.model == "claude-haiku-5-5"
     assert session.scalars(select(Extraction)).one().id == extraction.id
 
 
@@ -104,5 +104,5 @@ def test_the_extraction_cost_is_recorded_in_the_journal(session, document):
     service.extract_invoice(document, b"%PDF-1")
 
     call = session.scalars(select(ApiCall)).one()
-    assert call.model == "claude-sonnet-5-5"
-    assert call.cost_usd == pytest.approx(0.007)  # (1000 x 2 + 500 x 10) / 1 000 000
+    assert call.model == "claude-haiku-5-5"
+    assert call.cost_usd == pytest.approx(0.00035)  # (1000 x 0,10 + 500 x 0,50) / 1 000 000

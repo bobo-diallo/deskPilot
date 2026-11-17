@@ -21,7 +21,8 @@ PROMPTS: dict[str, str] = {
     "jour/mois/année sinon.",
 }
 
-DEFAULT_PROMPT_VERSION = "v1"
+# Version validée par l'évaluation (voir docs/evaluation/) ; `v1` reste sélectionnable.
+DEFAULT_PROMPT_VERSION = "v2-date-convention"
 
 
 def get_prompt(version: str) -> str:

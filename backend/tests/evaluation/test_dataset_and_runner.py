@@ -128,7 +128,7 @@ def test_runner_collects_tokens_and_cost_from_the_journal(small_dataset, session
 
     for trial in result.trials:
         assert (trial.input_tokens, trial.output_tokens) == (1_000, 500)
-        assert trial.cost_usd == pytest.approx(0.007)
+        assert trial.cost_usd == pytest.approx(0.00035)  # modèle du routeur : Haiku
         assert trial.latency_ms >= 0
     assert len(session.scalars(select(ApiCall)).all()) == 2
 

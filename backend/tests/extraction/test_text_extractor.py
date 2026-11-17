@@ -85,3 +85,14 @@ def test_a_pdf_without_text_layer_is_refused_without_calling_the_model(session):
         extractor.extract(empty_pdf, "application/pdf")
 
     assert provider.received == []
+
+
+def test_the_prompt_version_can_be_chosen(session):
+    from app.domains.extraction.prompts import get_prompt
+
+    provider = FakeProvider(parsed=make_invoice())
+    extractor = TextLayerExtractor(LLMService(provider, session), prompt_version="v1")
+
+    extractor.extract(make_pdf("Facture"), "application/pdf")
+
+    assert provider.received[0].system == get_prompt("v1")

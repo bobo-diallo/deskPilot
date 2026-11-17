@@ -6,9 +6,6 @@ from app.domains.llm.router import Task, choose_model
 from app.domains.llm.schemas import LLMAttachment, LLMMessage, LLMRequest
 from app.domains.llm.service import LLMService
 
-# Conservé pour les extracteurs qui n'ont pas de version choisie : toujours la version par défaut.
-SYSTEM_PROMPT = get_prompt(DEFAULT_PROMPT_VERSION)
-
 
 class ClaudeExtractor:
     """Extracteur qui demande à Claude de lire le document (PDF ou image) directement."""

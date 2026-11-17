@@ -3,8 +3,8 @@ import io
 from pypdf import PdfReader
 
 from app.domains.extraction.errors import ExtractionError
-from app.domains.extraction.extractors.claude import SYSTEM_PROMPT
 from app.domains.extraction.ports import ExtractionOutput
+from app.domains.extraction.prompts import DEFAULT_PROMPT_VERSION, get_prompt
 from app.domains.extraction.schemas import Invoice
 from app.domains.llm.router import Task, choose_model
 from app.domains.llm.schemas import LLMMessage, LLMRequest
@@ -23,9 +23,15 @@ class TextLayerExtractor:
     un scan n'a pas de couche de texte (il faudrait alors un OCR ou la vision).
     """
 
-    def __init__(self, llm_service: LLMService, model: str | None = None):
+    def __init__(
+        self,
+        llm_service: LLMService,
+        model: str | None = None,
+        prompt_version: str = DEFAULT_PROMPT_VERSION,
+    ):
         self._llm_service = llm_service
         self._model = model
+        self._system_prompt = get_prompt(prompt_version)
 
     def extract(self, content: bytes, media_type: str) -> ExtractionOutput:
         if media_type != "application/pdf":
@@ -37,7 +43,7 @@ class TextLayerExtractor:
 
         request = LLMRequest(
             model=self._model or choose_model(Task.EXTRACTION),
-            system=SYSTEM_PROMPT,
+            system=self._system_prompt,
             messages=[
                 LLMMessage(
                     role="user",

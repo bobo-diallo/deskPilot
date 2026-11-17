@@ -18,6 +18,8 @@ class VariantSpec:
     build: Callable[[LLMService], DocumentExtractor]
 
 
+# Les variantes « v1 » épinglent leur version de prompt : le défaut de production a changé,
+# mais les anciennes mesures doivent rester reproductibles.
 # Estimations mesurées en story 02 : une facture PDF d'une page = ~3 200 tokens en entrée.
 VARIANTS: dict[str, VariantSpec] = {
     "sonnet-vision": VariantSpec(
@@ -25,14 +27,14 @@ VARIANTS: dict[str, VariantSpec] = {
         model="claude-sonnet-5-5",
         estimated_input_tokens=3_200,
         estimated_output_tokens=250,
-        build=lambda llm: ClaudeExtractor(llm, model="claude-sonnet-5-5"),
+        build=lambda llm: ClaudeExtractor(llm, model="claude-sonnet-5-5", prompt_version="v1"),
     ),
     "haiku-vision": VariantSpec(
         description="Claude Haiku 5.5 lit le PDF ou l'image",
         model="claude-haiku-5-5",
         estimated_input_tokens=3_200,
         estimated_output_tokens=250,
-        build=lambda llm: ClaudeExtractor(llm, model="claude-haiku-5-5"),
+        build=lambda llm: ClaudeExtractor(llm, model="claude-haiku-5-5", prompt_version="v1"),
     ),
     # Prompt v2 : même modèle, même jeu, seule la consigne sur les dates change.
     "haiku-vision-v2": VariantSpec(
@@ -50,13 +52,13 @@ VARIANTS: dict[str, VariantSpec] = {
         model="claude-sonnet-5-5",
         estimated_input_tokens=700,
         estimated_output_tokens=250,
-        build=lambda llm: TextLayerExtractor(llm, model="claude-sonnet-5-5"),
+        build=lambda llm: TextLayerExtractor(llm, model="claude-sonnet-5-5", prompt_version="v1"),
     ),
     "haiku-text": VariantSpec(
         description="Texte extrait du PDF (pypdf), lu par Claude Haiku 5.5",
         model="claude-haiku-5-5",
         estimated_input_tokens=700,
         estimated_output_tokens=250,
-        build=lambda llm: TextLayerExtractor(llm, model="claude-haiku-5-5"),
+        build=lambda llm: TextLayerExtractor(llm, model="claude-haiku-5-5", prompt_version="v1"),
     ),
 }
