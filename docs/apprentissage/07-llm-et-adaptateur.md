@@ -93,6 +93,9 @@ n'est pas une erreur HTTP : la réponse arrive, mais sans contenu utile. On la t
 `LLMRefusedError`, que la route traduit en réponse 422.
 
 ## À essayer
+0. Plus simple que `/docs` : ouvre `http/llm.http` dans VS Code (extension REST Client) ou dans
+   un IDE JetBrains, puis clique « Send Request » au-dessus d'une requête. L'adresse de l'API est
+   la variable `@baseUrl` en haut du fichier.
 1. Ouvre http://localhost:8010/docs, déplie `POST /llm/complete`, clique « Try it out »
    et envoie `{"task": "simple", "prompt": "Bonjour"}`. Sans clé, tu obtiens un 503 clair.
 2. Avec une clé dans `.env` (`ANTHROPIC_API_KEY=...`), relance `docker compose up -d`,

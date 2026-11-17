@@ -1,0 +1,5 @@
+### Variables (modifier ici pour changer d'environnement)
+@baseUrl = http://localhost:8010
+
+### Santé de l'API : attendu 200 {"status": "ok"}
+GET {{baseUrl}}/health

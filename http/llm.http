@@ -1,0 +1,39 @@
+### Variables (modifier ici pour changer d'environnement)
+@baseUrl = http://localhost:8010
+@contentType = application/json
+
+### Tâche simple -> modèle Haiku. Sans clé API dans .env : 503 explicite.
+POST {{baseUrl}}/llm/complete
+Content-Type: {{contentType}}
+
+{
+  "task": "simple",
+  "prompt": "Bonjour"
+}
+
+### Tâche d'extraction -> modèle Sonnet, avec une consigne système
+POST {{baseUrl}}/llm/complete
+Content-Type: {{contentType}}
+
+{
+  "task": "extraction",
+  "system": "Tu extrais les champs d'une facture et tu réponds en JSON.",
+  "prompt": "Facture n° 2026-014 de Atelier Nord, total TTC 1 250,00 € le 12/11/2026."
+}
+
+### Tâche inconnue : attendu 422 (validation FastAPI)
+POST {{baseUrl}}/llm/complete
+Content-Type: {{contentType}}
+
+{
+  "task": "inconnue",
+  "prompt": "Bonjour"
+}
+
+### Prompt manquant : attendu 422
+POST {{baseUrl}}/llm/complete
+Content-Type: {{contentType}}
+
+{
+  "task": "simple"
+}
