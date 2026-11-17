@@ -57,6 +57,14 @@ Cause : le fichier `package-lock.json` avait été généré par un npm plus anc
 l'image. Solution : le régénérer avec le même npm.
 Leçon : en cas d'erreur, lire le message en entier : il disait exactement ce qui manquait.
 
+## Piège : modifier `.env` ne suffit pas
+Compose lit `.env` **à la création** du conteneur. Si tu modifies `.env` pendant qu'il tourne,
+`docker compose up -d` ne le recrée pas toujours et le conteneur garde l'ancienne valeur
+(ex. : l'API répondait « ANTHROPIC_API_KEY n'est pas configurée » alors que la clé était dans
+`.env`). Solution : `docker compose up -d --force-recreate backend`.
+Pour vérifier sans afficher le secret : `docker compose exec backend sh -c 'echo ${#ANTHROPIC_API_KEY}'`
+affiche la longueur de la valeur (0 = vide).
+
 ## Exercice
 Lance `docker compose up -d`, puis `docker compose logs backend`. Repère la ligne qui indique
 que uvicorn a démarré. Arrête ensuite avec `docker compose down`.
