@@ -4,6 +4,7 @@ Démonstrateur d'automatisation IA pour PME : transforme des documents non struc
 (PDF, images, audio) en données structurées validées, avec un agent IA outillé (dont un
 mini-RAG) et une évaluation chiffrée. Projet d'apprentissage « AI engineer ».
 Dépôt GitHub : `deskPilot` (privé jusqu'à la fin de la V1). Nom d'écran : « Bureau IA ».
+Pratiques standard de l'intégration IA (suivi de ce qui est couvert) : `docs/standards-ia.md`.
 Guides de cours : `docs/apprentissage/`. Prompt de design : `docs/design/prompt-design.md`.
 Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `docs/roadmap.md`.
 
@@ -13,7 +14,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 - Base : SQLite en V1 (tables créées au démarrage), PostgreSQL + Alembic en V2.
 - Frontend : Angular 21 (standalone), Transloco (FR/EN à l'exécution), tests Vitest.
 - Exécution : `docker compose up --build` (backend sur le port 8010, frontend sur 4200).
-- LLM : Anthropic (SDK `anthropic`) derrière l'interface `LLMProvider` ; routeur Sonnet 5.5 (extraction) / Haiku 5.5 (simple) ; chaque appel est journalisé dans `api_calls`.
+- LLM : Anthropic (SDK `anthropic`) derrière l'interface `LLMProvider` ; routeur Haiku 5.5 pour l'extraction (prompt v2, validé par évaluation) et pour les tâches simples ; chaque appel est journalisé dans `api_calls`.
 
 ## Architecture
 1. Monorepo : `backend/`, `frontend/`, `demo-data/`, `docs/`.
@@ -22,7 +23,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 4. `backend/app/core/database.py` : moteur SQLAlchemy et création des tables au démarrage.
 5. `backend/app/config.py` : configuration lue depuis `.env` (modèle : `.env.example`).
 6. Tables : `conversations`, `messages`, `documents`, `chunks`, `api_calls` (journal des coûts).
-7. Le LLM sera appelé via une interface unique pour changer de modèle sans toucher au métier.
+7. Le LLM est appelé via une interface unique ; `backend/app/evaluation/` mesure la qualité (jeu annoté, métriques, rapports dans `docs/evaluation/`).
 8. Frontend : textes dans `frontend/public/i18n/{fr,en}.json`, jamais en dur dans les gabarits.
 9. Domaine de démonstration V1 : factures et contrats de PME.
 10. Le mini-RAG (en cours de développement, hors de ce dépôt) devient un outil de l'agent (story 05).
@@ -41,6 +42,8 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 - **Mode apprentissage** : l'utilisateur découvre Python et ses frameworks. Expliquer chaque
   nouvelle notion quand elle apparaît (avec des comparaisons PHP/JS), garder le code simple,
   et ajouter ou compléter un guide dans `docs/apprentissage/` à chaque story.
+- **Standards IA** : rester dans les pratiques courantes de l'industrie (voir `docs/standards-ia.md`) ;
+  chaque story met à jour ce tableau.
 - **Fichiers ignorés** : jamais de fichiers d'éditeur ni de secrets dans git (`.idea/`,
   `.vscode/`, `.vs/`, `.env`, `.venv/`…). Vérifier avec `git ls-files` avant de commiter.
 - **Données de démo** : compte Google `curioflow.demo@gmail.com`, jamais le compte personnel.
@@ -50,6 +53,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 docker compose up --build        # lance backend (8010) et frontend (4200)
 cd backend && source .venv/bin/activate
 pytest                           # tests backend
+python -m app.evaluation --help  # évaluation (estime le coût, --yes pour exécuter)
 black app tests && ruff check app tests
 cd frontend && npx ng test --watch=false   # tests frontend
 ```
@@ -58,7 +62,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 00 Fondations
 - [x] 01 Adaptateur LLM, routeur et journal des coûts
 - [x] 02 Extraction PDF/image vers JSON validé (évaluation du mini-RAG déplacée en story 05)
-- [ ] 03 Évaluation : jeu annoté, précision par champ, comparaison de modèles
+- [x] 03 Évaluation : jeu annoté, précision par champ, comparaison de modèles
 - [ ] 04 Audio vers texte puis extraction
 - [ ] 05 Agent avec outils (mini-RAG, vérification, export) et file de revue humaine
 - [ ] 06 Écran Coûts et publication du dépôt (passage en public)

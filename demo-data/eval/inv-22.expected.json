@@ -1,0 +1,29 @@
+{
+  "supplier_name": "Papeterie Lemieux",
+  "invoice_number": "F8870",
+  "issue_date": "2026-07-19",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Licence logicielle annuelle",
+      "quantity": "4",
+      "unit_price": "1967.9",
+      "total": "7871.60"
+    },
+    {
+      "description": "Rénovation de cuisine (forfait)",
+      "quantity": "2",
+      "unit_price": "2068.47",
+      "total": "4136.94"
+    },
+    {
+      "description": "Poste de travail complet",
+      "quantity": "2",
+      "unit_price": "1064.11",
+      "total": "2128.22"
+    }
+  ],
+  "subtotal": "14136.76",
+  "tax_amount": "2827.35",
+  "total": "16964.11"
+}

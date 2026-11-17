@@ -1,0 +1,23 @@
+{
+  "supplier_name": "Mécanique Lavoie",
+  "invoice_number": "F945",
+  "issue_date": "2026-08-14",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Câble réseau 5 m",
+      "quantity": "6",
+      "unit_price": "16.26",
+      "total": "97.56"
+    },
+    {
+      "description": "Abonnement mensuel",
+      "quantity": "4",
+      "unit_price": "56.21",
+      "total": "224.84"
+    }
+  ],
+  "subtotal": "322.40",
+  "tax_amount": "64.48",
+  "total": "386.88"
+}

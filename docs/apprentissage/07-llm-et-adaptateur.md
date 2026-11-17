@@ -83,6 +83,9 @@ Un modèle sans tarif connu lève une erreur : on préfère échouer que facture
 Simplifications assumées : pas de tarif pour le cache ni pour les très longs prompts.
 
 ## Le routage
+> **Mis à jour en story 03 :** l'extraction est désormais routée vers Haiku (avec le prompt v2),
+> parce que l'évaluation l'a montré suffisant. Voir le guide 09. Le principe ci-dessous reste valable.
+
 Le plus gros levier de coût est de ne pas utiliser le grand modèle pour tout. Ici, Haiku coûte
 20 fois moins que Sonnet. Quand on aura des données (story 03), on mesurera si Haiku suffit
 pour certaines extractions.

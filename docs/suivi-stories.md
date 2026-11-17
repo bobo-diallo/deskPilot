@@ -37,7 +37,20 @@
   - [x] Guide `docs/apprentissage/08-extraction-de-documents.md`
   - [ ] Écran Angular de dépôt (en attente du design)
   - Décision en suspens : repli automatique en cas de refus du modèle
-## Story 03 — Évaluation 📋
+## Story 03 — Évaluation ✅
+- Branche : `story/03-evaluation` (PR à ouvrir sur demande)
+- Checklist :
+  - [x] Tableau des pratiques standard et niveau avancé (`docs/standards-ia.md`)
+  - [x] Jeu de 24 factures synthétiques reproductibles, 10 difficultés étiquetées
+  - [x] Métriques pures : exactitude par champ, valeurs inventées, fiabilité du statut, Wilson, bootstrap apparié
+  - [x] Runner, rapport Markdown en français, commande avec estimation du coût et `--yes`
+  - [x] Mesures : Sonnet contre Haiku (v1 et v2 du jeu), prompt v2, texte seul, jeu indépendant
+  - [x] Défaut du jeu v1 découvert et corrigé, rapport v1 conservé avec avertissement
+  - [x] Prompts versionnés (v1, v2) ; routeur d'extraction passé à Haiku + v2
+  - [x] Essai Docling dans Docker : fonctionne, non retenu (`experiments/docling/`)
+  - [x] Guide `docs/apprentissage/09-evaluation.md`
+  - Budget : 1,35 $ pour environ 460 appels réels (plafond 1,5 $)
+  - Restes : jeu plus difficile (le jeu atteint 100 %), effort de réflexion, prompt caching, cascade Haiku vers Sonnet sur `needs_review`
 ## Story 04 — Audio vers texte puis extraction 📋
 ## Story 05 — Agent avec outils et file de revue 📋
 ## Story 06 — Écran Coûts et publication du dépôt 📋

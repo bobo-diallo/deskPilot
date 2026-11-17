@@ -1,0 +1,35 @@
+{
+  "supplier_name": "Café Laurier inc.",
+  "invoice_number": "INV-77085",
+  "issue_date": "2026-09-05",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Paper filters (box)",
+      "quantity": "1",
+      "unit_price": "12",
+      "total": "12.00"
+    },
+    {
+      "description": "White paint 2.5 L",
+      "quantity": "6",
+      "unit_price": "39.59",
+      "total": "237.54"
+    },
+    {
+      "description": "Coffee beans (kg)",
+      "quantity": "6",
+      "unit_price": "21.79",
+      "total": "130.74"
+    },
+    {
+      "description": "Dining table",
+      "quantity": "1",
+      "unit_price": "193.23",
+      "total": "193.23"
+    }
+  ],
+  "subtotal": "573.51",
+  "tax_amount": "114.70",
+  "total": "688.21"
+}

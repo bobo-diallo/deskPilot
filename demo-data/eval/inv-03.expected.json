@@ -1,0 +1,47 @@
+{
+  "supplier_name": "Fleuriste Bergeron",
+  "invoice_number": "F2000",
+  "issue_date": "2026-05-07",
+  "currency": "USD",
+  "lines": [
+    {
+      "description": "Oak chair",
+      "quantity": "6",
+      "unit_price": "39",
+      "total": "234.00"
+    },
+    {
+      "description": "Labour hour",
+      "quantity": "6",
+      "unit_price": "87.86",
+      "total": "527.16"
+    },
+    {
+      "description": "Paper filters (box)",
+      "quantity": "6",
+      "unit_price": "6.05",
+      "total": "36.30"
+    },
+    {
+      "description": "Desk lamp",
+      "quantity": "4",
+      "unit_price": "60.17",
+      "total": "240.68"
+    },
+    {
+      "description": "Coffee beans (kg)",
+      "quantity": "4",
+      "unit_price": "20.91",
+      "total": "83.64"
+    },
+    {
+      "description": "Trade discount",
+      "quantity": "1",
+      "unit_price": "-112.18",
+      "total": "-112.18"
+    }
+  ],
+  "subtotal": "1009.60",
+  "tax_amount": "80.77",
+  "total": "1090.37"
+}

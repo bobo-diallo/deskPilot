@@ -1,0 +1,23 @@
+{
+  "supplier_name": "Nettoyage Express",
+  "invoice_number": "2026-662",
+  "issue_date": "2026-04-07",
+  "currency": "USD",
+  "lines": [
+    {
+      "description": "Paper filters (box)",
+      "quantity": "1",
+      "unit_price": "14.09",
+      "total": "14.09"
+    },
+    {
+      "description": "White paint 2.5 L",
+      "quantity": "3",
+      "unit_price": "27.1",
+      "total": "81.30"
+    }
+  ],
+  "subtotal": "95.39",
+  "tax_amount": "7.63",
+  "total": "103.02"
+}

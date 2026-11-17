@@ -1,0 +1,29 @@
+{
+  "supplier_name": "Jardin des Saveurs",
+  "invoice_number": null,
+  "issue_date": "2026-02-08",
+  "currency": "USD",
+  "lines": [
+    {
+      "description": "Annual software licence",
+      "quantity": "6",
+      "unit_price": "2054.2",
+      "total": "12325.20"
+    },
+    {
+      "description": "Complete workstation",
+      "quantity": "1",
+      "unit_price": "1528.02",
+      "total": "1528.02"
+    },
+    {
+      "description": "Kitchen renovation (flat fee)",
+      "quantity": "3",
+      "unit_price": "2050.06",
+      "total": "6150.18"
+    }
+  ],
+  "subtotal": "20003.40",
+  "tax_amount": "1600.27",
+  "total": "21603.67"
+}

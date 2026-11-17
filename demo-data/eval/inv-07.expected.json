@@ -1,0 +1,41 @@
+{
+  "supplier_name": "Informatique Cloutier",
+  "invoice_number": "2026-685",
+  "issue_date": "2026-08-12",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Vis à bois 4x40 (unité)",
+      "quantity": "5",
+      "unit_price": "0.24",
+      "total": "1.20"
+    },
+    {
+      "description": "Impression A4 (lot de 100)",
+      "quantity": "1",
+      "unit_price": "19.19",
+      "total": "19.19"
+    },
+    {
+      "description": "Chaise en chêne",
+      "quantity": "2",
+      "unit_price": "84.98",
+      "total": "169.96"
+    },
+    {
+      "description": "Table de salle à manger",
+      "quantity": "1",
+      "unit_price": "130.6",
+      "total": "130.60"
+    },
+    {
+      "description": "Abonnement mensuel",
+      "quantity": "5",
+      "unit_price": "22.31",
+      "total": "111.55"
+    }
+  ],
+  "subtotal": "432.50",
+  "tax_amount": "23.79",
+  "total": "456.29"
+}

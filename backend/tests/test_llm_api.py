@@ -32,13 +32,13 @@ def test_complete_returns_text_model_and_cost(app):
     assert body["cost_usd"] == pytest.approx(0.00035)
 
 
-def test_extraction_task_is_routed_to_the_stronger_model(app):
+def test_extraction_task_is_routed_to_the_model_chosen_by_the_evaluation(app):
     app.dependency_overrides[get_llm_provider] = lambda: FakeProvider()
 
     with TestClient(app) as client:
         response = client.post("/llm/complete", json={"task": "extraction", "prompt": "Facture"})
 
-    assert response.json()["model"] == "claude-sonnet-5-5"
+    assert response.json()["model"] == "claude-haiku-5-5"
 
 
 def test_call_is_recorded_in_the_cost_journal(app):

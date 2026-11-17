@@ -1,0 +1,35 @@
+{
+  "supplier_name": "Quincaillerie Dupont",
+  "invoice_number": null,
+  "issue_date": "2026-11-09",
+  "currency": "USD",
+  "lines": [
+    {
+      "description": "Annual software licence",
+      "quantity": "1.5",
+      "unit_price": "2162.08",
+      "total": "3243.12"
+    },
+    {
+      "description": "Kitchen renovation (flat fee)",
+      "quantity": "5",
+      "unit_price": "1614.27",
+      "total": "8071.35"
+    },
+    {
+      "description": "Complete workstation",
+      "quantity": "5",
+      "unit_price": "1182.63",
+      "total": "5913.15"
+    },
+    {
+      "description": "Trade discount",
+      "quantity": "1",
+      "unit_price": "-1722.76",
+      "total": "-1722.76"
+    }
+  ],
+  "subtotal": "15504.86",
+  "tax_amount": "1240.39",
+  "total": "16745.25"
+}
