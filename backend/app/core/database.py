@@ -1,8 +1,7 @@
-from collections.abc import Iterator
 from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
-from sqlalchemy.orm import DeclarativeBase, Session
+from sqlalchemy.orm import DeclarativeBase
 
 
 class Base(DeclarativeBase):
@@ -24,8 +23,3 @@ def init_database(engine: Engine) -> None:
     from app.domains.llm import models as _llm  # noqa: F401
 
     Base.metadata.create_all(engine)
-
-
-def get_session(engine: Engine) -> Iterator[Session]:
-    with Session(engine) as session:
-        yield session
