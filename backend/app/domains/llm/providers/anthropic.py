@@ -1,7 +1,38 @@
+import base64
+
 import anthropic
 
 from app.domains.llm.errors import LLMRefusedError
-from app.domains.llm.schemas import LLMRequest, LLMResponse
+from app.domains.llm.schemas import LLMAttachment, LLMRequest, LLMResponse
+
+
+def _attachment_block(attachment: LLMAttachment) -> dict:
+    """Traduit un fichier joint en bloc de contenu Anthropic (données encodées en base64)."""
+    if attachment.media_type == "application/pdf":
+        block_type = "document"
+    elif attachment.media_type in ("image/png", "image/jpeg"):
+        block_type = "image"
+    else:
+        raise ValueError(f"Type de fichier non pris en charge : {attachment.media_type}")
+    return {
+        "type": block_type,
+        "source": {
+            "type": "base64",
+            "media_type": attachment.media_type,
+            "data": base64.standard_b64encode(attachment.data).decode("ascii"),
+        },
+    }
+
+
+def _build_messages(request: LLMRequest) -> list[dict]:
+    messages = [{"role": m.role, "content": m.content} for m in request.messages]
+    if request.attachments:
+        # Les fichiers sont placés avant le texte du dernier message.
+        last = messages[-1]
+        blocks = [_attachment_block(a) for a in request.attachments]
+        blocks.append({"type": "text", "text": last["content"]})
+        last["content"] = blocks
+    return messages
 
 
 class AnthropicProvider:
@@ -17,12 +48,18 @@ class AnthropicProvider:
         params = {
             "model": request.model,
             "max_tokens": request.max_tokens,
-            "messages": [{"role": m.role, "content": m.content} for m in request.messages],
+            "messages": _build_messages(request),
         }
         if request.system is not None:
             params["system"] = request.system
 
-        message = self._client.messages.create(**params)
+        if request.response_schema is not None:
+            # `parse` contraint la réponse au schéma et la valide pour nous.
+            message = self._client.messages.parse(output_format=request.response_schema, **params)
+            parsed = message.parsed_output
+        else:
+            message = self._client.messages.create(**params)
+            parsed = None
 
         if message.stop_reason == "refusal":
             raise LLMRefusedError(f"Le modèle {request.model} a refusé de répondre")
@@ -34,4 +71,5 @@ class AnthropicProvider:
             model=message.model,
             input_tokens=message.usage.input_tokens,
             output_tokens=message.usage.output_tokens,
+            parsed=parsed,
         )

@@ -1,0 +1,23 @@
+{
+  "supplier_name": "Café Laurier inc.",
+  "invoice_number": "CL-88213",
+  "issue_date": "2026-10-03",
+  "currency": "CAD",
+  "lines": [
+    {
+      "description": "Café en grains (kg)",
+      "quantity": "5",
+      "unit_price": "24.50",
+      "total": "122.50"
+    },
+    {
+      "description": "Filtres papier (boîte)",
+      "quantity": "3",
+      "unit_price": "8.90",
+      "total": "26.70"
+    }
+  ],
+  "subtotal": "149.20",
+  "tax_amount": "22.34",
+  "total": "171.54"
+}

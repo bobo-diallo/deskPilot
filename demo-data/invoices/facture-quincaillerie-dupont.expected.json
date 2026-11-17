@@ -1,0 +1,29 @@
+{
+  "supplier_name": "Quincaillerie Dupont",
+  "invoice_number": "F-2026-3307",
+  "issue_date": "2026-09-21",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Vis à bois 4x40 (unité)",
+      "quantity": "200",
+      "unit_price": "0.15",
+      "total": "30.00"
+    },
+    {
+      "description": "Marteau",
+      "quantity": "1",
+      "unit_price": "18.90",
+      "total": "18.90"
+    },
+    {
+      "description": "Peinture blanche 2,5 L",
+      "quantity": "2",
+      "unit_price": "32.50",
+      "total": "65.00"
+    }
+  ],
+  "subtotal": "113.90",
+  "tax_amount": "22.78",
+  "total": "136.68"
+}

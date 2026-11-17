@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     app_name: str = "Bureau IA"
     database_url: str = "sqlite:///./data/deskpilot.db"
+    uploads_dir: str = "./data/uploads"
     anthropic_api_key: str = ""
 
 

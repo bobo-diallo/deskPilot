@@ -2,10 +2,11 @@ import os
 from types import SimpleNamespace
 
 import pytest
+from pydantic import BaseModel
 
 from app.domains.llm.errors import LLMRefusedError
 from app.domains.llm.providers.anthropic import AnthropicProvider
-from app.domains.llm.schemas import LLMMessage, LLMRequest
+from app.domains.llm.schemas import LLMAttachment, LLMMessage, LLMRequest
 
 
 class StubMessages:
@@ -16,6 +17,10 @@ class StubMessages:
         self.kwargs = None
 
     def create(self, **kwargs):
+        self.kwargs = kwargs
+        return self.reply
+
+    def parse(self, **kwargs):
         self.kwargs = kwargs
         return self.reply
 
@@ -80,6 +85,69 @@ def test_non_text_blocks_are_ignored():
 def test_a_refusal_raises_a_clear_error():
     with pytest.raises(LLMRefusedError):
         AnthropicProvider(make_client(stop_reason="refusal", blocks=[])).complete(make_request())
+
+
+def test_pdf_attachment_becomes_a_document_block_before_the_text():
+    client = make_client()
+    request = LLMRequest(
+        model="claude-sonnet-5-5",
+        messages=[LLMMessage("user", "Lis ce document")],
+        attachments=[LLMAttachment(media_type="application/pdf", data=b"%PDF-1")],
+    )
+
+    AnthropicProvider(client).complete(request)
+
+    content = client.messages.kwargs["messages"][0]["content"]
+    assert content[0] == {
+        "type": "document",
+        "source": {"type": "base64", "media_type": "application/pdf", "data": "JVBERi0x"},
+    }
+    assert content[1] == {"type": "text", "text": "Lis ce document"}
+
+
+def test_image_attachment_becomes_an_image_block():
+    client = make_client()
+    request = LLMRequest(
+        model="claude-sonnet-5-5",
+        messages=[LLMMessage("user", "Lis cette image")],
+        attachments=[LLMAttachment(media_type="image/png", data=b"png")],
+    )
+
+    AnthropicProvider(client).complete(request)
+
+    block = client.messages.kwargs["messages"][0]["content"][0]
+    assert block["type"] == "image"
+    assert block["source"]["media_type"] == "image/png"
+
+
+def test_unsupported_attachment_type_is_rejected():
+    request = LLMRequest(
+        model="claude-sonnet-5-5",
+        messages=[LLMMessage("user", "Lis")],
+        attachments=[LLMAttachment(media_type="text/csv", data=b"a,b")],
+    )
+
+    with pytest.raises(ValueError, match="text/csv"):
+        AnthropicProvider(make_client()).complete(request)
+
+
+class Answer(BaseModel):
+    city: str
+
+
+def test_response_schema_uses_structured_output_and_returns_the_parsed_object():
+    client = make_client()
+    client.messages.reply.parsed_output = Answer(city="Québec")
+    request = LLMRequest(
+        model="claude-sonnet-5-5",
+        messages=[LLMMessage("user", "Capitale du Québec ?")],
+        response_schema=Answer,
+    )
+
+    response = AnthropicProvider(client).complete(request)
+
+    assert client.messages.kwargs["output_format"] is Answer
+    assert response.parsed == Answer(city="Québec")
 
 
 @pytest.mark.skipif(not os.getenv("ANTHROPIC_API_KEY"), reason="ANTHROPIC_API_KEY absente")

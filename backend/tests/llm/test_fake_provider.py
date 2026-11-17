@@ -25,3 +25,11 @@ def test_fake_provider_remembers_the_requests_it_received():
     provider.complete(request)
 
     assert provider.received == [request]
+
+
+def test_fake_provider_can_return_a_parsed_object():
+    provider = FakeProvider(parsed={"city": "Québec"})
+
+    response = provider.complete(make_request())
+
+    assert response.parsed == {"city": "Québec"}
