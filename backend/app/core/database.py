@@ -20,6 +20,7 @@ def init_database(engine: Engine) -> None:
     # Import des modèles pour qu'ils soient enregistrés dans Base.metadata.
     from app.domains.conversations import models as _conversations  # noqa: F401
     from app.domains.documents import models as _documents  # noqa: F401
+    from app.domains.extraction import models as _extraction  # noqa: F401
     from app.domains.llm import models as _llm  # noqa: F401
 
     Base.metadata.create_all(engine)

@@ -13,7 +13,14 @@ def test_init_database_creates_all_tables():
     init_database(engine)
 
     tables = set(inspect(engine).get_table_names())
-    assert tables == {"conversations", "messages", "documents", "chunks", "api_calls"}
+    assert tables == {
+        "conversations",
+        "messages",
+        "documents",
+        "chunks",
+        "api_calls",
+        "extractions",
+    }
 
 
 def test_message_is_linked_to_its_conversation():
