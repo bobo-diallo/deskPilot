@@ -56,7 +56,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 
 ## Avancement (V1)
 - [x] 00 Fondations
-- [ ] 01 Adaptateur LLM, routeur et journal des coûts (code et tests faits, essai réel en attente de la clé API)
+- [x] 01 Adaptateur LLM, routeur et journal des coûts
 - [ ] 02 Extraction PDF/image vers JSON validé (avec évaluation du mini-RAG en ouverture si prêt)
 - [ ] 03 Évaluation : jeu annoté, précision par champ, comparaison de modèles
 - [ ] 04 Audio vers texte puis extraction
@@ -66,6 +66,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 Détail par story : `docs/suivi-stories.md`.
 
 ## Notes techniques
+- Après modification de `.env`, recréer le conteneur : `docker compose up -d --force-recreate backend`.
 - Angular 21 (et non la dernière version) : la machine de développement a Node 24.10, alors que
   le dernier Angular CLI exige Node ≥ 24.15.
 - Port 8010 pour le backend : le port 8000 est utilisé par un autre projet local.
