@@ -1,0 +1,51 @@
+### Variables (modifier ici pour changer d'environnement)
+@baseUrl = http://localhost:8010
+
+### Déposer une facture PDF (numérique) -> extraction structurée
+### Nécessite ANTHROPIC_API_KEY dans .env (sinon 503). Coût : environ un centime.
+POST {{baseUrl}}/extractions
+Content-Type: multipart/form-data; boundary=deskpilot
+
+--deskpilot
+Content-Disposition: form-data; name="document_type"
+
+invoice
+--deskpilot
+Content-Disposition: form-data; name="file"; filename="facture-atelier-nord.pdf"
+Content-Type: application/pdf
+
+< ../demo-data/invoices/facture-atelier-nord.pdf
+--deskpilot--
+
+### Déposer une facture en image (scan simulé, taxes TPS + TVQ en PDF)
+POST {{baseUrl}}/extractions
+Content-Type: multipart/form-data; boundary=deskpilot
+
+--deskpilot
+Content-Disposition: form-data; name="document_type"
+
+invoice
+--deskpilot
+Content-Disposition: form-data; name="file"; filename="facture-quincaillerie-dupont.png"
+Content-Type: image/png
+
+< ../demo-data/invoices/facture-quincaillerie-dupont.png
+--deskpilot--
+
+### Un fichier qui n'est pas un PDF ni une image : attendu 415
+POST {{baseUrl}}/extractions
+Content-Type: multipart/form-data; boundary=deskpilot
+
+--deskpilot
+Content-Disposition: form-data; name="document_type"
+
+invoice
+--deskpilot
+Content-Disposition: form-data; name="file"; filename="notes.pdf"
+Content-Type: application/pdf
+
+Ceci est du texte, pas un PDF.
+--deskpilot--
+
+### Relire une extraction (remplacer 1 par l'id reçu)
+GET {{baseUrl}}/extractions/1

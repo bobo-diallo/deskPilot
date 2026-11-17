@@ -1,0 +1,29 @@
+{
+  "supplier_name": "Atelier Nord",
+  "invoice_number": "2026-014",
+  "issue_date": "2026-11-12",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Chaise en chêne",
+      "quantity": "2",
+      "unit_price": "45.00",
+      "total": "90.00"
+    },
+    {
+      "description": "Table de salle à manger",
+      "quantity": "1",
+      "unit_price": "120.00",
+      "total": "120.00"
+    },
+    {
+      "description": "Livraison",
+      "quantity": "1",
+      "unit_price": "15.00",
+      "total": "15.00"
+    }
+  ],
+  "subtotal": "225.00",
+  "tax_amount": "45.00",
+  "total": "270.00"
+}
