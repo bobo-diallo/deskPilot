@@ -9,7 +9,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
    « À essayer », puis fais l'exercice.
 3. Quand une story ajoute de nouvelles notions, un guide est ajouté ou complété ici.
 
-## Les guides de la story 00
+## Les guides
 
 | Guide | Tu y apprends |
 |---|---|
@@ -20,6 +20,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | [04 — Tests et TDD](04-tests-et-tdd.md) | pytest, cycle rouge-vert, Vitest côté Angular |
 | [05 — Frontend Angular](05-frontend-angular.md) | Composants, traduction FR/EN avec Transloco |
 | [06 — Docker](06-docker.md) | Dockerfile, docker compose, ports et volumes |
+| [07 — LLM et adaptateur](07-llm-et-adaptateur.md) | Interface, injection de dépendances, coûts, routage (story 01) |
 
 ## Glossaire rapide
 

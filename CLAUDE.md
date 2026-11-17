@@ -13,7 +13,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 - Base : SQLite en V1 (tables créées au démarrage), PostgreSQL + Alembic en V2.
 - Frontend : Angular 21 (standalone), Transloco (FR/EN à l'exécution), tests Vitest.
 - Exécution : `docker compose up --build` (backend sur le port 8010, frontend sur 4200).
-- LLM : Anthropic par défaut, derrière une interface (story 01).
+- LLM : Anthropic (SDK `anthropic`) derrière l'interface `LLMProvider` ; routeur Sonnet 5.5 (extraction) / Haiku 5.5 (simple) ; chaque appel est journalisé dans `api_calls`.
 
 ## Architecture
 1. Monorepo : `backend/`, `frontend/`, `demo-data/`, `docs/`.
@@ -56,7 +56,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 
 ## Avancement (V1)
 - [x] 00 Fondations
-- [ ] 01 Adaptateur LLM, routeur et journal des coûts
+- [ ] 01 Adaptateur LLM, routeur et journal des coûts (code et tests faits, essai réel en attente de la clé API)
 - [ ] 02 Extraction PDF/image vers JSON validé (avec évaluation du mini-RAG en ouverture si prêt)
 - [ ] 03 Évaluation : jeu annoté, précision par champ, comparaison de modèles
 - [ ] 04 Audio vers texte puis extraction
