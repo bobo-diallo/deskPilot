@@ -16,12 +16,14 @@ SYSTEM_PROMPT = (
 class ClaudeExtractor:
     """Extracteur qui demande à Claude de lire le document (PDF ou image) directement."""
 
-    def __init__(self, llm_service: LLMService):
+    def __init__(self, llm_service: LLMService, model: str | None = None):
         self._llm_service = llm_service
+        # Modèle imposé (utile pour comparer) ; sinon le routeur choisit selon la tâche.
+        self._model = model
 
     def extract(self, content: bytes, media_type: str) -> ExtractionOutput:
         request = LLMRequest(
-            model=choose_model(Task.EXTRACTION),
+            model=self._model or choose_model(Task.EXTRACTION),
             system=SYSTEM_PROMPT,
             messages=[LLMMessage(role="user", content="Extrais les champs de cette facture.")],
             attachments=[LLMAttachment(media_type=media_type, data=content)],
