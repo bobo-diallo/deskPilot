@@ -34,6 +34,16 @@ VARIANTS: dict[str, VariantSpec] = {
         estimated_output_tokens=250,
         build=lambda llm: ClaudeExtractor(llm, model="claude-haiku-5-5"),
     ),
+    # Prompt v2 : même modèle, même jeu, seule la consigne sur les dates change.
+    "haiku-vision-v2": VariantSpec(
+        description="Claude Haiku 5.5 lit le PDF ou l'image, prompt v2 (convention des dates)",
+        model="claude-haiku-5-5",
+        estimated_input_tokens=3_200,
+        estimated_output_tokens=250,
+        build=lambda llm: ClaudeExtractor(
+            llm, model="claude-haiku-5-5", prompt_version="v2-date-convention"
+        ),
+    ),
     # Texte intégré du PDF seulement (sans image) : bien moins de tokens, PDF numériques seuls.
     "sonnet-text": VariantSpec(
         description="Texte extrait du PDF (pypdf), lu par Claude Sonnet 5.5",
