@@ -75,3 +75,43 @@ def test_the_layout_prints_every_line_description():
         printed = " ".join(item.text for item in case.items)
         for line in case.invoice.lines:
             assert line.description in printed, case.case_id
+
+
+def _printed_date(case) -> str:
+    return next(item.text for item in case.items if item.text.startswith("Date"))
+
+
+def test_usd_invoices_follow_american_conventions_in_full():
+    """Une facture en USD est en anglais avec une date mois/jour, sinon sa date est ambiguë.
+
+    Défaut découvert par la première mesure : des factures en USD avec libellés français
+    portaient une date américaine, que n'importe quel lecteur lirait à la française.
+    """
+    usd = [case for case in generate_cases() if case.invoice.currency == "USD"]
+
+    assert usd
+    for case in usd:
+        printed = " ".join(item.text for item in case.items)
+        assert "english" in case.tags, case.case_id
+        assert "Facture" not in printed and "Date : " not in printed, case.case_id
+        assert "All amounts in USD" in printed, case.case_id
+
+
+def test_the_printed_date_always_matches_the_ground_truth_under_its_own_convention():
+    import re
+
+    for case in generate_cases():
+        text = _printed_date(case).split(":", 1)[1].strip()
+        match = re.fullmatch(r"(\d{2})/(\d{2})/(\d{4})", text)
+        if match is None:
+            continue  # date écrite en toutes lettres : pas d'ambiguïté
+        first, second, year = (int(part) for part in match.groups())
+        if case.invoice.currency == "USD":
+            month, day = first, second  # convention américaine
+        else:
+            day, month = first, second  # convention européenne et canadienne-française
+        assert (year, month, day) == (
+            case.invoice.issue_date.year,
+            case.invoice.issue_date.month,
+            case.invoice.issue_date.day,
+        ), case.case_id

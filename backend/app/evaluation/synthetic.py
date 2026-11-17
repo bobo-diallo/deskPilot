@@ -231,7 +231,9 @@ def generate_cases(seed: int = 2026, count: int = 24) -> list[EvalCase]:
 
     for index in range(count):
         currency = ["EUR", "CAD", "USD"][index % 3]
-        english = index % 4 == 3
+        # Une facture en dollars US suit les conventions américaines complètes : libellés en
+        # anglais et date mois/jour. Sans cela, une date comme 05/07/2026 est réellement ambiguë.
+        english = index % 4 == 3 or currency == "USD"
         premium = index % 4 == 1
         negative_line = index % 5 == 2
         missing_number = index % 6 == 5

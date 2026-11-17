@@ -5,19 +5,19 @@
   "currency": "USD",
   "lines": [
     {
-      "description": "Licence logicielle annuelle",
+      "description": "Annual software licence",
       "quantity": "6",
       "unit_price": "2054.2",
       "total": "12325.20"
     },
     {
-      "description": "Poste de travail complet",
+      "description": "Complete workstation",
       "quantity": "1",
       "unit_price": "1528.02",
       "total": "1528.02"
     },
     {
-      "description": "Rénovation de cuisine (forfait)",
+      "description": "Kitchen renovation (flat fee)",
       "quantity": "3",
       "unit_price": "2050.06",
       "total": "6150.18"

@@ -22,6 +22,7 @@
       "tags": [
         "ambiguous_date",
         "digital",
+        "english",
         "negative_line",
         "thousands"
       ]
@@ -49,6 +50,7 @@
       "tags": [
         "ambiguous_date",
         "digital",
+        "english",
         "missing_number",
         "thousands"
       ]
@@ -76,7 +78,8 @@
       "file": "inv-09.pdf",
       "tags": [
         "ambiguous_date",
-        "digital"
+        "digital",
+        "english"
       ]
     },
     {
@@ -129,6 +132,7 @@
       "file": "inv-15.png",
       "tags": [
         "ambiguous_date",
+        "english",
         "scan",
         "thousands"
       ]
@@ -156,6 +160,7 @@
       "tags": [
         "ambiguous_date",
         "decimal_quantity",
+        "english",
         "missing_number",
         "negative_line",
         "scan",
@@ -185,6 +190,7 @@
       "file": "inv-21.jpg",
       "tags": [
         "ambiguous_date",
+        "english",
         "noisy",
         "scan"
       ]

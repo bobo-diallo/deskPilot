@@ -5,37 +5,37 @@
   "currency": "USD",
   "lines": [
     {
-      "description": "Chaise en chêne",
+      "description": "Oak chair",
       "quantity": "6",
       "unit_price": "39",
       "total": "234.00"
     },
     {
-      "description": "Heure de main-d'œuvre",
+      "description": "Labour hour",
       "quantity": "6",
       "unit_price": "87.86",
       "total": "527.16"
     },
     {
-      "description": "Filtres papier (boîte)",
+      "description": "Paper filters (box)",
       "quantity": "6",
       "unit_price": "6.05",
       "total": "36.30"
     },
     {
-      "description": "Lampe de bureau",
+      "description": "Desk lamp",
       "quantity": "4",
       "unit_price": "60.17",
       "total": "240.68"
     },
     {
-      "description": "Café en grains (kg)",
+      "description": "Coffee beans (kg)",
       "quantity": "4",
       "unit_price": "20.91",
       "total": "83.64"
     },
     {
-      "description": "Remise commerciale",
+      "description": "Trade discount",
       "quantity": "1",
       "unit_price": "-112.18",
       "total": "-112.18"

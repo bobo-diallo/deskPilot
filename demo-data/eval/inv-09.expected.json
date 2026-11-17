@@ -5,13 +5,13 @@
   "currency": "USD",
   "lines": [
     {
-      "description": "Filtres papier (boîte)",
+      "description": "Paper filters (box)",
       "quantity": "1",
       "unit_price": "14.09",
       "total": "14.09"
     },
     {
-      "description": "Peinture blanche 2,5 L",
+      "description": "White paint 2.5 L",
       "quantity": "3",
       "unit_price": "27.1",
       "total": "81.30"

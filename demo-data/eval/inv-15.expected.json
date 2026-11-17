@@ -5,31 +5,31 @@
   "currency": "USD",
   "lines": [
     {
-      "description": "Marteau",
+      "description": "Hammer",
       "quantity": "2",
       "unit_price": "34.05",
       "total": "68.10"
     },
     {
-      "description": "Chaise en chêne",
+      "description": "Oak chair",
       "quantity": "5",
       "unit_price": "43.98",
       "total": "219.90"
     },
     {
-      "description": "Entretien annuel",
+      "description": "Annual maintenance",
       "quantity": "3",
       "unit_price": "384.62",
       "total": "1153.86"
     },
     {
-      "description": "Café en grains (kg)",
+      "description": "Coffee beans (kg)",
       "quantity": "5",
       "unit_price": "29.38",
       "total": "146.90"
     },
     {
-      "description": "Abonnement mensuel",
+      "description": "Monthly subscription",
       "quantity": "5",
       "unit_price": "50.13",
       "total": "250.65"

@@ -5,13 +5,13 @@
   "currency": "USD",
   "lines": [
     {
-      "description": "Filtres papier (boîte)",
+      "description": "Paper filters (box)",
       "quantity": "5",
       "unit_price": "6.28",
       "total": "31.40"
     },
     {
-      "description": "Chaise en chêne",
+      "description": "Oak chair",
       "quantity": "5",
       "unit_price": "64",
       "total": "320.00"
