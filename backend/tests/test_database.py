@@ -21,6 +21,7 @@ def test_init_database_creates_all_tables():
         "api_calls",
         "extractions",
         "transcriptions",
+        "review_decisions",
     }
 
 

@@ -22,6 +22,7 @@ def init_database(engine: Engine) -> None:
     from app.domains.documents import models as _documents  # noqa: F401
     from app.domains.extraction import models as _extraction  # noqa: F401
     from app.domains.llm import models as _llm  # noqa: F401
+    from app.domains.review import models as _review  # noqa: F401
     from app.domains.transcription import models as _transcription  # noqa: F401
 
     Base.metadata.create_all(engine)

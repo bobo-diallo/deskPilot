@@ -44,7 +44,7 @@ class ExtractionResult(BaseModel):
     transcript: TranscriptResult | None = None  # seulement pour un enregistrement
 
 
-def _to_result(
+def to_result(
     extraction: Extraction, transcription: Transcription | None = None
 ) -> ExtractionResult:
     return ExtractionResult(
@@ -68,7 +68,7 @@ def _to_result(
     )
 
 
-def _find_transcription(session: Session, extraction_id: int) -> Transcription | None:
+def find_transcription(session: Session, extraction_id: int) -> Transcription | None:
     return session.scalars(
         select(Transcription).where(Transcription.extraction_id == extraction_id)
     ).first()
@@ -102,7 +102,7 @@ def create_extraction(
         raise HTTPException(status_code=422, detail=str(error)) from error
     except (ExtractionError, LLMInvalidOutputError) as error:
         raise HTTPException(status_code=502, detail=str(error)) from error
-    return _to_result(extraction, _find_transcription(session, extraction.id))
+    return to_result(extraction, find_transcription(session, extraction.id))
 
 
 @router.get("/{extraction_id}")
@@ -112,4 +112,4 @@ def get_extraction(
     extraction = session.get(Extraction, extraction_id)
     if extraction is None:
         raise HTTPException(status_code=404, detail="Extraction introuvable")
-    return _to_result(extraction, _find_transcription(session, extraction.id))
+    return to_result(extraction, find_transcription(session, extraction.id))

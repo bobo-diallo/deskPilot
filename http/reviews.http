@@ -1,0 +1,43 @@
+### Variables (modifier ici pour changer d'environnement)
+@baseUrl = http://localhost:8010
+
+### La file de revue : extractions à relire, les plus anciennes d'abord.
+### Une dictée y arrive toujours (voir http/extractions.http pour en déposer une).
+GET {{baseUrl}}/reviews
+
+### Approuver : l'extraction est juste telle quelle (remplacer 1 par l'id de la file)
+POST {{baseUrl}}/reviews/1/approve
+Content-Type: application/json
+
+{ "comment": "Vérifié sur la pièce d'origine" }
+
+### Corriger : envoyer la facture complète telle qu'elle doit être.
+### Les champs modifiés sont enregistrés avec la valeur d'origine (piste d'audit).
+POST {{baseUrl}}/reviews/1/correct
+Content-Type: application/json
+
+{
+  "comment": "Nom du fournisseur mal entendu",
+  "data": {
+    "supplier_name": "Plomberie Tremblay",
+    "invoice_number": "2026-014",
+    "issue_date": "2026-03-03",
+    "currency": "EUR",
+    "lines": [
+      { "description": "Réparation de fuite", "quantity": "1", "unit_price": "450", "total": "450" },
+      { "description": "Pièces de rechange", "quantity": "2", "unit_price": "275", "total": "550" }
+    ],
+    "subtotal": "1000",
+    "tax_amount": "200",
+    "total": "1200"
+  }
+}
+
+### Rejeter : le document est inutilisable
+POST {{baseUrl}}/reviews/1/reject
+Content-Type: application/json
+
+{ "comment": "Enregistrement illisible" }
+
+### Statistiques : combien d'approbations, de corrections, quels champs sont corrigés
+GET {{baseUrl}}/reviews/stats

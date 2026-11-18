@@ -9,7 +9,7 @@ from app.domains.extraction.extractors.audio import AudioExtractor
 from app.domains.extraction.extractors.dispatch import MediaTypeExtractor
 from app.domains.extraction.models import Extraction
 from app.domains.extraction.ports import ExtractionOutput
-from app.domains.extraction.schemas import Invoice
+from app.domains.extraction.schemas import Invoice, InvoiceLine
 from app.domains.extraction.service import ExtractionService
 from app.domains.llm.providers.fake import FakeProvider
 from app.domains.llm.service import LLMService
@@ -85,3 +85,50 @@ def test_the_dispatcher_sends_audio_to_the_audio_extractor_and_the_rest_to_the_o
     assert dispatcher.extract(b"x", "image/png").model == "visual"
     assert audio.calls == ["audio/wav"]
     assert visual.calls == ["application/pdf", "image/png"]
+
+
+def test_an_extraction_from_audio_always_needs_review_even_when_amounts_add_up(
+    session, audio_document
+):
+    from app.domains.extraction.models import ExtractionStatus
+
+    consistent = make_invoice().model_copy(
+        update={
+            "lines": [
+                InvoiceLine(
+                    description="Réparation",
+                    quantity=Decimal("1"),
+                    unit_price=Decimal("1000.00"),
+                    total=Decimal("1000.00"),
+                )
+            ]
+        }
+    )
+    extractor = AudioExtractor(
+        FakeTranscriber(text="Facture Tremblay"),
+        LLMService(FakeProvider(parsed=consistent), session),
+    )
+
+    extraction = ExtractionService(extractor, session).extract_invoice(audio_document, b"son")
+
+    assert extraction.status == ExtractionStatus.NEEDS_REVIEW
+    assert extraction.issues == [
+        {
+            "code": "from_audio",
+            "field": None,
+            "message": "Extraction issue d'une dictée : relecture obligatoire",
+        }
+    ]
+
+
+def test_the_audio_reason_is_added_to_real_issues_not_substituted(session, audio_document):
+    extractor = AudioExtractor(
+        FakeTranscriber(text="Facture Tremblay"),
+        LLMService(FakeProvider(parsed=make_invoice().model_copy(update={"total": None})), session),
+    )
+
+    extraction = ExtractionService(extractor, session).extract_invoice(audio_document, b"son")
+
+    codes = [issue["code"] for issue in extraction.issues]
+    assert "from_audio" in codes
+    assert "missing_field" in codes
