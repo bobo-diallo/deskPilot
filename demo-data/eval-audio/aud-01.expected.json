@@ -1,0 +1,35 @@
+{
+  "supplier_name": "Boulangerie Moreau",
+  "invoice_number": "INV-84515",
+  "issue_date": "2026-04-13",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Lampe de bureau",
+      "quantity": "6",
+      "unit_price": "31.25",
+      "total": "187.50"
+    },
+    {
+      "description": "Câble réseau 5 m",
+      "quantity": "1",
+      "unit_price": "12.97",
+      "total": "12.97"
+    },
+    {
+      "description": "Cartouche d'encre",
+      "quantity": "5",
+      "unit_price": "67.66",
+      "total": "338.30"
+    },
+    {
+      "description": "Livraison",
+      "quantity": "3",
+      "unit_price": "13.98",
+      "total": "41.94"
+    }
+  ],
+  "subtotal": "580.71",
+  "tax_amount": "116.14",
+  "total": "696.85"
+}

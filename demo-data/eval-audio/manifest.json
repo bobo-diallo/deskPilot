@@ -1,0 +1,112 @@
+{
+  "cases": [
+    {
+      "id": "aud-01",
+      "file": "aud-01.mp3",
+      "tags": [
+        "spelled_number"
+      ]
+    },
+    {
+      "id": "aud-02",
+      "file": "aud-02.mp3",
+      "tags": [
+        "canadian_voice",
+        "multi_tax",
+        "spelled_number",
+        "thousands"
+      ]
+    },
+    {
+      "id": "aud-03",
+      "file": "aud-03.mp3",
+      "tags": [
+        "multi_tax",
+        "noisy",
+        "spelled_number"
+      ]
+    },
+    {
+      "id": "aud-04",
+      "file": "aud-04.mp3",
+      "tags": [
+        "canadian_voice",
+        "fast"
+      ]
+    },
+    {
+      "id": "aud-05",
+      "file": "aud-05.mp3",
+      "tags": [
+        "spelled_number",
+        "thousands"
+      ]
+    },
+    {
+      "id": "aud-06",
+      "file": "aud-06.mp3",
+      "tags": [
+        "canadian_voice",
+        "decimal_quantity",
+        "multi_tax",
+        "noisy",
+        "spelled_number"
+      ]
+    },
+    {
+      "id": "aud-07",
+      "file": "aud-07.mp3",
+      "tags": [
+        "negative_line",
+        "spelled_number"
+      ]
+    },
+    {
+      "id": "aud-08",
+      "file": "aud-08.mp3",
+      "tags": [
+        "canadian_voice",
+        "fast",
+        "multi_tax",
+        "thousands"
+      ]
+    },
+    {
+      "id": "aud-09",
+      "file": "aud-09.mp3",
+      "tags": [
+        "multi_tax",
+        "noisy",
+        "spelled_number"
+      ]
+    },
+    {
+      "id": "aud-10",
+      "file": "aud-10.mp3",
+      "tags": [
+        "canadian_voice",
+        "spelled_number"
+      ]
+    },
+    {
+      "id": "aud-11",
+      "file": "aud-11.mp3",
+      "tags": [
+        "spelled_number",
+        "thousands"
+      ]
+    },
+    {
+      "id": "aud-12",
+      "file": "aud-12.mp3",
+      "tags": [
+        "canadian_voice",
+        "fast",
+        "multi_tax",
+        "negative_line",
+        "noisy",
+        "thousands"
+      ]
+    }
+  ]
+}

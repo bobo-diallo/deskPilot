@@ -1,0 +1,29 @@
+{
+  "supplier_name": "Épicerie Fine Morin",
+  "invoice_number": "INV-04407",
+  "issue_date": "2026-09-16",
+  "currency": "CAD",
+  "lines": [
+    {
+      "description": "Cartouche d'encre",
+      "quantity": "5",
+      "unit_price": "60.22",
+      "total": "301.10"
+    },
+    {
+      "description": "Câble réseau 5 m",
+      "quantity": "4",
+      "unit_price": "16.18",
+      "total": "64.72"
+    },
+    {
+      "description": "Impression A4 (lot de 100)",
+      "quantity": "6",
+      "unit_price": "19.42",
+      "total": "116.52"
+    }
+  ],
+  "subtotal": "482.34",
+  "tax_amount": "72.23",
+  "total": "554.57"
+}

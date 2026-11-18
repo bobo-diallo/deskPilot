@@ -1,0 +1,35 @@
+{
+  "supplier_name": "Pharmacie du Marché",
+  "invoice_number": "2026-142",
+  "issue_date": "2026-09-13",
+  "currency": "CAD",
+  "lines": [
+    {
+      "description": "Impression A4 (lot de 100)",
+      "quantity": "5",
+      "unit_price": "13.66",
+      "total": "68.30"
+    },
+    {
+      "description": "Chaise en chêne",
+      "quantity": "4",
+      "unit_price": "74.22",
+      "total": "296.88"
+    },
+    {
+      "description": "Formation d'une journée",
+      "quantity": "3",
+      "unit_price": "386.44",
+      "total": "1159.32"
+    },
+    {
+      "description": "Remise commerciale",
+      "quantity": "1",
+      "unit_price": "-152.45",
+      "total": "-152.45"
+    }
+  ],
+  "subtotal": "1372.05",
+  "tax_amount": "205.46",
+  "total": "1577.51"
+}

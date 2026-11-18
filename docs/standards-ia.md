@@ -41,10 +41,10 @@ vrais produits. Chacune est rattachée à une story où elle sera réellement pr
 | A3 | Analyse d'erreurs par catégorie (étiquettes de difficulté), pas seulement une moyenne | Trouver où le système échoue vraiment | story 03 | ✅ |
 | A4 | Ingénierie des coûts : Batch API, prompt caching, texte extrait au lieu d'images, plus petit modèle suffisant, effort de réflexion | Diviser la facture sans perdre en qualité | story 03 (fait : modèle et texte) ; reste : caching, effort | 🔄 |
 | A5 | Prompts versionnés, comparés par l'évaluation, reliés à chaque résultat | Traiter les prompts comme du code | story 03 | 🔄 |
-| A6 | Modèles ouverts et inférence locale (Hugging Face, quantification), mesurés contre l'API | Savoir quand « local » est justifié | Docling essayé en story 03 (non retenu) ; Whisper en story 04 | 🔄 |
+| A6 | Modèles ouverts et inférence locale (Hugging Face, quantification), mesurés contre l'API | Savoir quand « local » est justifié | Docling essayé en story 03 (non retenu) ; Whisper local en story 04 (`small` retenu, trois tailles mesurées) | ✅ |
 | A7 | Résilience : replis entre modèles, coupe-circuit, relances avec délai croissant, idempotence | Un service qui survit aux pannes du fournisseur | à planifier | ❌ |
 | A8 | Pipeline asynchrone : file de tâches, traitement en arrière-plan, statut consultable | Les documents lourds ne bloquent pas la requête | à planifier | ❌ |
-| A9 | Voix : transcription (Whisper), découpage par locuteur, extraction depuis la transcription | Multimodalité de bout en bout | story 04 | 📋 |
+| A9 | Voix : transcription (Whisper), découpage par locuteur, extraction depuis la transcription | Multimodalité de bout en bout | story 04 (fait : transcription et extraction ; reste : découpage par locuteur) | 🔄 |
 | A10 | Agents avancés : outils typés, limites de pas, validation des arguments, approbation humaine des actions sensibles, évaluation des trajectoires | Un agent fiable, pas une démo | story 05 | 📋 |
 | A11 | Protocole MCP : exposer des outils à un agent de façon standard | Interopérabilité des outils | story 05 | 📋 |
 | A12 | RAG avancé : recherche hybride (mots-clés plus embeddings), reranking, découpage adapté, métriques de recherche (rappel@k, MRR) | Un RAG mesuré, pas intuitif | story 05 (mini-RAG) | 📋 |

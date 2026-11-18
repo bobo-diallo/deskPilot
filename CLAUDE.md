@@ -18,7 +18,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 
 ## Architecture
 1. Monorepo : `backend/`, `frontend/`, `demo-data/`, `docs/`.
-2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm).
+2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm, transcription).
 3. Chaque domaine isole son modèle métier ; les routes sont dans `backend/app/api/`.
 4. `backend/app/core/database.py` : moteur SQLAlchemy et création des tables au démarrage.
 5. `backend/app/config.py` : configuration lue depuis `.env` (modèle : `.env.example`).
@@ -54,6 +54,7 @@ docker compose up --build        # lance backend (8010) et frontend (4200)
 cd backend && source .venv/bin/activate
 pytest                           # tests backend
 python -m app.evaluation --help  # évaluation (estime le coût, --yes pour exécuter)
+python scripts/generate_eval_audio.py   # jeu de dictées (macOS : say + ffmpeg)
 black app tests && ruff check app tests
 cd frontend && npx ng test --watch=false   # tests frontend
 ```
@@ -63,7 +64,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 01 Adaptateur LLM, routeur et journal des coûts
 - [x] 02 Extraction PDF/image vers JSON validé (évaluation du mini-RAG déplacée en story 05)
 - [x] 03 Évaluation : jeu annoté, précision par champ, comparaison de modèles
-- [ ] 04 Audio vers texte puis extraction
+- [x] 04 Audio vers texte puis extraction (Whisper local `small`, jeu de dictées, rapport audio)
 - [ ] 05 Agent avec outils (mini-RAG, vérification, export) et file de revue humaine
 - [ ] 06 Écran Coûts et publication du dépôt (passage en public)
 
@@ -76,3 +77,7 @@ Détail par story : `docs/suivi-stories.md`.
 - Port 8010 pour le backend : le port 8000 est utilisé par un autre projet local.
 - Le `package-lock.json` doit être régénéré avec `npx npm@11.19.1 install --package-lock-only`
   (compatibilité avec le npm de l'image Docker).
+- Audio : `faster-whisper` (sans PyTorch) ; garder `av<17` dans `pyproject.toml` (PyAV 17+ casse
+  le décodage). Taille par défaut `small` (`WHISPER_MODEL_SIZE`). Les modèles se téléchargent
+  au premier usage (volume Docker `whisper-cache`). Les latences se mesurent mal quand la
+  machine est chargée (Docker de l'autre projet) : revérifier la charge avant de comparer.
