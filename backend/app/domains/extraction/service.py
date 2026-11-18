@@ -4,6 +4,7 @@ from app.domains.documents.models import Document
 from app.domains.extraction.models import Extraction, ExtractionStatus
 from app.domains.extraction.ports import DocumentExtractor
 from app.domains.extraction.validation import validate_invoice
+from app.domains.transcription.models import Transcription
 
 
 class ExtractionService:
@@ -31,5 +32,12 @@ class ExtractionService:
             model=output.model,
         )
         self._session.add(extraction)
+        self._session.flush()  # attribue l'id de l'extraction sans valider la transaction
+
+        if output.transcript is not None:
+            # Même transaction : l'extraction et sa transcription sont enregistrées ensemble
+            self._session.add(
+                Transcription(extraction_id=extraction.id, **output.transcript.model_dump())
+            )
         self._session.commit()
         return extraction

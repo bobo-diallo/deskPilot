@@ -1,0 +1,35 @@
+{
+  "supplier_name": "Traiteur Saint-Pierre",
+  "invoice_number": "INV-34531",
+  "issue_date": "2026-03-06",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Lampe de bureau",
+      "quantity": "4",
+      "unit_price": "68.66",
+      "total": "274.64"
+    },
+    {
+      "description": "Vis à bois 4x40 (unité)",
+      "quantity": "1",
+      "unit_price": "0.37",
+      "total": "0.37"
+    },
+    {
+      "description": "Peinture blanche 2,5 L",
+      "quantity": "3",
+      "unit_price": "40.69",
+      "total": "122.07"
+    },
+    {
+      "description": "Remise commerciale",
+      "quantity": "1",
+      "unit_price": "-39.71",
+      "total": "-39.71"
+    }
+  ],
+  "subtotal": "357.37",
+  "tax_amount": "71.47",
+  "total": "428.84"
+}

@@ -25,3 +25,19 @@ def test_extension_follows_the_media_type(tmp_path):
 def test_unknown_media_type_is_refused(tmp_path):
     with pytest.raises(ValueError, match="text/csv"):
         FileStorage(tmp_path).save(1, "text/csv", b"a,b")
+
+
+@pytest.mark.parametrize(
+    ("media_type", "extension"),
+    [
+        ("audio/wav", ".wav"),
+        ("audio/mpeg", ".mp3"),
+        ("audio/ogg", ".ogg"),
+        ("audio/webm", ".webm"),
+        ("audio/mp4", ".m4a"),
+    ],
+)
+def test_audio_files_are_stored_with_their_extension(tmp_path, media_type, extension):
+    path = FileStorage(tmp_path).save(7, media_type, b"son")
+
+    assert path.name == f"7{extension}"

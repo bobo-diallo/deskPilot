@@ -1,8 +1,9 @@
 import base64
 
 import anthropic
+from pydantic import ValidationError
 
-from app.domains.llm.errors import LLMRefusedError
+from app.domains.llm.errors import LLMInvalidOutputError, LLMRefusedError
 from app.domains.llm.schemas import LLMAttachment, LLMRequest, LLMResponse
 
 
@@ -55,7 +56,16 @@ class AnthropicProvider:
 
         if request.response_schema is not None:
             # `parse` contraint la réponse au schéma et la valide pour nous.
-            message = self._client.messages.parse(output_format=request.response_schema, **params)
+            try:
+                message = self._client.messages.parse(
+                    output_format=request.response_schema, **params
+                )
+            except ValidationError as error:
+                # Le modèle a répondu, mais pas dans le format demandé (ex. « 12 euros 97 » dans
+                # un champ décimal). Erreur du modèle, pas un bogue : on la nomme clairement.
+                raise LLMInvalidOutputError(
+                    f"La réponse de {request.model} ne respecte pas le schéma demandé"
+                ) from error
             parsed = message.parsed_output
         else:
             message = self._client.messages.create(**params)

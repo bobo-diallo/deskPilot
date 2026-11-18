@@ -1,3 +1,4 @@
+import dataclasses
 import os
 from types import SimpleNamespace
 
@@ -162,3 +163,24 @@ def test_real_call_to_anthropic():
 
     assert "pong" in response.text.lower()
     assert response.input_tokens > 0
+
+
+def test_a_response_that_does_not_fit_the_schema_becomes_a_clear_error():
+    from pydantic import ValidationError
+
+    from app.domains.llm.errors import LLMInvalidOutputError
+
+    class Amount(BaseModel):
+        value: float
+
+    class FailingMessages(StubMessages):
+        def parse(self, **kwargs):
+            Amount.model_validate({"value": "671 euros 25 centimes"})  # lève ValidationError
+
+    client = SimpleNamespace(messages=FailingMessages(None))
+    request = dataclasses.replace(make_request(), response_schema=Amount)
+
+    with pytest.raises(LLMInvalidOutputError, match="schéma") as caught:
+        AnthropicProvider(client).complete(request)
+
+    assert isinstance(caught.value.__cause__, ValidationError)  # le détail reste consultable

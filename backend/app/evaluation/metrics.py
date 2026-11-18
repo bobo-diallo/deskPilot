@@ -5,6 +5,7 @@ On compare une facture extraite à la vérité terrain, champ par champ, puis on
 
 import math
 import random
+import re
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
@@ -23,6 +24,11 @@ SCALAR_FIELDS = (
 LINE_FIELDS = ("line_count", "line_amounts", "line_descriptions")
 FIELDS = SCALAR_FIELDS + LINE_FIELDS
 
+# Champs que la parole peut rendre faux sans que la lecture des chiffres le soit : un nom propre
+# (« Morrow » pour Moreau) ou une description (« langue » pour lampe) s'entend mal.
+SPOKEN_FRAGILE_FIELDS = ("supplier_name", "invoice_number", "line_descriptions")
+FINANCIAL_FIELDS = tuple(name for name in FIELDS if name not in SPOKEN_FRAGILE_FIELDS)
+
 # Deux montants à moins d'un demi-centime d'écart sont considérés égaux.
 AMOUNT_TOLERANCE = Decimal("0.005")
 
@@ -39,6 +45,11 @@ class CaseScore:
     @property
     def perfect(self) -> bool:
         return all(self.fields.values())
+
+    @property
+    def financial_perfect(self) -> bool:
+        """Date, devise, montants et structure des lignes exacts (noms et descriptions exclus)."""
+        return all(self.fields[name] for name in FINANCIAL_FIELDS)
 
 
 @dataclass(frozen=True)
@@ -114,6 +125,7 @@ class Summary:
     trials: int
     failed: int
     perfect_rate: float
+    financial_perfect_rate: float
     field_accuracy: dict[str, float]
     hallucinations: int
     perfect_rate_by_tag: dict[str, float]
@@ -146,6 +158,7 @@ def summarize(trials: list[ScoredTrial]) -> Summary:
         trials=len(trials),
         failed=sum(score.failed for score in scores),
         perfect_rate=_mean([float(score.perfect) for score in scores]),
+        financial_perfect_rate=_mean([float(score.financial_perfect) for score in scores]),
         field_accuracy={name: _mean([float(s.fields[name]) for s in scores]) for name in FIELDS},
         hallucinations=sum(score.hallucinations for score in scores),
         perfect_rate_by_tag=by_tag,
@@ -198,3 +211,34 @@ def paired_bootstrap(
         low=differences[int(0.025 * (resamples - 1))],
         high=differences[int(0.975 * (resamples - 1))],
     )
+
+
+def _words(text: str) -> list[str]:
+    text = text.casefold()
+    # « 1 234,50 » et « 1234,50 » sont le même nombre : on retire l'espace des milliers
+    text = re.sub(r"(?<=\d)[\s\u00a0\u202f](?=\d{3}\b)", "", text)
+    return re.findall(r"\w+", text)
+
+
+def word_error_rate(reference: str, hypothesis: str) -> float:
+    """Taux d'erreurs sur les mots (WER) : mesure standard de la qualité d'une transcription.
+
+    (substitutions + insertions + suppressions) / nombre de mots de la référence, calculé par
+    distance de Levenshtein sur les mots. 0 = parfait ; peut dépasser 1 si le texte est bavard.
+    """
+    expected, heard = _words(reference), _words(hypothesis)
+    if not expected:
+        return 0.0 if not heard else 1.0
+    previous = list(range(len(heard) + 1))
+    for i, word in enumerate(expected, start=1):
+        current = [i]
+        for j, other in enumerate(heard, start=1):
+            current.append(
+                min(
+                    previous[j] + 1,  # suppression
+                    current[j - 1] + 1,  # insertion
+                    previous[j - 1] + (word != other),  # substitution
+                )
+            )
+        previous = current
+    return previous[-1] / len(expected)

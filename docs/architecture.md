@@ -24,13 +24,23 @@ toucher au métier.
 | 008 | Extraction routée vers Haiku 5.5 avec le prompt v2 (provisoire) | 100 % sur deux jeux, ~18x moins cher que Sonnet ; jeu trop facile pour trancher définitivement |
 | 009 | Docling non retenu en V1 | Fonctionne dans Docker mais lent sur CPU (28 s par image), ne remplace pas l'appel LLM ; `experiments/docling/` |
 | 010 | Règle d'adoption posée avant la mesure, jeu de validation indépendant, prompts versionnés | Éviter de justifier un résultat après coup et la fuite de réglage |
+| 011 | Voix : Whisper en local (`faster-whisper`, taille `small` par défaut), puis Claude Haiku sur le texte | Gratuit, l'audio ne quitte pas la machine, tourne sans PyTorch sur Mac Intel ; `small` est la seule taille utilisable (voir le rapport audio) |
+| 012 | Réponse du modèle hors schéma = erreur nommée (`LLMInvalidOutputError`, 502), pas un plantage | Révélé par l'évaluation audio : une valeur non numérique dans un champ décimal donnait une erreur 500 |
 
 ## Tranché en story 03
 - Modèle local contre API : API (Haiku v2). Docling essayé, non retenu (ADR 009).
 
+## Tranché en story 04
+- Audio : Whisper local (ADR 011). Hugging Face en ligne est payant (crédit gratuit minime ou
+  nul) : non essayé, aucun gain attendu face à Claude pour le texte.
+- Claude ne transcrit pas l'audio : c'est le seul endroit où un modèle ouvert est nécessaire.
+
 ## Resté ouvert
-- Modèle open source local contre API pour l'audio (story 04, Whisper).
-- Candidats Hugging Face restants : faster-whisper, Qwen3-ASR (audio). Pour les documents,
+- Statut des extractions issues d'une dictée : elles se trompent sur les noms et parfois sur
+  les nombres sans que la validation le voie. Faut-il les marquer toujours « à relire » ?
+- Un modèle Whisper plus gros (`medium`) ou un prompt adapté aux montants dictés (« 12 euros
+  97 centimes ») : à tester sur un jeu neuf (le prompt ne doit pas être réglé sur ce jeu).
+- Candidats Hugging Face restants : Qwen3-ASR (audio). Pour les documents,
   PaddleOCR-VL, MinerU et Qwen3-VL seraient trop lents sur un Mac Intel sans GPU (non essayés).
   Vérifier la RAM nécessaire et les licences.
 

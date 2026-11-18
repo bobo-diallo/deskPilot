@@ -124,3 +124,15 @@ def test_text_variants_are_available_and_use_their_model(dataset, tmp_path):
     assert provider.received == []
     raw = json.loads((tmp_path / "raw" / "essai.json").read_text())
     assert all(t["error"] for t in raw["variants"][0]["trials"])
+
+
+def test_whisper_variants_are_available_and_chain_transcription_and_claude():
+    from app.domains.extraction.extractors.audio import AudioExtractor
+    from app.evaluation.variants import VARIANTS
+
+    for size in ("tiny", "base", "small"):
+        spec = VARIANTS[f"whisper-{size}-haiku"]
+        assert spec.model == "claude-haiku-5-5"
+        extractor = spec.build(None)  # le service LLM n'est pas utilisé à la construction
+        assert isinstance(extractor, AudioExtractor)
+        assert extractor._transcriber._model_size == size

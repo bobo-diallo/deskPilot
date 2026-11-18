@@ -1,0 +1,29 @@
+{
+  "supplier_name": "Studio Lumière",
+  "invoice_number": "INV-56834",
+  "issue_date": "2026-09-16",
+  "currency": "EUR",
+  "lines": [
+    {
+      "description": "Licence logicielle annuelle",
+      "quantity": "4",
+      "unit_price": "1602.17",
+      "total": "6408.68"
+    },
+    {
+      "description": "Rénovation de cuisine (forfait)",
+      "quantity": "5",
+      "unit_price": "1949.23",
+      "total": "9746.15"
+    },
+    {
+      "description": "Poste de travail complet",
+      "quantity": "2",
+      "unit_price": "1123.78",
+      "total": "2247.56"
+    }
+  ],
+  "subtotal": "18402.39",
+  "tax_amount": "3680.48",
+  "total": "22082.87"
+}

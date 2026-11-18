@@ -13,6 +13,7 @@ class DatasetCase:
     media_type: str
     expected: Invoice  # vérité terrain
     tags: tuple[str, ...]
+    spoken: str | None = None  # texte dit à voix haute (jeu audio), référence du WER
 
 
 def load_dataset(directory: Path) -> list[DatasetCase]:
@@ -28,5 +29,9 @@ def load_dataset(directory: Path) -> list[DatasetCase]:
         expected = Invoice.model_validate_json(
             (directory / f"{entry['id']}.expected.json").read_text(encoding="utf-8")
         )
-        cases.append(DatasetCase(entry["id"], path, media_type, expected, tuple(entry["tags"])))
+        spoken_path = directory / f"{entry['id']}.spoken.txt"
+        spoken = spoken_path.read_text(encoding="utf-8") if spoken_path.exists() else None
+        cases.append(
+            DatasetCase(entry["id"], path, media_type, expected, tuple(entry["tags"]), spoken)
+        )
     return cases

@@ -23,7 +23,7 @@ FIELD_LABELS = {
 TAG_LABELS = {
     "digital": "PDF numérique",
     "scan": "Image (scan)",
-    "noisy": "Scan bruité",
+    "noisy": "Bruité (scan ou enregistrement)",
     "english": "En anglais",
     "multi_tax": "Plusieurs taxes",
     "negative_line": "Ligne de remise",
@@ -31,6 +31,9 @@ TAG_LABELS = {
     "thousands": "Montant de 1 000 ou plus",
     "missing_number": "Numéro absent",
     "decimal_quantity": "Quantité décimale",
+    "fast": "Débit rapide",
+    "canadian_voice": "Voix à accent canadien",
+    "spelled_number": "Numéro épelé",
 }
 
 
@@ -61,6 +64,17 @@ def _table(header: list[str], rows: list[list[str]]) -> str:
     return "\n".join(lines)
 
 
+def _mean_wer(trials: list[TrialResult]) -> str:
+    values = [t.word_error_rate for t in trials if t.word_error_rate is not None]
+    return _pct(statistics.mean(values)) if values else "—"
+
+
+def _compute_ratio(trials: list[TrialResult]) -> str:
+    """Médiane de (temps de calcul / durée de l'audio) : moins de 1 = plus vite que la parole."""
+    ratios = [t.latency_ms / 1000 / t.audio_seconds for t in trials if t.audio_seconds]
+    return f"{statistics.median(ratios):.2f}".replace(".", ",") if ratios else "—"
+
+
 def _per_case(trials: list[TrialResult], metric) -> dict[str, float]:
     """Moyenne d'une métrique par cas (sur les répétitions), dans l'ordre d'apparition."""
     values: dict[str, list[float]] = {}
@@ -79,6 +93,7 @@ def render_markdown(variants: list[VariantResult], runs: int, generated_on: date
         f"Jeu de {case_count} factures, {runs} répétition(s) par facture et par variante.",
     ]
 
+    has_audio = any(t.word_error_rate is not None for v in variants for t in v.trials)
     rows = []
     for v in variants:
         s = summaries[v.name]
@@ -95,14 +110,22 @@ def render_markdown(variants: list[VariantResult], runs: int, generated_on: date
                 str(s.failed),
             ]
         )
-    parts += [
-        "## Résumé",
-        _table(
-            ["Variante", "Factures parfaites", "Coût par facture", "Latence médiane (p90)",
-             "Valeurs inventées", "Échecs"],
-            rows,
-        ),
-    ]  # fmt: skip
+        if has_audio:
+            row = rows[-1]
+            rows[-1] = [
+                *row[:2],
+                _pct(s.financial_perfect_rate),
+                *row[2:4],
+                _mean_wer(v.trials),
+                _compute_ratio(v.trials),
+                *row[4:],
+            ]
+    header = ["Variante", "Factures parfaites", "Coût par facture", "Latence médiane (p90)",
+              "Valeurs inventées", "Échecs"]  # fmt: skip
+    if has_audio:
+        header[2:2] = ["Montants et date exacts"]
+        header[5:5] = ["Erreurs sur les mots", "Temps de calcul / durée audio"]
+    parts += ["## Résumé", _table(header, rows)]
 
     parts += [
         "## Exactitude par champ",
@@ -196,4 +219,15 @@ def render_markdown(variants: list[VariantResult], runs: int, generated_on: date
         "- Les réponses d'un modèle varient d'un appel à l'autre ; les coûts sont ceux du "
         "journal `api_calls`.",
     ]
+    if has_audio:
+        parts += [
+            "- Dictées en voix de synthèse (macOS) : plus nettes et régulières qu'une voix "
+            "humaine ; le bruit ajouté est un bruit blanc léger, loin d'une vraie pièce bruyante.",
+            "- « Factures parfaites » exige aussi les noms propres et les descriptions, que "
+            "l'oreille (donc Whisper) ne peut pas garantir. La colonne « Montants et date "
+            "exacts » a été ajoutée après la première mesure, quand tous les scores sont "
+            "tombés à 0 % : c'est une analyse a posteriori, à confirmer sur un jeu neuf.",
+            "- Le taux d'erreurs sur les mots compare la transcription au texte lu ; les nombres "
+            "sont comparés après retrait de l'espace des milliers.",
+        ]
     return "\n\n".join(parts) + "\n"

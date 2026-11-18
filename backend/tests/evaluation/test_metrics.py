@@ -232,3 +232,57 @@ def test_paired_bootstrap_is_reproducible():
     b = [1.0, 1.0, 0.0, 1.0, 0.0, 0.0]
 
     assert paired_bootstrap(a, b, seed=3) == paired_bootstrap(a, b, seed=3)
+
+
+def test_word_error_rate_is_zero_for_identical_texts():
+    from app.evaluation.metrics import word_error_rate
+
+    assert word_error_rate("facture numéro douze", "Facture, numéro douze.") == 0.0
+
+
+def test_word_error_rate_counts_substitutions_insertions_and_deletions():
+    from app.evaluation.metrics import word_error_rate
+
+    # Référence de 4 mots ; 1 substitution + 1 suppression = 2 erreurs sur 4
+    assert word_error_rate("a b c d", "a x c") == 0.5
+
+
+def test_word_error_rate_ignores_thousands_separators_in_numbers():
+    from app.evaluation.metrics import word_error_rate
+
+    assert word_error_rate("total 1234,50 euros", "total 1 234,50 euros") == 0.0
+
+
+def test_word_error_rate_of_an_empty_hypothesis_is_one():
+    from app.evaluation.metrics import word_error_rate
+
+    assert word_error_rate("a b", "") == 1.0
+
+
+def test_financial_perfect_ignores_names_and_descriptions_but_not_amounts():
+    from app.evaluation.metrics import FIELDS, CaseScore
+
+    only_names_wrong = dict.fromkeys(FIELDS, True)
+    only_names_wrong.update(supplier_name=False, invoice_number=False, line_descriptions=False)
+    amount_wrong = dict.fromkeys(FIELDS, True)
+    amount_wrong["total"] = False
+
+    assert CaseScore(only_names_wrong, 0, "validated", False).financial_perfect
+    assert not CaseScore(only_names_wrong, 0, "validated", False).perfect
+    assert not CaseScore(amount_wrong, 0, "validated", False).financial_perfect
+
+
+def test_summary_reports_the_financial_perfect_rate():
+    from app.evaluation.metrics import FIELDS, CaseScore, ScoredTrial, summarize
+
+    good = dict.fromkeys(FIELDS, True)
+    names_wrong = {**good, "supplier_name": False}
+    trials = [
+        ScoredTrial("a", (), CaseScore(good, 0, "validated", False)),
+        ScoredTrial("b", (), CaseScore(names_wrong, 0, "validated", False)),
+    ]
+
+    summary = summarize(trials)
+
+    assert summary.perfect_rate == 0.5
+    assert summary.financial_perfect_rate == 1.0

@@ -51,6 +51,24 @@
   - [x] Guide `docs/apprentissage/09-evaluation.md`
   - Budget : 1,35 $ pour environ 460 appels réels (plafond 1,5 $)
   - Restes : jeu plus difficile (le jeu atteint 100 %), effort de réflexion, prompt caching, cascade Haiku vers Sonnet sur `needs_review`
-## Story 04 — Audio vers texte puis extraction 📋
+## Story 04 — Audio vers texte puis extraction ✅
+- Branche : `story/04-audio-extraction` (PR à ouvrir sur demande)
+- Checklist :
+  - [x] Essai préalable : `faster-whisper` tourne sur Mac Intel sans PyTorch (PyAV borné sous la v17)
+  - [x] Types audio détectés par signature (WAV, MP3, OGG, WebM, M4A)
+  - [x] Domaine `transcription` : interface `Transcriber`, faux transcripteur, adaptateur Whisper
+  - [x] `AudioExtractor` (transcription locale puis Claude Haiku sur le texte) et `MediaTypeExtractor`
+  - [x] Table `transcriptions`, `POST /extractions` accepte l'audio et renvoie `transcript`
+  - [x] Docker : volume de cache des modèles, `WHISPER_MODEL_SIZE`, exemple `http/extractions.http`
+  - [x] Jeu de 12 dictées (voix de synthèse macOS, bruit, débit rapide), WER, rapport audio
+  - [x] Mesure des trois tailles de Whisper : `docs/evaluation/2026-11-17-audio-whisper-sizes.md`
+  - [x] Défaut corrigé : réponse hors schéma, 500 devenu 502 (`LLMInvalidOutputError`)
+  - [x] Guide `docs/apprentissage/10-audio.md`
+  - Résultat : `small` est la seule taille utilisable (22 essais sur 24 aboutissent, contre 11 et
+    13) mais aucune facture n'est parfaite (noms propres) et 25 % ont montants et date exacts
+  - Budget : environ 0,09 $ journalisé pour 144 appels (plafond 0,30 $) ; les appels hors schéma
+    ne sont pas journalisés, le coût réel est un peu plus haut
+  - Restes : journaliser les appels hors schéma, tester `medium` et un prompt pour les montants
+    dictés sur un jeu neuf, statut « à relire » systématique pour l'audio, vraies voix humaines
 ## Story 05 — Agent avec outils et file de revue 📋
 ## Story 06 — Écran Coûts et publication du dépôt 📋

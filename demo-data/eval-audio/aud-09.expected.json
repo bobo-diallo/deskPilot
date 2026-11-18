@@ -1,0 +1,23 @@
+{
+  "supplier_name": "Électro Plus",
+  "invoice_number": "INV-30832",
+  "issue_date": "2026-06-06",
+  "currency": "CAD",
+  "lines": [
+    {
+      "description": "Chaise en chêne",
+      "quantity": "4",
+      "unit_price": "56.05",
+      "total": "224.20"
+    },
+    {
+      "description": "Peinture blanche 2,5 L",
+      "quantity": "1",
+      "unit_price": "25.63",
+      "total": "25.63"
+    }
+  ],
+  "subtotal": "249.83",
+  "tax_amount": "37.41",
+  "total": "287.24"
+}
