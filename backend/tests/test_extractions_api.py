@@ -123,7 +123,9 @@ def test_uploading_a_recording_returns_the_extraction_with_its_transcript(app):
 
     assert response.status_code == 200
     body = response.json()
-    assert body["status"] == "validated"
+    # Même si les montants se recoupent, une dictée est toujours à relire (voir ADR 013)
+    assert body["status"] == "needs_review"
+    assert [issue["code"] for issue in body["issues"]] == ["from_audio"]
     assert body["data"]["supplier_name"] == "Atelier Nord"
     assert body["transcript"] == {
         "text": "Facture Atelier Nord numéro 2026-014",

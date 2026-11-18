@@ -10,6 +10,10 @@ from app.core.database import Base
 class ExtractionStatus(StrEnum):
     VALIDATED = "validated"  # les contrôles de cohérence passent
     NEEDS_REVIEW = "needs_review"  # au moins une anomalie : à relire par un humain
+    # Décisions humaines (voir domains/review) :
+    APPROVED = "approved"  # relue et jugée juste telle quelle
+    CORRECTED = "corrected"  # relue et corrigée à la main
+    REJECTED = "rejected"  # relue et écartée
 
 
 def _now() -> datetime:

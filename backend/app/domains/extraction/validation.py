@@ -16,6 +16,7 @@ class IssueCode(Enum):
     LINE_TOTAL_MISMATCH = "line_total_mismatch"
     SUBTOTAL_MISMATCH = "subtotal_mismatch"
     TOTAL_MISMATCH = "total_mismatch"
+    FROM_AUDIO = "from_audio"  # source vocale : fiable sur les montants, pas sur les noms
 
 
 @dataclass(frozen=True)
