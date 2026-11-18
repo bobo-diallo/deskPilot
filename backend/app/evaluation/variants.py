@@ -1,10 +1,12 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from app.domains.extraction.extractors.audio import AudioExtractor
 from app.domains.extraction.extractors.claude import ClaudeExtractor
 from app.domains.extraction.extractors.text_layer import TextLayerExtractor
 from app.domains.extraction.ports import DocumentExtractor
 from app.domains.llm.service import LLMService
+from app.domains.transcription.transcribers.faster_whisper import FasterWhisperTranscriber
 
 
 @dataclass(frozen=True)
@@ -62,3 +64,21 @@ VARIANTS: dict[str, VariantSpec] = {
         build=lambda llm: TextLayerExtractor(llm, model="claude-haiku-5-5", prompt_version="v1"),
     ),
 }
+
+
+def _whisper_variant(size: str) -> VariantSpec:
+    # Transcription locale (gratuite) puis Claude Haiku sur le texte : seul le texte coûte.
+    return VariantSpec(
+        description=f"Whisper {size} (local) transcrit la dictée, Claude Haiku 5.5 la structure",
+        model="claude-haiku-5-5",
+        estimated_input_tokens=700,
+        estimated_output_tokens=250,
+        build=lambda llm: AudioExtractor(
+            FasterWhisperTranscriber(size), llm, model="claude-haiku-5-5"
+        ),
+    )
+
+
+VARIANTS.update(
+    {f"whisper-{size}-haiku": _whisper_variant(size) for size in ("tiny", "base", "small")}
+)

@@ -93,3 +93,43 @@ def test_report_flags_silent_errors_of_the_validated_status():
     )
 
     assert "Erreurs silencieuses" in report
+
+
+def audio_trial(case_id, wer, audio_seconds=10.0, latency=5000):
+    score = score_extraction(make_invoice(), make_invoice("30.00"), "validated")
+    return TrialResult(
+        case_id, ("fast",), 1, score, "m", 100, 50, 0.001, latency, None, wer, audio_seconds
+    )
+
+
+def make_audio_report() -> str:
+    tiny = variant("whisper-tiny", [audio_trial("a", 0.30), audio_trial("b", 0.10)])
+    base = variant("whisper-base", [audio_trial("a", 0.10, latency=20000), audio_trial("b", 0.0)])
+    return render_markdown([tiny, base], runs=1, generated_on=date(2026, 11, 18))
+
+
+def test_an_audio_report_shows_the_word_error_rate_and_the_speed_relative_to_the_audio():
+    report = make_audio_report()
+
+    assert "Erreurs sur les mots" in report
+    assert "20,0 %" in report  # tiny : moyenne de 30 % et 10 %
+    assert "5,0 %" in report  # base : moyenne de 10 % et 0 %
+    assert "Temps de calcul / durée audio" in report
+    assert "0,5" in report  # 5 s de calcul pour 10 s d'audio
+
+
+def test_a_document_report_has_no_audio_columns():
+    report = make_report()
+
+    assert "Erreurs sur les mots" not in report
+    assert "durée audio" not in report
+
+
+def test_an_audio_report_warns_that_synthetic_voices_are_cleaner_than_real_ones():
+    assert "voix de synthèse" in make_audio_report()
+
+
+def test_audio_tags_have_french_labels():
+    report = make_audio_report()
+
+    assert "Débit rapide" in report
