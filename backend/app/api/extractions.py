@@ -14,7 +14,7 @@ from app.domains.extraction.errors import ExtractionError
 from app.domains.extraction.models import Extraction
 from app.domains.extraction.ports import DocumentExtractor
 from app.domains.extraction.service import ExtractionService
-from app.domains.llm.errors import LLMRefusedError
+from app.domains.llm.errors import LLMInvalidOutputError, LLMRefusedError
 from app.domains.transcription.models import Transcription
 
 router = APIRouter(prefix="/extractions", tags=["extractions"])
@@ -100,7 +100,7 @@ def create_extraction(
         extraction = ExtractionService(extractor, session).extract_invoice(document, content)
     except LLMRefusedError as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
-    except ExtractionError as error:
+    except (ExtractionError, LLMInvalidOutputError) as error:
         raise HTTPException(status_code=502, detail=str(error)) from error
     return _to_result(extraction, _find_transcription(session, extraction.id))
 

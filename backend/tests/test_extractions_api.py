@@ -161,3 +161,21 @@ def test_a_recording_without_speech_gives_502(app):
 
     assert response.status_code == 502
     assert "Aucune parole" in response.json()["detail"]
+
+
+def test_a_model_answer_outside_the_schema_gives_502_not_a_crash(app):
+    from app.domains.llm.errors import LLMInvalidOutputError
+
+    class BrokenProvider:
+        name = "broken"
+
+        def complete(self, request):
+            raise LLMInvalidOutputError("La réponse du modèle ne respecte pas le schéma")
+
+    app.dependency_overrides[get_llm_provider] = lambda: BrokenProvider()
+
+    with TestClient(app) as client:
+        response = upload(client)
+
+    assert response.status_code == 502
+    assert "schéma" in response.json()["detail"]
