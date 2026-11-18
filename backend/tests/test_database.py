@@ -20,6 +20,7 @@ def test_init_database_creates_all_tables():
         "chunks",
         "api_calls",
         "extractions",
+        "transcriptions",
     }
 
 
