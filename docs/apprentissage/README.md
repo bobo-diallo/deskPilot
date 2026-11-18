@@ -24,6 +24,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | [08 — Extraction de documents](08-extraction-de-documents.md) | Pydantic, sortie structurée, Decimal, upload, validation (story 02) |
 | [09 — Évaluer un système d'IA](09-evaluation.md) | Vérité terrain, métriques, intervalles de confiance, jeu de validation, prompts versionnés (story 03) |
 | [10 — De la voix au texte](10-audio.md) | Transcription Whisper en local, taux d'erreurs sur les mots, jeu de dictées, erreurs de format du modèle (story 04) |
+| [11 — La revue humaine](11-revue-humaine.md) | Machine à états, piste d'audit, transactions atomiques, erreurs du domaine traduites en HTTP (story 05a) |
 
 ## Glossaire rapide
 

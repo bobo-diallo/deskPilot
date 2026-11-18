@@ -26,6 +26,7 @@ toucher au métier.
 | 010 | Règle d'adoption posée avant la mesure, jeu de validation indépendant, prompts versionnés | Éviter de justifier un résultat après coup et la fuite de réglage |
 | 011 | Voix : Whisper en local (`faster-whisper`, taille `small` par défaut), puis Claude Haiku sur le texte | Gratuit, l'audio ne quitte pas la machine, tourne sans PyTorch sur Mac Intel ; `small` est la seule taille utilisable (voir le rapport audio) |
 | 012 | Réponse du modèle hors schéma = erreur nommée (`LLMInvalidOutputError`, 502), pas un plantage | Révélé par l'évaluation audio : une valeur non numérique dans un champ décimal donnait une erreur 500 |
+| 013 | Une extraction issue d'une dictée est toujours « à relire » ; chaque décision humaine est un fait daté (`review_decisions`) qui garde la valeur d'origine | La voix se trompe sur les noms sans que les montants le montrent (8 extractions « validées » fausses sur 22) ; piste d'audit exigée en finance |
 
 ## Tranché en story 03
 - Modèle local contre API : API (Haiku v2). Docling essayé, non retenu (ADR 009).
@@ -35,9 +36,11 @@ toucher au métier.
   nul) : non essayé, aucun gain attendu face à Claude pour le texte.
 - Claude ne transcrit pas l'audio : c'est le seul endroit où un modèle ouvert est nécessaire.
 
+## Tranché en story 05a
+- Dictée toujours à relire (ADR 013). Une correction humaine repasse par la validation des
+  montants et supprime le motif « dictée » ; une incohérence restante reste visible.
+
 ## Resté ouvert
-- Statut des extractions issues d'une dictée : elles se trompent sur les noms et parfois sur
-  les nombres sans que la validation le voie. Faut-il les marquer toujours « à relire » ?
 - Un modèle Whisper plus gros (`medium`) ou un prompt adapté aux montants dictés (« 12 euros
   97 centimes ») : à tester sur un jeu neuf (le prompt ne doit pas être réglé sur ce jeu).
 - Candidats Hugging Face restants : Qwen3-ASR (audio). Pour les documents,

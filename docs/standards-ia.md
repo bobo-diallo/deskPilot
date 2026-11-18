@@ -50,7 +50,7 @@ vrais produits. Chacune est rattachée à une story où elle sera réellement pr
 | A12 | RAG avancé : recherche hybride (mots-clés plus embeddings), reranking, découpage adapté, métriques de recherche (rappel@k, MRR) | Un RAG mesuré, pas intuitif | story 05 (mini-RAG) | 📋 |
 | A13 | Sécurité des LLM : injection de prompt, tests d'attaque (red teaming), masquage des données personnelles | Savoir attaquer et protéger son propre système | V2 | ❌ |
 | A14 | Observabilité : traces OpenTelemetry par appel, tableaux de bord de coût et de qualité | Déboguer une chaîne d'IA en production | V2 | ❌ |
-| A15 | Gouvernance : piste d'audit, rétention des données, résidence des données | Exigences des clients réglementés (finance) | V2 | ❌ |
+| A15 | Gouvernance : piste d'audit, rétention des données, résidence des données | Exigences des clients réglementés (finance) | story 05a (fait : piste d'audit des décisions) ; reste : rétention, résidence des données | 🔄 |
 | A16 | Distillation / affinage d'un petit modèle à partir des sorties d'un grand | Réduire le coût à grande échelle | V2 | ❌ |
 | A17 | Déploiement : intégration continue, conteneurs, configuration par environnement | Livrer comme en entreprise | à planifier | ❌ |
 

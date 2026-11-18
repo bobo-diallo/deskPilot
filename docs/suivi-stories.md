@@ -70,5 +70,17 @@
     ne sont pas journalisés, le coût réel est un peu plus haut
   - Restes : journaliser les appels hors schéma, tester `medium` et un prompt pour les montants
     dictés sur un jeu neuf, statut « à relire » systématique pour l'audio, vraies voix humaines
-## Story 05 — Agent avec outils et file de revue 📋
+## Story 05a — File de revue humaine 🔄
+- Branche : `story/05a-review-queue`
+- Checklist :
+  - [x] Une extraction issue d'une dictée est toujours `needs_review` (motif `from_audio`)
+  - [x] Statuts `approved`, `corrected`, `rejected` ; table `review_decisions` (valeur d'origine conservée)
+  - [x] `ReviewService` : file (plus ancienne d'abord), approuver, corriger (revalidée), rejeter
+  - [x] Une décision = une seule transaction ; une extraction ne se relit qu'une fois
+  - [x] Statistiques : taux de correction et champs corrigés
+  - [x] Routes `GET /reviews`, `GET /reviews/stats`, `POST /reviews/{id}/approve|correct|reject` et `http/reviews.http`
+  - [x] Guide `docs/apprentissage/11-revue-humaine.md`
+  - [ ] Écran Angular de revue (en attente du design)
+## Story 05b — Recherche dans les documents (mini-RAG dans le dépôt) 📋
+## Story 05c — Agent avec outils 📋
 ## Story 06 — Écran Coûts et publication du dépôt 📋

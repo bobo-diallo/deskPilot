@@ -18,7 +18,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 
 ## Architecture
 1. Monorepo : `backend/`, `frontend/`, `demo-data/`, `docs/`.
-2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm, transcription).
+2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm, transcription, review).
 3. Chaque domaine isole son modèle métier ; les routes sont dans `backend/app/api/`.
 4. `backend/app/core/database.py` : moteur SQLAlchemy et création des tables au démarrage.
 5. `backend/app/config.py` : configuration lue depuis `.env` (modèle : `.env.example`).
@@ -65,7 +65,9 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 02 Extraction PDF/image vers JSON validé (évaluation du mini-RAG déplacée en story 05)
 - [x] 03 Évaluation : jeu annoté, précision par champ, comparaison de modèles
 - [x] 04 Audio vers texte puis extraction (Whisper local `small`, jeu de dictées, rapport audio)
-- [ ] 05 Agent avec outils (mini-RAG, vérification, export) et file de revue humaine
+- [ ] 05a File de revue humaine (dictée toujours à relire, piste d'audit, statistiques)
+- [ ] 05b Recherche dans les documents : mini-RAG dans le dépôt derrière `DocumentSearch`
+- [ ] 05c Agent avec outils (recherche, vérification, export avec approbation) et son évaluation
 - [ ] 06 Écran Coûts et publication du dépôt (passage en public)
 
 Détail par story : `docs/suivi-stories.md`.
