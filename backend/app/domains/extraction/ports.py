@@ -2,12 +2,14 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from app.domains.extraction.schemas import Invoice
+from app.domains.transcription.schemas import Transcript
 
 
 @dataclass(frozen=True)
 class ExtractionOutput:
     data: Invoice
     model: str  # modèle (ou outil) qui a produit les données
+    transcript: Transcript | None = None  # présent seulement quand la source est de l'audio
 
 
 class DocumentExtractor(Protocol):
