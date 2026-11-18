@@ -22,7 +22,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 3. Chaque domaine isole son modèle métier ; les routes sont dans `backend/app/api/`.
 4. `backend/app/core/database.py` : moteur SQLAlchemy et création des tables au démarrage.
 5. `backend/app/config.py` : configuration lue depuis `.env` (modèle : `.env.example`).
-6. Tables : `conversations`, `messages`, `documents`, `chunks`, `api_calls` (journal des coûts).
+6. Tables : `conversations`, `messages`, `documents`, `chunks`, `api_calls` (journal des coûts), `extractions`, `transcriptions`, `review_decisions` (piste d'audit de la revue).
 7. Le LLM est appelé via une interface unique ; `backend/app/evaluation/` mesure la qualité (jeu annoté, métriques, rapports dans `docs/evaluation/`).
 8. Frontend : textes dans `frontend/public/i18n/{fr,en}.json`, jamais en dur dans les gabarits.
 9. Domaine de démonstration V1 : factures et contrats de PME.
