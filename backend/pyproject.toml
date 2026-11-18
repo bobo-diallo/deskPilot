@@ -11,6 +11,9 @@ dependencies = [
     "anthropic>=2.0",
     "python-multipart>=0.0.9",
     "pypdf>=5.0",
+    "faster-whisper>=1.2",
+    # PyAV 17+ retire une option que faster-whisper 1.2 utilise encore (TypeError au décodage)
+    "av>=14,<17",
 ]
 
 [project.optional-dependencies]
