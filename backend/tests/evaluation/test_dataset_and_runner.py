@@ -149,3 +149,45 @@ def test_runner_records_a_failure_and_keeps_going(small_dataset, session):
     failed, ok = result.trials
     assert failed.score.failed and "inexploitable" in failed.error
     assert ok.score.perfect and ok.error is None
+
+
+def test_the_spoken_reference_is_loaded_when_the_dataset_has_one(tmp_path):
+    write_case(tmp_path, "a", ["fast"], make_invoice())
+    (tmp_path / "a.spoken.txt").write_text("Facture Atelier Nord", encoding="utf-8")
+
+    assert load_dataset(tmp_path)[0].spoken == "Facture Atelier Nord"
+
+
+def test_a_dataset_without_spoken_reference_has_none(small_dataset):
+    assert load_dataset(small_dataset)[0].spoken is None
+
+
+def test_the_runner_measures_the_word_error_rate_and_the_audio_duration(tmp_path, session):
+    from app.domains.extraction.ports import ExtractionOutput
+    from app.domains.transcription.schemas import Transcript
+
+    write_case(tmp_path, "a", ["fast"], make_invoice())
+    (tmp_path / "a.spoken.txt").write_text("facture atelier nord", encoding="utf-8")
+
+    class SpeakingExtractor:
+        def extract(self, content, media_type):
+            transcript = Transcript(
+                text="facture atelier sud", language="fr", duration_seconds=8.0, model="m"
+            )
+            return ExtractionOutput(data=make_invoice(), model="m", transcript=transcript)
+
+    result = run_variant("v", SpeakingExtractor(), load_dataset(tmp_path), session, runs=1)
+
+    trial = result.trials[0]
+    assert trial.word_error_rate == pytest.approx(1 / 3)
+    assert trial.audio_seconds == 8.0
+
+
+def test_a_document_trial_has_no_word_error_rate(small_dataset, session):
+    provider = FakeProvider(parsed=make_invoice())
+    extractor = ClaudeExtractor(LLMService(provider, session))
+
+    result = run_variant("v", extractor, load_dataset(small_dataset), session, runs=1)
+
+    assert result.trials[0].word_error_rate is None
+    assert result.trials[0].audio_seconds is None

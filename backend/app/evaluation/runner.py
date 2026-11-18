@@ -9,7 +9,7 @@ from app.domains.extraction.ports import DocumentExtractor
 from app.domains.extraction.validation import validate_invoice
 from app.domains.llm.models import ApiCall
 from app.evaluation.dataset import DatasetCase
-from app.evaluation.metrics import CaseScore, ScoredTrial, score_extraction
+from app.evaluation.metrics import CaseScore, ScoredTrial, score_extraction, word_error_rate
 
 
 @dataclass(frozen=True)
@@ -26,6 +26,9 @@ class TrialResult:
     cost_usd: float
     latency_ms: int
     error: str | None
+    # Renseignés seulement pour les enregistrements :
+    word_error_rate: float | None = None
+    audio_seconds: float | None = None
 
     def as_scored(self) -> ScoredTrial:
         return ScoredTrial(self.case_id, self.tags, self.score)
@@ -73,6 +76,11 @@ def run_variant(
                 status = ExtractionStatus.NEEDS_REVIEW if issues else ExtractionStatus.VALIDATED
                 score = score_extraction(case.expected, output.data, status.value)
 
+            transcript = output.transcript if output else None
+            wer = None
+            if transcript and case.spoken:
+                wer = word_error_rate(case.spoken, transcript.text)
+
             trials.append(
                 TrialResult(
                     case_id=case.case_id,
@@ -85,6 +93,8 @@ def run_variant(
                     cost_usd=sum(call.cost_usd for call in calls),
                     latency_ms=latency_ms,
                     error=error,
+                    word_error_rate=wer,
+                    audio_seconds=transcript.duration_seconds if transcript else None,
                 )
             )
     return VariantResult(name=name, trials=trials)

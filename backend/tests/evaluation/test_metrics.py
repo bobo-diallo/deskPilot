@@ -232,3 +232,28 @@ def test_paired_bootstrap_is_reproducible():
     b = [1.0, 1.0, 0.0, 1.0, 0.0, 0.0]
 
     assert paired_bootstrap(a, b, seed=3) == paired_bootstrap(a, b, seed=3)
+
+
+def test_word_error_rate_is_zero_for_identical_texts():
+    from app.evaluation.metrics import word_error_rate
+
+    assert word_error_rate("facture numéro douze", "Facture, numéro douze.") == 0.0
+
+
+def test_word_error_rate_counts_substitutions_insertions_and_deletions():
+    from app.evaluation.metrics import word_error_rate
+
+    # Référence de 4 mots ; 1 substitution + 1 suppression = 2 erreurs sur 4
+    assert word_error_rate("a b c d", "a x c") == 0.5
+
+
+def test_word_error_rate_ignores_thousands_separators_in_numbers():
+    from app.evaluation.metrics import word_error_rate
+
+    assert word_error_rate("total 1234,50 euros", "total 1 234,50 euros") == 0.0
+
+
+def test_word_error_rate_of_an_empty_hypothesis_is_one():
+    from app.evaluation.metrics import word_error_rate
+
+    assert word_error_rate("a b", "") == 1.0

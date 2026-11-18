@@ -5,6 +5,7 @@ On compare une facture extraite à la vérité terrain, champ par champ, puis on
 
 import math
 import random
+import re
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
@@ -198,3 +199,34 @@ def paired_bootstrap(
         low=differences[int(0.025 * (resamples - 1))],
         high=differences[int(0.975 * (resamples - 1))],
     )
+
+
+def _words(text: str) -> list[str]:
+    text = text.casefold()
+    # « 1 234,50 » et « 1234,50 » sont le même nombre : on retire l'espace des milliers
+    text = re.sub(r"(?<=\d)[\s\u00a0\u202f](?=\d{3}\b)", "", text)
+    return re.findall(r"\w+", text)
+
+
+def word_error_rate(reference: str, hypothesis: str) -> float:
+    """Taux d'erreurs sur les mots (WER) : mesure standard de la qualité d'une transcription.
+
+    (substitutions + insertions + suppressions) / nombre de mots de la référence, calculé par
+    distance de Levenshtein sur les mots. 0 = parfait ; peut dépasser 1 si le texte est bavard.
+    """
+    expected, heard = _words(reference), _words(hypothesis)
+    if not expected:
+        return 0.0 if not heard else 1.0
+    previous = list(range(len(heard) + 1))
+    for i, word in enumerate(expected, start=1):
+        current = [i]
+        for j, other in enumerate(heard, start=1):
+            current.append(
+                min(
+                    previous[j] + 1,  # suppression
+                    current[j - 1] + 1,  # insertion
+                    previous[j - 1] + (word != other),  # substitution
+                )
+            )
+        previous = current
+    return previous[-1] / len(expected)
