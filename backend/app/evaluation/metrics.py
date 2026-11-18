@@ -24,6 +24,11 @@ SCALAR_FIELDS = (
 LINE_FIELDS = ("line_count", "line_amounts", "line_descriptions")
 FIELDS = SCALAR_FIELDS + LINE_FIELDS
 
+# Champs que la parole peut rendre faux sans que la lecture des chiffres le soit : un nom propre
+# (« Morrow » pour Moreau) ou une description (« langue » pour lampe) s'entend mal.
+SPOKEN_FRAGILE_FIELDS = ("supplier_name", "invoice_number", "line_descriptions")
+FINANCIAL_FIELDS = tuple(name for name in FIELDS if name not in SPOKEN_FRAGILE_FIELDS)
+
 # Deux montants à moins d'un demi-centime d'écart sont considérés égaux.
 AMOUNT_TOLERANCE = Decimal("0.005")
 
@@ -40,6 +45,11 @@ class CaseScore:
     @property
     def perfect(self) -> bool:
         return all(self.fields.values())
+
+    @property
+    def financial_perfect(self) -> bool:
+        """Date, devise, montants et structure des lignes exacts (noms et descriptions exclus)."""
+        return all(self.fields[name] for name in FINANCIAL_FIELDS)
 
 
 @dataclass(frozen=True)
@@ -115,6 +125,7 @@ class Summary:
     trials: int
     failed: int
     perfect_rate: float
+    financial_perfect_rate: float
     field_accuracy: dict[str, float]
     hallucinations: int
     perfect_rate_by_tag: dict[str, float]
@@ -147,6 +158,7 @@ def summarize(trials: list[ScoredTrial]) -> Summary:
         trials=len(trials),
         failed=sum(score.failed for score in scores),
         perfect_rate=_mean([float(score.perfect) for score in scores]),
+        financial_perfect_rate=_mean([float(score.financial_perfect) for score in scores]),
         field_accuracy={name: _mean([float(s.fields[name]) for s in scores]) for name in FIELDS},
         hallucinations=sum(score.hallucinations for score in scores),
         perfect_rate_by_tag=by_tag,

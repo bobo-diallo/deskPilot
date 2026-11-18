@@ -112,11 +112,19 @@ def render_markdown(variants: list[VariantResult], runs: int, generated_on: date
         )
         if has_audio:
             row = rows[-1]
-            rows[-1] = [*row[:4], _mean_wer(v.trials), _compute_ratio(v.trials), *row[4:]]
+            rows[-1] = [
+                *row[:2],
+                _pct(s.financial_perfect_rate),
+                *row[2:4],
+                _mean_wer(v.trials),
+                _compute_ratio(v.trials),
+                *row[4:],
+            ]
     header = ["Variante", "Factures parfaites", "Coût par facture", "Latence médiane (p90)",
               "Valeurs inventées", "Échecs"]  # fmt: skip
     if has_audio:
-        header[4:4] = ["Erreurs sur les mots", "Temps de calcul / durée audio"]
+        header[2:2] = ["Montants et date exacts"]
+        header[5:5] = ["Erreurs sur les mots", "Temps de calcul / durée audio"]
     parts += ["## Résumé", _table(header, rows)]
 
     parts += [
@@ -215,6 +223,10 @@ def render_markdown(variants: list[VariantResult], runs: int, generated_on: date
         parts += [
             "- Dictées en voix de synthèse (macOS) : plus nettes et régulières qu'une voix "
             "humaine ; le bruit ajouté est un bruit blanc léger, loin d'une vraie pièce bruyante.",
+            "- « Factures parfaites » exige aussi les noms propres et les descriptions, que "
+            "l'oreille (donc Whisper) ne peut pas garantir. La colonne « Montants et date "
+            "exacts » a été ajoutée après la première mesure, quand tous les scores sont "
+            "tombés à 0 % : c'est une analyse a posteriori, à confirmer sur un jeu neuf.",
             "- Le taux d'erreurs sur les mots compare la transcription au texte lu ; les nombres "
             "sont comparés après retrait de l'espace des milliers.",
         ]

@@ -71,8 +71,9 @@ def _whisper_variant(size: str) -> VariantSpec:
     return VariantSpec(
         description=f"Whisper {size} (local) transcrit la dictée, Claude Haiku 5.5 la structure",
         model="claude-haiku-5-5",
-        estimated_input_tokens=700,
-        estimated_output_tokens=250,
+        # Calibré sur la première mesure audio : 0,0006 $ par dictée, réflexion comprise.
+        estimated_input_tokens=1_200,
+        estimated_output_tokens=900,
         build=lambda llm: AudioExtractor(
             FasterWhisperTranscriber(size), llm, model="claude-haiku-5-5"
         ),

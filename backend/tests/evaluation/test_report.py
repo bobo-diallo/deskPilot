@@ -133,3 +133,14 @@ def test_audio_tags_have_french_labels():
     report = make_audio_report()
 
     assert "Débit rapide" in report
+
+
+def test_an_audio_report_adds_the_financial_column_and_flags_it_as_a_posteriori():
+    report = make_audio_report()
+
+    assert "Montants et date exacts" in report
+    assert "a posteriori" in report
+
+
+def test_a_document_report_has_no_financial_column():
+    assert "Montants et date exacts" not in make_report()

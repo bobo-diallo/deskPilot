@@ -257,3 +257,32 @@ def test_word_error_rate_of_an_empty_hypothesis_is_one():
     from app.evaluation.metrics import word_error_rate
 
     assert word_error_rate("a b", "") == 1.0
+
+
+def test_financial_perfect_ignores_names_and_descriptions_but_not_amounts():
+    from app.evaluation.metrics import FIELDS, CaseScore
+
+    only_names_wrong = dict.fromkeys(FIELDS, True)
+    only_names_wrong.update(supplier_name=False, invoice_number=False, line_descriptions=False)
+    amount_wrong = dict.fromkeys(FIELDS, True)
+    amount_wrong["total"] = False
+
+    assert CaseScore(only_names_wrong, 0, "validated", False).financial_perfect
+    assert not CaseScore(only_names_wrong, 0, "validated", False).perfect
+    assert not CaseScore(amount_wrong, 0, "validated", False).financial_perfect
+
+
+def test_summary_reports_the_financial_perfect_rate():
+    from app.evaluation.metrics import FIELDS, CaseScore, ScoredTrial, summarize
+
+    good = dict.fromkeys(FIELDS, True)
+    names_wrong = {**good, "supplier_name": False}
+    trials = [
+        ScoredTrial("a", (), CaseScore(good, 0, "validated", False)),
+        ScoredTrial("b", (), CaseScore(names_wrong, 0, "validated", False)),
+    ]
+
+    summary = summarize(trials)
+
+    assert summary.perfect_rate == 0.5
+    assert summary.financial_perfect_rate == 1.0
