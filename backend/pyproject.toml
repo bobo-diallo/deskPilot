@@ -12,6 +12,8 @@ dependencies = [
     "python-multipart>=0.0.9",
     "pypdf>=5.0",
     "faster-whisper>=1.2",
+    "fastembed>=0.7",
+    "numpy>=2.0",
     # PyAV 17+ retire une option que faster-whisper 1.2 utilise encore (TypeError au décodage)
     "av>=14,<17",
 ]

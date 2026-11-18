@@ -16,6 +16,8 @@ from app.domains.extraction.ports import DocumentExtractor
 from app.domains.llm.ports import LLMProvider
 from app.domains.llm.providers.anthropic import AnthropicProvider
 from app.domains.llm.service import LLMService
+from app.domains.search.embedders.fastembed_embedder import FastEmbedEmbedder
+from app.domains.search.ports import Embedder
 from app.domains.transcription.ports import Transcriber
 from app.domains.transcription.transcribers.faster_whisper import FasterWhisperTranscriber
 
@@ -62,3 +64,14 @@ def get_extractor(
         visual=ClaudeExtractor(llm_service),
         audio=AudioExtractor(transcriber, llm_service),
     )
+
+
+@lru_cache
+def _fastembed_embedder() -> FastEmbedEmbedder:
+    # Mis en cache : le modèle (0,22 Go) se charge une seule fois, pas à chaque requête
+    return FastEmbedEmbedder()
+
+
+def get_embedder() -> Embedder:
+    """Embeddings locaux. Les tests le remplacent par un faux."""
+    return _fastembed_embedder()

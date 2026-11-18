@@ -11,6 +11,8 @@ services:
       - ./backend/data:/app/data
       # Cache des modèles Whisper : évite de les retélécharger à chaque recréation du conteneur
       - whisper-cache:/root/.cache/huggingface
+      # Cache du modèle d'embeddings (recherche dans les documents)
+      - fastembed-cache:/root/.cache/fastembed
 
   frontend:
     build: ./frontend
@@ -21,3 +23,4 @@ services:
 
 volumes:
   whisper-cache:
+  fastembed-cache:
