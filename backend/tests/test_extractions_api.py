@@ -4,12 +4,14 @@ from decimal import Decimal
 import pytest
 from fastapi.testclient import TestClient
 
-from app.api.dependencies import get_llm_provider
+from app.api.dependencies import get_llm_provider, get_transcriber
 from app.domains.extraction.schemas import Invoice, InvoiceLine
 from app.domains.llm.providers.fake import FakeProvider
+from app.domains.transcription.transcribers.fake import FakeTranscriber
 from app.main import create_app
 
 PDF = b"%PDF-1.4 fausse facture"
+WAV = b"RIFF\x24\x00\x00\x00WAVEfmt fausse dictee"
 
 
 def make_invoice() -> Invoice:
@@ -39,6 +41,9 @@ def app(tmp_path, monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "")
     application = create_app()
     application.dependency_overrides[get_llm_provider] = lambda: FakeProvider(parsed=make_invoice())
+    application.dependency_overrides[get_transcriber] = lambda: FakeTranscriber(
+        text="Facture Atelier Nord numéro 2026-014", duration_seconds=7.0
+    )
     return application
 
 
@@ -110,3 +115,49 @@ def test_a_file_that_is_too_large_gives_413(app, monkeypatch):
 def test_an_unknown_document_type_gives_422(app):
     with TestClient(app) as client:
         assert upload(client, document_type="contract").status_code == 422
+
+
+def test_uploading_a_recording_returns_the_extraction_with_its_transcript(app):
+    with TestClient(app) as client:
+        response = upload(client, content=WAV, filename="dictee.wav")
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "validated"
+    assert body["data"]["supplier_name"] == "Atelier Nord"
+    assert body["transcript"] == {
+        "text": "Facture Atelier Nord numéro 2026-014",
+        "language": "fr",
+        "duration_seconds": 7.0,
+        "model": "fake",
+    }
+
+
+def test_the_transcript_is_returned_when_the_extraction_is_read_back(app):
+    with TestClient(app) as client:
+        created = upload(client, content=WAV, filename="dictee.wav").json()
+        response = client.get(f"/extractions/{created['id']}")
+
+    assert response.json() == created
+
+
+def test_a_recording_is_stored_with_its_audio_extension(app, tmp_path):
+    with TestClient(app) as client:
+        body = upload(client, content=WAV, filename="dictee.wav").json()
+
+    assert (tmp_path / "uploads" / f"{body['document_id']}.wav").read_bytes() == WAV
+
+
+def test_a_pdf_has_no_transcript(app):
+    with TestClient(app) as client:
+        assert upload(client).json()["transcript"] is None
+
+
+def test_a_recording_without_speech_gives_502(app):
+    app.dependency_overrides[get_transcriber] = lambda: FakeTranscriber(text="")
+
+    with TestClient(app) as client:
+        response = upload(client, content=WAV, filename="silence.wav")
+
+    assert response.status_code == 502
+    assert "Aucune parole" in response.json()["detail"]

@@ -3,6 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile
 from pydantic import BaseModel
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_db_session, get_extractor, get_storage
@@ -14,6 +15,7 @@ from app.domains.extraction.models import Extraction
 from app.domains.extraction.ports import DocumentExtractor
 from app.domains.extraction.service import ExtractionService
 from app.domains.llm.errors import LLMRefusedError
+from app.domains.transcription.models import Transcription
 
 router = APIRouter(prefix="/extractions", tags=["extractions"])
 
@@ -24,6 +26,13 @@ class DocumentType(StrEnum):
     INVOICE = "invoice"
 
 
+class TranscriptResult(BaseModel):
+    text: str
+    language: str
+    duration_seconds: float
+    model: str
+
+
 class ExtractionResult(BaseModel):
     id: int
     document_id: int
@@ -32,9 +41,12 @@ class ExtractionResult(BaseModel):
     data: dict
     issues: list[dict]
     model: str
+    transcript: TranscriptResult | None = None  # seulement pour un enregistrement
 
 
-def _to_result(extraction: Extraction) -> ExtractionResult:
+def _to_result(
+    extraction: Extraction, transcription: Transcription | None = None
+) -> ExtractionResult:
     return ExtractionResult(
         id=extraction.id,
         document_id=extraction.document_id,
@@ -43,7 +55,23 @@ def _to_result(extraction: Extraction) -> ExtractionResult:
         data=extraction.data,
         issues=extraction.issues,
         model=extraction.model,
+        transcript=(
+            TranscriptResult(
+                text=transcription.text,
+                language=transcription.language,
+                duration_seconds=transcription.duration_seconds,
+                model=transcription.model,
+            )
+            if transcription
+            else None
+        ),
     )
+
+
+def _find_transcription(session: Session, extraction_id: int) -> Transcription | None:
+    return session.scalars(
+        select(Transcription).where(Transcription.extraction_id == extraction_id)
+    ).first()
 
 
 @router.post("")
@@ -74,7 +102,7 @@ def create_extraction(
         raise HTTPException(status_code=422, detail=str(error)) from error
     except ExtractionError as error:
         raise HTTPException(status_code=502, detail=str(error)) from error
-    return _to_result(extraction)
+    return _to_result(extraction, _find_transcription(session, extraction.id))
 
 
 @router.get("/{extraction_id}")
@@ -84,4 +112,4 @@ def get_extraction(
     extraction = session.get(Extraction, extraction_id)
     if extraction is None:
         raise HTTPException(status_code=404, detail="Extraction introuvable")
-    return _to_result(extraction)
+    return _to_result(extraction, _find_transcription(session, extraction.id))

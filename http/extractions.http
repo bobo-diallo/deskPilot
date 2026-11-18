@@ -49,3 +49,20 @@ Ceci est du texte, pas un PDF.
 
 ### Relire une extraction (remplacer 1 par l'id reçu)
 GET {{baseUrl}}/extractions/1
+
+### Facture dictée à voix haute (WAV, voix de synthèse) -> transcription Whisper locale
+### puis extraction. La réponse contient aussi "transcript" (le texte entendu).
+### Au premier appel, le modèle Whisper se télécharge (une fois). Coût Claude : < 1 centime.
+POST {{baseUrl}}/extractions
+Content-Type: multipart/form-data; boundary=deskpilot
+
+--deskpilot
+Content-Disposition: form-data; name="document_type"
+
+invoice
+--deskpilot
+Content-Disposition: form-data; name="file"; filename="dictee-plomberie-tremblay.wav"
+Content-Type: audio/wav
+
+< ../demo-data/audio/dictee-plomberie-tremblay.wav
+--deskpilot--

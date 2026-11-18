@@ -9,6 +9,8 @@ services:
       DATABASE_URL: sqlite:///./data/deskpilot.db
     volumes:
       - ./backend/data:/app/data
+      # Cache des modèles Whisper : évite de les retélécharger à chaque recréation du conteneur
+      - whisper-cache:/root/.cache/huggingface
 
   frontend:
     build: ./frontend
@@ -16,3 +18,6 @@ services:
       - "4200:4200"
     depends_on:
       - backend
+
+volumes:
+  whisper-cache:
