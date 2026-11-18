@@ -14,10 +14,23 @@ def _fold(text: str) -> str:
     return "".join(char for char in decomposed if not unicodedata.combining(char))
 
 
-def first_relevant_rank(chunks: list[str], expected_phrase: str) -> int | None:
-    """Rang (à partir de 1) du premier morceau contenant la phrase attendue, ou None."""
+def first_relevant_rank(
+    chunks: list[str],
+    expected_phrase: str,
+    sources: list[str] | None = None,
+    expected_source: str | None = None,
+) -> int | None:
+    """Rang (à partir de 1) du premier morceau pertinent, ou None.
+
+    Un morceau est pertinent s'il contient la phrase attendue **et**, quand on le précise,
+    s'il vient du bon document : une même phrase (« préavis d'un mois ») existe dans plusieurs
+    contrats, et seul celui visé par la question est la bonne réponse.
+    """
     wanted = _fold(expected_phrase)
     for rank, chunk in enumerate(chunks, start=1):
+        if expected_source is not None and sources is not None:
+            if sources[rank - 1] != expected_source:
+                continue
         if wanted in _fold(chunk):
             return rank
     return None

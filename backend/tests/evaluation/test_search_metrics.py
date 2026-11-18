@@ -32,3 +32,14 @@ def test_mrr_averages_the_inverse_of_the_rank_with_zero_for_misses():
 def test_an_empty_list_of_questions_is_rejected():
     with pytest.raises(ValueError):
         summarize_ranks([])
+
+
+def test_the_expected_source_must_match_not_only_the_phrase():
+    chunks = ["préavis d'un mois", "préavis d'un mois"]
+    sources = ["Contrat Café Laurier", "Contrat Garage Tremblay"]
+
+    rank = first_relevant_rank(
+        chunks, "préavis d'un mois", sources=sources, expected_source="Contrat Garage Tremblay"
+    )
+
+    assert rank == 2  # la même phrase existe dans deux contrats : seul le bon compte

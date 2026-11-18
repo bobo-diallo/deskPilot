@@ -1,0 +1,220 @@
+{
+  "questions": [
+    {
+      "id": "q01",
+      "question": "Quel est le délai de préavis du contrat avec Garage Tremblay ?",
+      "expected_title": "Contrat Garage Tremblay",
+      "expected_phrase": "préavis d'un mois",
+      "tags": [
+        "name_lookup"
+      ]
+    },
+    {
+      "id": "q02",
+      "question": "Combien de temps Atelier Nord accorde-t-il pour payer une facture ?",
+      "expected_title": "Contrat Atelier Nord",
+      "expected_phrase": "trente jours fin de mois",
+      "tags": [
+        "name_lookup"
+      ]
+    },
+    {
+      "id": "q03",
+      "question": "Quelle est la garantie offerte par Atelier Nord ?",
+      "expected_title": "Contrat Atelier Nord",
+      "expected_phrase": "vingt-quatre mois",
+      "tags": [
+        "name_lookup"
+      ]
+    },
+    {
+      "id": "q04",
+      "question": "Que prévoit le contrat de l'Imprimerie du Centre pour la conservation des fichiers ?",
+      "expected_title": "Contrat Imprimerie du Centre",
+      "expected_phrase": "conservés deux ans",
+      "tags": [
+        "name_lookup"
+      ]
+    },
+    {
+      "id": "q05",
+      "question": "Quel est le tarif horaire du Cabinet Dubois ?",
+      "expected_title": "Contrat Cabinet Dubois",
+      "expected_phrase": "180 $ de l'heure",
+      "tags": [
+        "name_lookup"
+      ]
+    },
+    {
+      "id": "q06",
+      "question": "Où les données de Informatique Cloutier sont-elles hébergées ?",
+      "expected_title": "Contrat Informatique Cloutier",
+      "expected_phrase": "exclusivement au Canada",
+      "tags": [
+        "name_lookup"
+      ]
+    },
+    {
+      "id": "q07",
+      "question": "Quel fournisseur applique une pénalité de 1,5 % par mois ?",
+      "expected_title": "Contrat Atelier Nord",
+      "expected_phrase": "1,5 % par mois",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "q08",
+      "question": "Quel contrat prévoit un tirage minimal de 500 exemplaires ?",
+      "expected_title": "Contrat Imprimerie du Centre",
+      "expected_phrase": "500 exemplaires",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "q09",
+      "question": "Qui accorde une remise de volume de 5 % ?",
+      "expected_title": "Contrat Quincaillerie Dupont",
+      "expected_phrase": "remise de volume de 5 %",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "Quel contrat exige un préavis de six mois ?",
+      "expected_title": "Contrat Informatique Cloutier",
+      "expected_phrase": "préavis de six mois",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "Quel fournisseur demande un acompte de 30 % ?",
+      "expected_title": "Contrat Traiteur Saint-Pierre",
+      "expected_phrase": "acompte de 30 %",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "Quelle assurance de 2 000 000 $ est exigée ?",
+      "expected_title": "Contrat Nettoyage Express",
+      "expected_phrase": "2 000 000 $",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "q13",
+      "question": "Peut-on être dépanné en fin de semaine ?",
+      "expected_title": "Contrat Garage Tremblay",
+      "expected_phrase": "samedi matin",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q14",
+      "question": "Que se passe-t-il si je rends un article inutilisé ?",
+      "expected_title": "Contrat Quincaillerie Dupont",
+      "expected_phrase": "retournés sous quatorze jours",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q15",
+      "question": "Qui s'engage à intervenir rapidement en cas de panne grave ?",
+      "expected_title": "Contrat Informatique Cloutier",
+      "expected_phrase": "quatre heures ouvrables",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q16",
+      "question": "Que se passe-t-il si l'employé de ménage ne vient pas ?",
+      "expected_title": "Contrat Nettoyage Express",
+      "expected_phrase": "remplacement du personnel absent",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q17",
+      "question": "Combien de temps après la fin du contrat dois-je garder le secret ?",
+      "expected_title": "Contrat Cabinet Dubois",
+      "expected_phrase": "cinq ans après la fin du contrat",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q18",
+      "question": "Quand les produits conçus pour moi m'appartiennent-ils ?",
+      "expected_title": "Contrat Cabinet Dubois",
+      "expected_phrase": "propriété du client après paiement intégral",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q19",
+      "question": "Y a-t-il des frais si j'annule mon repas à la dernière minute ?",
+      "expected_title": "Contrat Traiteur Saint-Pierre",
+      "expected_phrase": "l'acompte reste acquis",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q20",
+      "question": "Qui prête une voiture de remplacement ?",
+      "expected_title": "Contrat Garage Tremblay",
+      "expected_phrase": "véhicule de courtoisie",
+      "tags": [
+        "paraphrase"
+      ]
+    },
+    {
+      "id": "q21",
+      "question": "Quel fournisseur exige un paiement comptant ?",
+      "expected_title": "Contrat Garage Tremblay",
+      "expected_phrase": "paiement comptant",
+      "tags": [
+        "cross_doc"
+      ]
+    },
+    {
+      "id": "q22",
+      "question": "Quel fournisseur est payable sous quinze jours ?",
+      "expected_title": "Contrat Café Laurier",
+      "expected_phrase": "quinze jours à réception",
+      "tags": [
+        "cross_doc"
+      ]
+    },
+    {
+      "id": "q23",
+      "question": "Quel contrat se résilie avec un préavis de quinze jours ?",
+      "expected_title": "Contrat Cabinet Dubois",
+      "expected_phrase": "préavis de quinze jours",
+      "tags": [
+        "cross_doc"
+      ]
+    },
+    {
+      "id": "q24",
+      "question": "Quelle livraison se fait chaque mardi ?",
+      "expected_title": "Contrat Café Laurier",
+      "expected_phrase": "chaque mardi",
+      "tags": [
+        "cross_doc"
+      ]
+    }
+  ]
+}
