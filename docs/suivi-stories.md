@@ -81,6 +81,18 @@
   - [x] Routes `GET /reviews`, `GET /reviews/stats`, `POST /reviews/{id}/approve|correct|reject` et `http/reviews.http`
   - [x] Guide `docs/apprentissage/11-revue-humaine.md`
   - [ ] Écran Angular de revue (en attente du design)
-## Story 05b — Recherche dans les documents (mini-RAG dans le dépôt) 📋
+## Story 05b — Recherche dans les documents (mini-RAG dans le dépôt) 🔄
+- Branche : `story/05b-document-search`
+- Checklist :
+  - [x] Essai préalable : fastembed (ONNX) tourne sur Mac Intel sans PyTorch
+  - [x] Découpage par clause, BM25 en Python pur, fusion RRF, métriques rappel@k et MRR
+  - [x] Embeddings locaux, vecteurs stockés avec le nom du modèle (table `chunk_embeddings`)
+  - [x] `SearchService` : indexer, rechercher en 3 modes ; interface `DocumentSearch` pour l'agent
+  - [x] Routes `POST /search/documents`, `GET /search` et `http/search.http`
+  - [x] Jeu de 10 contrats et 24 questions (4 types) ; rapport `docs/evaluation/2026-11-18-search.md`
+  - [x] Règle de décision posée avant la mesure : hybride non retenu, `vector` par défaut
+  - [x] Guide `docs/apprentissage/12-recherche-documents.md`
+  - Coût : 0 $ (tout est local)
+## Story 05c — Agent avec outils 📋
 ## Story 05c — Agent avec outils 📋
 ## Story 06 — Écran Coûts et publication du dépôt 📋

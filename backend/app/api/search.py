@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_db_session, get_embedder
 from app.domains.search.ports import Embedder
-from app.domains.search.service import Mode, SearchService
+from app.domains.search.service import DEFAULT_MODE, Mode, SearchService
 
 router = APIRouter(prefix="/search", tags=["search"])
 
@@ -51,7 +51,7 @@ def search(
     session: Annotated[Session, Depends(get_db_session)],
     embedder: Annotated[Embedder, Depends(get_embedder)],
     k: Annotated[int, Query(ge=1, le=20)] = 5,
-    mode: Mode = "hybrid",
+    mode: Mode = DEFAULT_MODE,
 ) -> list[HitResult]:
     hits = SearchService(session, embedder).search(q, k=k, mode=mode)
     return [HitResult(**hit.__dict__) for hit in hits]

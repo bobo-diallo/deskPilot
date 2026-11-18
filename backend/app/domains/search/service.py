@@ -15,6 +15,9 @@ Mode = Literal["keyword", "vector", "hybrid"]
 # Nombre de candidats gardés par méthode avant la fusion : assez large pour que la fusion
 # puisse remonter un morceau que l'une des deux méthodes classait loin.
 POOL_SIZE = 20
+# Mode par défaut choisi par l'évaluation (docs/evaluation/2026-11-18-search.md) : la règle posée
+# avant la mesure n'a pas retenu l'hybride (MRR 0,829 contre 0,851 pour « vector »).
+DEFAULT_MODE: Mode = "vector"
 
 
 def retrieval_text(title: str, text: str) -> str:
@@ -56,7 +59,7 @@ class SearchService:
         self._session.commit()  # document, morceaux et vecteurs : tout ou rien
         return document
 
-    def search(self, query: str, k: int = 5, mode: Mode = "hybrid") -> list[SearchHit]:
+    def search(self, query: str, k: int = 5, mode: Mode = DEFAULT_MODE) -> list[SearchHit]:
         if mode not in get_args(Mode):
             raise ValueError(f"Le mode de recherche « {mode} » est inconnu")
 
