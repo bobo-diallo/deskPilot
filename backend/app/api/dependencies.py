@@ -8,14 +8,8 @@ from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
+from app.domains.agent.registry import build_registry
 from app.domains.agent.service import AgentService
-from app.domains.agent.tools.base import ToolRegistry
-from app.domains.agent.tools.invoices import (
-    CheckInvoiceTool,
-    ExportInvoicesTool,
-    ListInvoicesTool,
-)
-from app.domains.agent.tools.search import SearchDocumentsTool
 from app.domains.documents.storage import FileStorage
 from app.domains.extraction.extractors.audio import AudioExtractor
 from app.domains.extraction.extractors.claude import ClaudeExtractor
@@ -27,7 +21,6 @@ from app.domains.llm.router import Task, choose_model
 from app.domains.llm.service import LLMService
 from app.domains.search.embedders.fastembed_embedder import FastEmbedEmbedder
 from app.domains.search.ports import Embedder
-from app.domains.search.service import SearchService
 from app.domains.transcription.ports import Transcriber
 from app.domains.transcription.transcribers.faster_whisper import FasterWhisperTranscriber
 
@@ -93,14 +86,7 @@ def get_agent_service(
     embedder: Annotated[Embedder, Depends(get_embedder)],
 ) -> AgentService:
     """L'agent et ses quatre outils, branchés sur le service LLM (donc sur le journal des coûts)."""
-    registry = ToolRegistry(
-        [
-            SearchDocumentsTool(SearchService(session, embedder)),
-            ListInvoicesTool(session),
-            CheckInvoiceTool(session),
-            ExportInvoicesTool(session, Path(get_settings().exports_dir)),
-        ]
-    )
+    registry = build_registry(session, embedder, Path(get_settings().exports_dir))
     return AgentService(
         LLMService(provider, session), registry, session, model=choose_model(Task.AGENT)
     )

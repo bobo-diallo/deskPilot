@@ -1,0 +1,84 @@
+{
+  "invoices": [
+    {
+      "supplier_name": "Atelier Nord",
+      "invoice_number": "A-100",
+      "issue_date": "2026-03-03",
+      "currency": "EUR",
+      "subtotal": "1000.00",
+      "tax_amount": "200.00",
+      "total": "1200.00",
+      "status": "validated"
+    },
+    {
+      "supplier_name": "Garage Tremblay",
+      "invoice_number": "G-7",
+      "issue_date": "2026-04-10",
+      "currency": "EUR",
+      "subtotal": "400.00",
+      "tax_amount": "80.00",
+      "total": "480.00",
+      "status": "validated"
+    },
+    {
+      "supplier_name": "Café Laurier",
+      "invoice_number": "CL-12",
+      "issue_date": "2026-05-02",
+      "currency": "EUR",
+      "subtotal": "80.00",
+      "tax_amount": "16.00",
+      "total": "99.00",
+      "status": "needs_review"
+    },
+    {
+      "supplier_name": "Atelier Nord",
+      "invoice_number": "A-100",
+      "issue_date": "2026-03-03",
+      "currency": "EUR",
+      "subtotal": "1000.00",
+      "tax_amount": "200.00",
+      "total": "1200.00",
+      "status": "validated"
+    },
+    {
+      "supplier_name": "Quincaillerie Dupont",
+      "invoice_number": "QD-55",
+      "issue_date": "2026-06-15",
+      "currency": "EUR",
+      "subtotal": "2000.00",
+      "tax_amount": "400.00",
+      "total": "2400.00",
+      "status": "validated"
+    },
+    {
+      "supplier_name": "Nettoyage Express",
+      "invoice_number": null,
+      "issue_date": "2026-06-30",
+      "currency": "EUR",
+      "subtotal": "250.00",
+      "tax_amount": "50.00",
+      "total": "300.00",
+      "status": "needs_review"
+    },
+    {
+      "supplier_name": "Cabinet Dubois",
+      "invoice_number": "CD-3",
+      "issue_date": "2026-07-01",
+      "currency": "EUR",
+      "subtotal": "1500.00",
+      "tax_amount": "300.00",
+      "total": "1800.00",
+      "status": "approved"
+    },
+    {
+      "supplier_name": "Transports Beaulieu",
+      "invoice_number": "TB-21",
+      "issue_date": "2026-07-12",
+      "currency": "EUR",
+      "subtotal": "625.00",
+      "tax_amount": "125.00",
+      "total": "750.00",
+      "status": "validated"
+    }
+  ]
+}

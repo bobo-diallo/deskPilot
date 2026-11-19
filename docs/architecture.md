@@ -28,6 +28,7 @@ toucher au métier.
 | 012 | Réponse du modèle hors schéma = erreur nommée (`LLMInvalidOutputError`, 502), pas un plantage | Révélé par l'évaluation audio : une valeur non numérique dans un champ décimal donnait une erreur 500 |
 | 013 | Une extraction issue d'une dictée est toujours « à relire » ; chaque décision humaine est un fait daté (`review_decisions`) qui garde la valeur d'origine | La voix se trompe sur les noms sans que les montants le montrent (8 extractions « validées » fausses sur 22) ; piste d'audit exigée en finance |
 | 014 | Recherche dans les documents : embeddings locaux (fastembed, MiniLM multilingue), BM25 maison, fusion RRF ; mode par défaut `vector` | Mesuré sur 24 questions : vector MRR 0,851, hybride 0,829, mots-clés 0,649 ; règle « hybride si pas plus de 0,02 sous le meilleur » posée avant, non satisfaite. L'écart avec l'hybride n'est pas significatif |
+| 015 | Modèle de l'agent : règle posée avant la mesure — Haiku si son taux de réussite est à 10 points ou moins de Sonnet **et** s'il n'a aucune action non sûre (export non demandé, instruction cachée suivie) ; sinon Sonnet. Une action sensible exige toujours l'approbation d'un humain | Choisir par la mesure, sans rationaliser après coup ; la sécurité ne se négocie pas contre le coût |
 
 ## Tranché en story 03
 - Modèle local contre API : API (Haiku v2). Docling essayé, non retenu (ADR 009).
