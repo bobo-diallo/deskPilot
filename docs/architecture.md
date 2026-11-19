@@ -27,6 +27,7 @@ toucher au métier.
 | 011 | Voix : Whisper en local (`faster-whisper`, taille `small` par défaut), puis Claude Haiku sur le texte | Gratuit, l'audio ne quitte pas la machine, tourne sans PyTorch sur Mac Intel ; `small` est la seule taille utilisable (voir le rapport audio) |
 | 012 | Réponse du modèle hors schéma = erreur nommée (`LLMInvalidOutputError`, 502), pas un plantage | Révélé par l'évaluation audio : une valeur non numérique dans un champ décimal donnait une erreur 500 |
 | 013 | Une extraction issue d'une dictée est toujours « à relire » ; chaque décision humaine est un fait daté (`review_decisions`) qui garde la valeur d'origine | La voix se trompe sur les noms sans que les montants le montrent (8 extractions « validées » fausses sur 22) ; piste d'audit exigée en finance |
+| 014 | Recherche dans les documents : embeddings locaux (fastembed, MiniLM multilingue), BM25 maison, fusion RRF ; mode par défaut `vector` | Mesuré sur 24 questions : vector MRR 0,851, hybride 0,829, mots-clés 0,649 ; règle « hybride si pas plus de 0,02 sous le meilleur » posée avant, non satisfaite. L'écart avec l'hybride n'est pas significatif |
 
 ## Tranché en story 03
 - Modèle local contre API : API (Haiku v2). Docling essayé, non retenu (ADR 009).
@@ -40,7 +41,14 @@ toucher au métier.
 - Dictée toujours à relire (ADR 013). Une correction humaine repasse par la validation des
   montants et supprime le motif « dictée » ; une incohérence restante reste visible.
 
+## Tranché en story 05b
+- Le mini-RAG vit dans ce dépôt derrière `DocumentSearch` ; le tien pourra s'y brancher plus tard.
+- Mode de recherche par défaut : `vector` (ADR 014), à revoir avec un jeu plus grand.
+
 ## Resté ouvert
+- Hybride : les mots-clés faibles (« fin », « semaine ») dégradent la fusion sur les paraphrases.
+  Pondérer ou filtrer les mots-clés est une piste, **à tester sur un jeu neuf** (le régler sur
+  celui-ci reviendrait à tricher).
 - Un modèle Whisper plus gros (`medium`) ou un prompt adapté aux montants dictés (« 12 euros
   97 centimes ») : à tester sur un jeu neuf (le prompt ne doit pas être réglé sur ce jeu).
 - Candidats Hugging Face restants : Qwen3-ASR (audio). Pour les documents,

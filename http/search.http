@@ -1,0 +1,36 @@
+### Variables (modifier ici pour changer d'environnement)
+@baseUrl = http://localhost:8010
+
+### Indexer un texte : chaque paragraphe (séparé par une ligne vide) devient un morceau.
+### Au premier appel, le modèle d'embeddings se télécharge (0,22 Go, une seule fois). Coût : 0 $.
+POST {{baseUrl}}/search/documents
+Content-Type: application/json
+
+{
+  "title": "Contrat Garage Tremblay",
+  "text": "Article 1. Le paiement est comptant, à la remise du véhicule.\n\nArticle 2. Le contrat peut être résilié moyennant un préavis d'un mois.\n\nArticle 3. Les pièces sont garanties douze mois ou 20 000 km.\n\nArticle 4. Une intervention urgente est possible le samedi matin."
+}
+
+### Indexer un second contrat pour que la recherche ait de quoi choisir
+POST {{baseUrl}}/search/documents
+Content-Type: application/json
+
+{
+  "title": "Contrat Atelier Nord",
+  "text": "Article 1. Le client dispose de trente jours fin de mois pour régler chaque facture.\n\nArticle 2. Le contrat peut être résilié moyennant un préavis de deux mois.\n\nArticle 3. Des pénalités de retard de 1,5 % par mois s'appliquent."
+}
+
+### Recherche par le sens : le mode par défaut (retenu par l'évaluation, voir docs/evaluation)
+GET {{baseUrl}}/search?q=Quel est le préavis du Garage Tremblay ?&k=3
+
+### Hybride (mots-clés + sens) : à essayer pour comparer
+GET {{baseUrl}}/search?q=Quel fournisseur exige un paiement comptant ?&k=3&mode=hybrid
+
+### Mots-clés seulement : bon pour les noms propres et les chiffres exacts
+GET {{baseUrl}}/search?q=garantie 20 000 km&k=3&mode=keyword
+
+### Sens, explicitement : trouve sans partager de mots avec la clause
+GET {{baseUrl}}/search?q=Peut-on être dépanné en fin de semaine ?&k=3&mode=vector
+
+### Mode inconnu : attendu 422
+GET {{baseUrl}}/search?q=test&mode=magique
