@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     app_name: str = "Bureau IA"
     database_url: str = "sqlite:///./data/deskpilot.db"
     uploads_dir: str = "./data/uploads"
+    exports_dir: str = "./data/exports"  # CSV produits par l'agent après approbation
     anthropic_api_key: str = ""
     # Taille du modèle Whisper : tiny, base, small… (plus gros = plus juste mais plus lent)
     whisper_model_size: str = "small"

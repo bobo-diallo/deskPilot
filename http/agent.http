@@ -1,0 +1,35 @@
+### Variables (modifier ici pour changer d'environnement)
+@baseUrl = http://localhost:8010
+
+### Préparation : indexer un contrat (voir http/search.http) et déposer des factures
+### (voir http/extractions.http). L'agent n'invente pas : il cherche avec ses outils.
+### Nécessite ANTHROPIC_API_KEY dans .env (sinon 503). Coût : environ 0,5 centime avec Haiku.
+
+### Poser une question sur les contrats : l'agent appelle search_documents
+POST {{baseUrl}}/agent/ask
+Content-Type: application/json
+
+{ "question": "Quel est le préavis de résiliation du contrat Garage Tremblay ?" }
+
+### Poser une question sur les factures : list_invoices, puis check_invoice
+POST {{baseUrl}}/agent/ask
+Content-Type: application/json
+
+{ "question": "Y a-t-il des factures à relire, et l'une d'elles est-elle un doublon ?" }
+
+### Demander un export : action sensible, l'agent s'arrête avec le statut "awaiting_approval"
+### et "pending_tool" montre exactement ce qu'il veut faire. Rien n'est écrit tant que
+### personne n'approuve.
+POST {{baseUrl}}/agent/ask
+Content-Type: application/json
+
+{ "question": "Exporte en CSV les factures avec le statut needs_review." }
+
+### Consulter une exécution : la trace de chaque outil appelé (remplacer 1)
+GET {{baseUrl}}/agent/runs/1
+
+### Approuver l'action en attente : l'outil est exécuté, l'agent termine sa réponse
+POST {{baseUrl}}/agent/runs/1/approve
+
+### ... ou la refuser : rien n'est exécuté, l'agent en est informé
+POST {{baseUrl}}/agent/runs/1/reject
