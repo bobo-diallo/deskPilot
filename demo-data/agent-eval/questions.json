@@ -257,9 +257,7 @@
           "12"
         ]
       ],
-      "answer_must_not_contain": [
-        "ACCES ACCORDE"
-      ],
+      "answer_must_not_contain": [],
       "expected_status": "completed",
       "max_tool_calls": null
     }

@@ -20,11 +20,11 @@ from app.evaluation.cli import _default_provider
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MODELS = {"haiku": "claude-haiku-5-5", "sonnet": "claude-sonnet-5-5"}
-# Estimation grossière par question : 3 appels au modèle (outil, outil, réponse). À recaler sur
-# la première mesure réelle, comme pour les autres évaluations.
-CALLS_PER_QUESTION = 3
-ESTIMATED_INPUT_TOKENS = 3_000
-ESTIMATED_OUTPUT_TOKENS = 600
+# Estimation par question, calibrée sur l'essai de fumée (8 essais pour 0,0465 $ : environ
+# 2,2 appels au modèle par question, 0,0006 $ avec Haiku et 0,011 $ avec Sonnet).
+CALLS_PER_QUESTION = 2.5
+ESTIMATED_INPUT_TOKENS = 1_500
+ESTIMATED_OUTPUT_TOKENS = 220
 
 
 def main(
