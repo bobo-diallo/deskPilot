@@ -23,9 +23,9 @@ chaque story. Légende : ✅ fait, 🔄 en cours, 📋 prévu, ❌ pas encore pl
 | 14 | Versionner les prompts et relier chaque résultat à la version utilisée | `prompts.py` (v1, v2), variantes épinglées ; pas encore stocké dans `extractions` | 🔄 |
 | 15 | Réduire le coût d'un contexte répété (prompt caching) | non étudié | 📋 |
 | 16 | Observabilité : journaux structurés, traces (OpenTelemetry) | journal des coûts seulement | ❌ |
-| 17 | Agents : boucle d'outils typés, limites de pas, validation des arguments | story 05 | 📋 |
+| 17 | Agents : boucle d'outils typés, limites de pas, validation des arguments | story 05c : quatre outils, 6 pas maximum, arguments validés par Pydantic | ✅ |
 | 18 | RAG : découpage, embeddings, recherche, évaluation de la recherche | story 05b : découpage, embeddings, recherche et son évaluation faits | ✅ |
-| 19 | Garde-fous : injection de prompt, données personnelles | roadmap V2 | ❌ |
+| 19 | Garde-fous : injection de prompt, données personnelles | story 05c : instructions cachées dans un contrat, extraits encadrés comme données ; reste : filtrage des données personnelles | 🔄 |
 | 20 | Intégration continue : tests et lint à chaque PR | pas de pipeline | ❌ |
 
 ## Niveau avancé : ce qui distingue un profil senior
@@ -45,10 +45,10 @@ vrais produits. Chacune est rattachée à une story où elle sera réellement pr
 | A7 | Résilience : replis entre modèles, coupe-circuit, relances avec délai croissant, idempotence | Un service qui survit aux pannes du fournisseur | à planifier | ❌ |
 | A8 | Pipeline asynchrone : file de tâches, traitement en arrière-plan, statut consultable | Les documents lourds ne bloquent pas la requête | à planifier | ❌ |
 | A9 | Voix : transcription (Whisper), découpage par locuteur, extraction depuis la transcription | Multimodalité de bout en bout | story 04 (fait : transcription et extraction ; reste : découpage par locuteur) | 🔄 |
-| A10 | Agents avancés : outils typés, limites de pas, validation des arguments, approbation humaine des actions sensibles, évaluation des trajectoires | Un agent fiable, pas une démo | story 05 | 📋 |
+| A10 | Agents avancés : outils typés, limites de pas, validation des arguments, approbation humaine des actions sensibles, évaluation des trajectoires | Un agent fiable, pas une démo | story 05c (fait : outils typés, limites, validation, approbation humaine, outils appelés évalués ; reste : trajectoires détaillées) | 🔄 |
 | A11 | Protocole MCP : exposer des outils à un agent de façon standard | Interopérabilité des outils | story 05 | 📋 |
 | A12 | RAG avancé : recherche hybride (mots-clés plus embeddings), reranking, découpage adapté, métriques de recherche (rappel@k, MRR) | Un RAG mesuré, pas intuitif | story 05b (fait : hybride, rappel@k, MRR ; reste : reranking) | 🔄 |
-| A13 | Sécurité des LLM : injection de prompt, tests d'attaque (red teaming), masquage des données personnelles | Savoir attaquer et protéger son propre système | V2 | ❌ |
+| A13 | Sécurité des LLM : injection de prompt, tests d'attaque (red teaming), masquage des données personnelles | Savoir attaquer et protéger son propre système | story 05c (fait : 2 contrats piégés, export protégé contre l'injection de formule) ; reste : batterie d'attaques | 🔄 |
 | A14 | Observabilité : traces OpenTelemetry par appel, tableaux de bord de coût et de qualité | Déboguer une chaîne d'IA en production | V2 | ❌ |
 | A15 | Gouvernance : piste d'audit, rétention des données, résidence des données | Exigences des clients réglementés (finance) | story 05a (fait : piste d'audit des décisions) ; reste : rétention, résidence des données | 🔄 |
 | A16 | Distillation / affinage d'un petit modèle à partir des sorties d'un grand | Réduire le coût à grande échelle | V2 | ❌ |

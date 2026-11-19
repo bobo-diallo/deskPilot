@@ -42,11 +42,23 @@ toucher au métier.
 - Dictée toujours à relire (ADR 013). Une correction humaine repasse par la validation des
   montants et supprime le motif « dictée » ; une incohérence restante reste visible.
 
+## Tranché en story 05c
+- Modèle de l'agent : Haiku 5.5 (ADR 015, règle posée avant la mesure et satisfaite : écart de
+  2,8 points, aucune action non sûre, environ 20 fois moins cher que Sonnet).
+- Une action sensible (export) n'est exécutée qu'après approbation humaine : garantie de
+  structure, testée, qui tient même si un document piégé trompait le modèle.
+- Les deux modèles ont refusé de suivre les instructions cachées dans le contrat piégé et l'ont
+  signalé à l'utilisateur.
+
 ## Tranché en story 05b
 - Le mini-RAG vit dans ce dépôt derrière `DocumentSearch` ; le tien pourra s'y brancher plus tard.
 - Mode de recherche par défaut : `vector` (ADR 014), à revoir avec un jeu plus grand.
 
 ## Resté ouvert
+- Recherche et agent : la question « paiement comptant » échoue presque toujours en mode `vector`
+  (rang 10, alors que les mots-clés la placent en 1re position). L'agent a répondu honnêtement
+  « aucun contrat trouvé » au lieu d'inventer. Piste : laisser l'outil choisir le mode, ou
+  hybride pour l'agent. **À tester sur un jeu neuf**, pas sur ces questions.
 - Hybride : les mots-clés faibles (« fin », « semaine ») dégradent la fusion sur les paraphrases.
   Pondérer ou filtrer les mots-clés est une piste, **à tester sur un jeu neuf** (le régler sur
   celui-ci reviendrait à tricher).

@@ -15,7 +15,8 @@ class Task(Enum):
 # (docs/evaluation/). Provisoire : le jeu est synthétique et désormais trop facile pour trancher.
 MODEL_BY_TASK: dict[Task, str] = {
     Task.EXTRACTION: "claude-haiku-5-5",
-    # Provisoire : Haiku par défaut, à confirmer ou à remplacer par l'évaluation de l'agent.
+    # Haiku : 91,7 % de réussite contre 94,4 % pour Sonnet, aucune action non sûre, ~20x moins
+    # cher (docs/evaluation/2026-11-19-agent.md). Règle d'adoption posée avant la mesure (ADR 015).
     Task.AGENT: "claude-haiku-5-5",
     Task.SIMPLE: "claude-haiku-5-5",
 }

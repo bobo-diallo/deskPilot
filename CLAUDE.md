@@ -18,11 +18,11 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 
 ## Architecture
 1. Monorepo : `backend/`, `frontend/`, `demo-data/`, `docs/`.
-2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm, transcription, review, search).
+2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm, transcription, review, search, agent).
 3. Chaque domaine isole son modèle métier ; les routes sont dans `backend/app/api/`.
 4. `backend/app/core/database.py` : moteur SQLAlchemy et création des tables au démarrage.
 5. `backend/app/config.py` : configuration lue depuis `.env` (modèle : `.env.example`).
-6. Tables : `conversations`, `messages`, `documents`, `chunks`, `api_calls` (journal des coûts), `extractions`, `transcriptions`, `review_decisions` (piste d'audit de la revue), `chunk_embeddings` (vecteurs de la recherche).
+6. Tables : `conversations`, `messages`, `documents`, `chunks`, `api_calls` (journal des coûts), `extractions`, `transcriptions`, `review_decisions` (piste d'audit de la revue), `chunk_embeddings` (vecteurs de la recherche), `agent_runs` et `agent_steps` (trace de l'agent).
 7. Le LLM est appelé via une interface unique ; `backend/app/evaluation/` mesure la qualité (jeu annoté, métriques, rapports dans `docs/evaluation/`).
 8. Frontend : textes dans `frontend/public/i18n/{fr,en}.json`, jamais en dur dans les gabarits.
 9. Domaine de démonstration V1 : factures et contrats de PME.
@@ -56,6 +56,7 @@ pytest                           # tests backend
 python -m app.evaluation --help  # évaluation (estime le coût, --yes pour exécuter)
 python scripts/generate_eval_audio.py   # jeu de dictées (macOS : say + ffmpeg)
 python -m app.evaluation.search_cli    # évaluation de la recherche (gratuite, tout est local)
+python -m app.evaluation.agent_cli --help   # évaluation de l'agent (estime le coût, --yes pour exécuter)
 black app tests && ruff check app tests
 cd frontend && npx ng test --watch=false   # tests frontend
 ```
@@ -68,7 +69,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 04 Audio vers texte puis extraction (Whisper local `small`, jeu de dictées, rapport audio)
 - [ ] 05a File de revue humaine (dictée toujours à relire, piste d'audit, statistiques)
 - [x] 05b Recherche dans les documents : mini-RAG dans le dépôt derrière `DocumentSearch` (mode `vector` par défaut)
-- [ ] 05c Agent avec outils (recherche, vérification, export avec approbation) et son évaluation
+- [x] 05c Agent avec outils (recherche, vérification, export avec approbation) et son évaluation (Haiku retenu)
 - [ ] 06 Écran Coûts et publication du dépôt (passage en public)
 
 Détail par story : `docs/suivi-stories.md`.
