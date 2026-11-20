@@ -15,6 +15,8 @@ docker compose up --build
 
 - Interface : http://localhost:4200 (français par défaut, bascule FR/EN en haut à droite)
 - API : http://localhost:8010/health
+- Page de test (sans interface finale, pour essayer chaque fonction) : http://localhost:8010/test-page
+- Documentation interactive de l'API : http://localhost:8010/docs
 
 ## Développement sans Docker
 

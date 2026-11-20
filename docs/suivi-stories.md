@@ -116,6 +116,15 @@
   - [ ] Vérification dans Docker
   - Base locale à recréer (pas d'Alembic en V1) : ancienne sauvegardée en `deskpilot.db.bak-before-06a`
 
+## Story 06d — Page de test minimale ✅
+- Branche : `story/06d-test-page`
+- Checklist :
+  - [x] Page `GET /test-page` (HTML + JavaScript pur, sans dépendance) : dépôt, revue, recherche, agent, santé et coûts
+  - [x] Contenu venant de l'API affiché en `textContent` (jamais `innerHTML`)
+  - [x] Tests : page servie, routes couvertes, aucun secret embarqué
+  - [ ] Parcours cliqué dans un navigateur (syntaxe JavaScript et routes vérifiées, pas le rendu) et vérification dans Docker
+  - Hors produit : outil de développement, l'interface réelle reste la 06b
+
 ## Story 06b — Écran Angular « Évaluation et coûts » 📋
 - Attend le design de l'utilisateur. Décision : l'écran inclura aussi les rapports d'évaluation
   (petite API de lecture de `docs/evaluation/` à prévoir).

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>deskPilot — page de test</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --text:#1c2430; --muted:#5b6675; --line:#d9dee5; --accent:#2b5fd9; --ok:#1d7a46; --ko:#b3261e; --warn:#8a5a00; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#12161c; --card:#1b212a; --text:#e6e9ee; --muted:#9aa5b4; --line:#2e3744; --accent:#7aa2ff; --ok:#5fcf8f; --ko:#ff8a80; --warn:#f0b453; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--text); }
+  header { padding:14px 16px; border-bottom:1px solid var(--line); background:var(--card); }
+  header h1 { margin:0; font-size:18px; }
+  header p { margin:2px 0 0; color:var(--muted); font-size:13px; }
+  nav { display:flex; flex-wrap:wrap; gap:6px; padding:10px 16px; }
+  nav button { border:1px solid var(--line); background:var(--card); color:var(--text); padding:7px 12px; border-radius:6px; cursor:pointer; font:inherit; }
+  nav button[aria-selected="true"] { background:var(--accent); color:#fff; border-color:var(--accent); }
+  main { padding:0 16px 40px; max-width:900px; }
+  section[hidden] { display:none; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px; margin:10px 0; }
+  h2 { font-size:16px; margin:0 0 8px; }
+  label { display:block; margin:8px 0 3px; font-size:13px; color:var(--muted); }
+  input, textarea, select { width:100%; padding:7px 9px; font:inherit; color:var(--text); background:var(--bg); border:1px solid var(--line); border-radius:6px; }
+  textarea { min-height:90px; resize:vertical; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:end; }
+  .row > * { flex:1 1 140px; }
+  button.go { margin-top:10px; padding:8px 14px; border:0; border-radius:6px; background:var(--accent); color:#fff; font:inherit; cursor:pointer; }
+  button.alt { margin-top:10px; padding:8px 14px; border:1px solid var(--line); border-radius:6px; background:var(--card); color:var(--text); font:inherit; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:wait; }
+  pre { margin:8px 0 0; padding:10px; background:var(--bg); border:1px solid var(--line); border-radius:6px; overflow:auto; white-space:pre-wrap; word-break:break-word; font-size:13px; }
+  .status { margin-top:8px; font-size:13px; font-weight:600; }
+  .status.ok { color:var(--ok); } .status.ko { color:var(--ko); } .status.wait { color:var(--warn); }
+  .hint { color:var(--muted); font-size:13px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  th, td { text-align:left; padding:5px 8px; border-bottom:1px solid var(--line); }
+  .item { border:1px solid var(--line); border-radius:6px; padding:10px; margin-top:8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>deskPilot — page de test</h1>
+  <p>Outil de développement : appelle l'API de ce serveur. Ce n'est pas l'interface du produit.</p>
+</header>
+<nav role="tablist" id="tabs"></nav>
+<main>
+
+<section id="tab-extract" hidden>
+  <div class="card">
+    <h2>Déposer un document</h2>
+    <p class="hint">PDF, image (PNG/JPEG) ou audio (WAV, MP3…). Appelle <code>POST /extractions</code>. Environ 0,0005 $ avec une clé API.</p>
+    <label for="file">Fichier</label>
+    <input type="file" id="file" accept=".pdf,.png,.jpg,.jpeg,.wav,.mp3,.ogg,.webm,.m4a">
+    <button class="go" id="extract-go">Extraire</button>
+    <div class="status" id="extract-status"></div>
+    <pre id="extract-out" hidden></pre>
+  </div>
+  <div class="card">
+    <h2>Relire une extraction</h2>
+    <div class="row"><div><label for="extract-id">Identifiant</label><input type="number" id="extract-id" min="1"></div></div>
+    <button class="alt" id="extract-get">Afficher <code>GET /extractions/{id}</code></button>
+    <pre id="extract-get-out" hidden></pre>
+  </div>
+</section>
+
+<section id="tab-review" hidden>
+  <div class="card">
+    <h2>File de revue</h2>
+    <p class="hint">Appelle <code>GET /reviews</code> : extractions à relire, les plus anciennes d'abord.</p>
+    <button class="go" id="review-load">Actualiser</button>
+    <button class="alt" id="review-stats">Statistiques</button>
+    <div class="status" id="review-status"></div>
+    <pre id="review-stats-out" hidden></pre>
+    <div id="review-list"></div>
+  </div>
+</section>
+
+<section id="tab-search" hidden>
+  <div class="card">
+    <h2>Indexer un document</h2>
+    <p class="hint">Chaque paragraphe (séparé par une ligne vide) devient un morceau. Appelle <code>POST /search/documents</code>. Gratuit ; le premier appel télécharge un modèle (0,22 Go).</p>
+    <label for="idx-title">Titre</label><input id="idx-title" value="Contrat Garage Tremblay">
+    <label for="idx-text">Texte</label>
+    <textarea id="idx-text">Article 1. Le paiement est comptant, à la remise du véhicule.
+
+Article 2. Le contrat peut être résilié moyennant un préavis d'un mois.
+
+Article 3. Les pièces sont garanties douze mois ou 20 000 km.</textarea>
+    <button class="go" id="idx-go">Indexer</button>
+    <div class="status" id="idx-status"></div>
+  </div>
+  <div class="card">
+    <h2>Rechercher</h2>
+    <p class="hint">Appelle <code>GET /search</code>.</p>
+    <div class="row">
+      <div style="flex:3 1 260px"><label for="q">Question</label><input id="q" value="Quel est le préavis de résiliation ?"></div>
+      <div><label for="mode">Mode</label>
+        <select id="mode"><option value="vector">Sens (défaut)</option><option value="hybrid">Hybride</option><option value="keyword">Mots-clés</option></select></div>
+      <div><label for="k">Résultats</label><input type="number" id="k" value="3" min="1" max="20"></div>
+    </div>
+    <button class="go" id="search-go">Chercher</button>
+    <div class="status" id="search-status"></div>
+    <div id="search-out"></div>
+  </div>
+</section>
+
+<section id="tab-agent" hidden>
+  <div class="card">
+    <h2>Poser une question à l'agent</h2>
+    <p class="hint">Appelle <code>POST /agent/ask</code>. Environ 0,0005 $ par question. Un export demande ton approbation.</p>
+    <label for="question">Question</label>
+    <textarea id="question">Y a-t-il des factures à relire ?</textarea>
+    <button class="go" id="ask-go">Demander</button>
+    <div class="status" id="ask-status"></div>
+    <div id="ask-out"></div>
+  </div>
+</section>
+
+<section id="tab-costs" hidden>
+  <div class="card">
+    <h2>Santé et coûts</h2>
+    <button class="go" id="costs-go">Actualiser</button>
+    <div class="status" id="costs-status"></div>
+    <div id="costs-out"></div>
+  </div>
+</section>
+
+</main>
+<script>
+"use strict";
+
+// Aucune dépendance : du JavaScript pur. Tout ce qui vient de l'API est affiché avec
+// textContent (jamais innerHTML), donc un contenu piégé ne peut pas s'exécuter dans la page.
+
+const $ = (id) => document.getElementById(id);
+
+function el(tag, props = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(props)) {
+    if (key === "text") node.textContent = value;
+    else if (key === "onclick") node.addEventListener("click", value);
+    else node.setAttribute(key, value);
+  }
+  for (const child of children) node.append(child);
+  return node;
+}
+
+function pretty(value) { return JSON.stringify(value, null, 2); }
+
+function setStatus(node, kind, message) {
+  node.className = "status " + kind;
+  node.textContent = message;
+}
+
+// Appelle l'API ; renvoie { ok, status, body }. Les erreurs sont montrées brutes.
+async function api(path, options = {}) {
+  const started = performance.now();
+  let response;
+  try {
+    response = await fetch(path, options);
+  } catch (error) {
+    return { ok: false, status: 0, body: String(error), ms: 0 };
+  }
+  const text = await response.text();
+  let body = text;
+  try { body = JSON.parse(text); } catch (_) { /* pas du JSON : on garde le texte brut */ }
+  return { ok: response.ok, status: response.status, body, ms: Math.round(performance.now() - started) };
+}
+
+function report(statusNode, result) {
+  if (result.ok) setStatus(statusNode, "ok", `OK (${result.status}) en ${result.ms} ms`);
+  else setStatus(statusNode, "ko", `Erreur ${result.status || "réseau"} — message brut ci-dessous`);
+}
+
+function showJson(node, value) { node.hidden = false; node.textContent = typeof value === "string" ? value : pretty(value); }
+
+// Désactive un bouton pendant l'appel pour éviter les doubles envois.
+async function busy(button, statusNode, action) {
+  button.disabled = true;
+  setStatus(statusNode, "wait", "En cours…");
+  try { await action(); } finally { button.disabled = false; }
+}
+
+/* ---------- Onglets ---------- */
+const TABS = [
+  ["extract", "Dépôt et résultat"], ["review", "Revue"], ["search", "Recherche"],
+  ["agent", "Agent"], ["costs", "Santé et coûts"],
+];
+function selectTab(name) {
+  for (const [id] of TABS) {
+    $("tab-" + id).hidden = id !== name;
+    $("btn-" + id).setAttribute("aria-selected", String(id === name));
+  }
+  location.hash = name;
+}
+for (const [id, label] of TABS) {
+  $("tabs").append(el("button", { id: "btn-" + id, role: "tab", text: label, onclick: () => selectTab(id) }));
+}
+
+/* ---------- Dépôt et résultat ---------- */
+$("extract-go").addEventListener("click", () => {
+  const file = $("file").files[0];
+  if (!file) return setStatus($("extract-status"), "ko", "Choisis d'abord un fichier.");
+  busy($("extract-go"), $("extract-status"), async () => {
+    const form = new FormData();
+    form.append("document_type", "invoice");
+    form.append("file", file);
+    const result = await api("/extractions", { method: "POST", body: form });
+    report($("extract-status"), result);
+    showJson($("extract-out"), result.body);
+    if (result.ok && result.body.id) $("extract-id").value = result.body.id;
+  });
+});
+$("extract-get").addEventListener("click", async () => {
+  const result = await api("/extractions/" + encodeURIComponent($("extract-id").value));
+  showJson($("extract-get-out"), result.body);
+});
+
+/* ---------- Revue ---------- */
+async function decide(id, action, comment, data) {
+  const options = { method: "POST", headers: { "Content-Type": "application/json" } };
+  options.body = JSON.stringify(action === "correct" ? { data, comment } : { comment });
+  const result = await api(`/reviews/${id}/${action}`, options);
+  report($("review-status"), result);
+  if (!result.ok) showJson($("review-stats-out"), result.body);
+  else await loadReviews();
+}
+
+function reviewItem(extraction) {
+  const comment = el("input", { placeholder: "Commentaire (facultatif)" });
+  const dataArea = el("textarea", { "aria-label": "Facture corrigée (JSON)" });
+  dataArea.value = pretty(extraction.data);
+  dataArea.hidden = true;
+  const issues = (extraction.issues || []).map((i) => `${i.code} : ${i.message}`).join("\n") || "Aucun problème signalé";
+  const correctGo = el("button", { class: "go", text: "Envoyer la correction", onclick: () => {
+    try { decide(extraction.id, "correct", comment.value || null, JSON.parse(dataArea.value)); }
+    catch (error) { setStatus($("review-status"), "ko", "JSON invalide : " + error.message); }
+  }});
+  correctGo.hidden = true;
+  return el("div", { class: "item" },
+    el("strong", { text: `#${extraction.id} — ${extraction.data.supplier_name ?? "fournisseur inconnu"} — ${extraction.status}` }),
+    el("pre", { text: issues }),
+    comment,
+    el("button", { class: "go", text: "Approuver", onclick: () => decide(extraction.id, "approve", comment.value || null) }),
+    el("button", { class: "alt", text: "Refuser", onclick: () => decide(extraction.id, "reject", comment.value || null) }),
+    el("button", { class: "alt", text: "Corriger…", onclick: () => { dataArea.hidden = !dataArea.hidden; correctGo.hidden = dataArea.hidden; } }),
+    dataArea, correctGo,
+  );
+}
+
+async function loadReviews() {
+  const result = await api("/reviews");
+  report($("review-status"), result);
+  const list = $("review-list");
+  list.replaceChildren();
+  if (!result.ok) return list.append(el("pre", { text: pretty(result.body) }));
+  if (result.body.length === 0) list.append(el("p", { class: "hint", text: "Rien à relire." }));
+  for (const extraction of result.body) list.append(reviewItem(extraction));
+}
+$("review-load").addEventListener("click", loadReviews);
+$("review-stats").addEventListener("click", async () => {
+  const result = await api("/reviews/stats");
+  showJson($("review-stats-out"), result.body);
+});
+
+/* ---------- Recherche ---------- */
+$("idx-go").addEventListener("click", () => busy($("idx-go"), $("idx-status"), async () => {
+  const result = await api("/search/documents", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: $("idx-title").value, text: $("idx-text").value }),
+  });
+  report($("idx-status"), result);
+  if (result.ok) $("idx-status").textContent += ` — ${result.body.chunks} morceaux indexés`;
+  else $("idx-status").append(el("pre", { text: pretty(result.body) }));
+}));
+
+$("search-go").addEventListener("click", () => busy($("search-go"), $("search-status"), async () => {
+  const params = new URLSearchParams({ q: $("q").value, k: $("k").value, mode: $("mode").value });
+  const result = await api("/search?" + params);
+  report($("search-status"), result);
+  const out = $("search-out");
+  out.replaceChildren();
+  if (!result.ok) return out.append(el("pre", { text: pretty(result.body) }));
+  if (result.body.length === 0) out.append(el("p", { class: "hint", text: "Aucun résultat (rien d'indexé ?)." }));
+  for (const hit of result.body) {
+    out.append(el("div", { class: "item" },
+      el("strong", { text: `${hit.title} — score ${hit.score.toFixed(3)}` }),
+      el("div", { text: hit.text })));
+  }
+}));
+
+/* ---------- Agent ---------- */
+function renderRun(run) {
+  const out = $("ask-out");
+  out.replaceChildren();
+  out.append(el("div", { class: "item" },
+    el("strong", { text: `Exécution #${run.id} — ${run.status} — ${run.model} — ${run.steps_used} appel(s) au modèle` }),
+    el("p", { text: run.answer ?? "(pas encore de réponse)" })));
+  if (run.pending_tool) {
+    out.append(el("div", { class: "item" },
+      el("strong", { text: "Action sensible en attente d'approbation : " + run.pending_tool.name }),
+      el("pre", { text: pretty(run.pending_tool.arguments) }),
+      el("button", { class: "go", text: "Approuver", onclick: () => decideRun(run.id, "approve") }),
+      el("button", { class: "alt", text: "Refuser", onclick: () => decideRun(run.id, "reject") })));
+  }
+  if (run.steps.length) {
+    const rows = run.steps.map((s) => el("tr", {}, el("td", { text: s.position }), el("td", { text: s.tool_name }),
+      el("td", { text: s.status }), el("td", { text: JSON.stringify(s.arguments) })));
+    out.append(el("table", {}, el("thead", {}, el("tr", {}, ...["#", "Outil", "Statut", "Arguments"].map((t) => el("th", { text: t })))),
+      el("tbody", {}, ...rows)));
+  }
+}
+async function decideRun(id, action) {
+  const result = await api(`/agent/runs/${id}/${action}`, { method: "POST" });
+  report($("ask-status"), result);
+  if (result.ok) renderRun(result.body); else $("ask-out").replaceChildren(el("pre", { text: pretty(result.body) }));
+}
+$("ask-go").addEventListener("click", () => busy($("ask-go"), $("ask-status"), async () => {
+  const result = await api("/agent/ask", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question: $("question").value }),
+  });
+  report($("ask-status"), result);
+  if (result.ok) renderRun(result.body); else $("ask-out").replaceChildren(el("pre", { text: pretty(result.body) }));
+}));
+
+/* ---------- Santé et coûts ---------- */
+function breakdownTable(title, rows) {
+  const head = ["Clé", "Appels", "Tokens in", "Tokens out", "Coût ($)", "p50 (ms)", "p95 (ms)"];
+  const body = rows.map((r) => el("tr", {}, ...[r.key ?? "(sans tâche)", r.calls, r.input_tokens, r.output_tokens,
+    r.cost_usd.toFixed(5), r.latency_p50_ms, r.latency_p95_ms].map((v) => el("td", { text: String(v) }))));
+  return el("div", {}, el("h2", { text: title }),
+    el("table", {}, el("thead", {}, el("tr", {}, ...head.map((t) => el("th", { text: t })))), el("tbody", {}, ...body)));
+}
+$("costs-go").addEventListener("click", () => busy($("costs-go"), $("costs-status"), async () => {
+  const health = await api("/health");
+  const summary = await api("/costs/summary");
+  report($("costs-status"), summary);
+  const out = $("costs-out");
+  out.replaceChildren(el("p", { text: "Santé : " + (health.ok ? "OK" : "erreur " + health.status) }));
+  if (!summary.ok) return out.append(el("pre", { text: pretty(summary.body) }));
+  const t = summary.body.totals;
+  out.append(el("p", { text: `Total : ${t.calls} appel(s), ${t.cost_usd.toFixed(5)} $, ${t.input_tokens} tokens in, ${t.output_tokens} tokens out` }),
+    breakdownTable("Par modèle", summary.body.by_model), breakdownTable("Par tâche", summary.body.by_task));
+}));
+
+selectTab(TABS.some(([id]) => id === location.hash.slice(1)) ? location.hash.slice(1) : "extract");
+</script>
+</body>
+</html>
