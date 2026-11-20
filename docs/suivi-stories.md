@@ -136,7 +136,7 @@
   - [x] `experiments/` supprimé, résultats Docling conservés dans `docs/evaluation/`
   - [x] Intégration continue (`.github/workflows/ci.yml`) : backend (ruff, black, pytest), frontend (Vitest), secrets (gitleaks)
   - [x] Licence MIT et README public (chiffres mesurés, limites)
-  - [ ] Première exécution de la CI sur GitHub (la CI n'a été validée qu'en local : YAML, URL de gitleaks, commandes)
-  - [ ] Décision sur l'adresse e-mail dans les commits (réécriture de l'historique : sur « go » explicite)
-  - [ ] Vérification Docker de bout en bout ; nettoyage de l'image `deskpilot-docling-spike` et du volume `docling-cache`
+  - [x] CI validée sur GitHub (trois contrôles verts, 46 s au plus)
+  - [x] Adresse e-mail : conservée dans les commits (décision de l'auteur), un seul dépôt
+  - [x] Vérification Docker de bout en bout (extraction PDF et audio, revue, recherche, agent avec approbation d'export, coûts) ; image `deskpilot-docling-spike` et volume `docling-cache` supprimés
   - [ ] Passage en public (« go » explicite), puis protection de `main` avec les 3 contrôles requis
