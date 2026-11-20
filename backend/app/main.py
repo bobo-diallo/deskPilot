@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.api import agent, extractions, health, llm, reviews, search
+from app.api import agent, costs, extractions, health, llm, reviews, search
 from app.config import get_settings
 from app.core.database import build_engine, init_database
 
@@ -25,6 +25,7 @@ def create_app() -> FastAPI:
     app.include_router(reviews.router)
     app.include_router(search.router)
     app.include_router(agent.router)
+    app.include_router(costs.router)
     return app
 
 

@@ -27,6 +27,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | [11 — La revue humaine](11-revue-humaine.md) | Machine à états, piste d'audit, transactions atomiques, erreurs du domaine traduites en HTTP (story 05a) |
 | [12 — La recherche dans les documents](12-recherche-documents.md) | BM25, embeddings, fusion, rappel@k et MRR, règle de décision posée avant la mesure (story 05b) |
 | [13 — L'agent et ses outils](13-agent.md) | Appel d'outils, boucle d'agent, approbation humaine, injection de prompt, évaluer un agent (story 05c) |
+| [14 — Lire le journal des coûts](14-couts.md) | Agrégats SQL, `GROUP BY`, percentiles p50/p95, période incluse/exclue (story 06a) |
 
 ## Glossaire rapide
 

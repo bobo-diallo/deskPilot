@@ -70,7 +70,7 @@
     ne sont pas journalisés, le coût réel est un peu plus haut
   - Restes : journaliser les appels hors schéma, tester `medium` et un prompt pour les montants
     dictés sur un jeu neuf, statut « à relire » systématique pour l'audio, vraies voix humaines
-## Story 05a — File de revue humaine 🔄
+## Story 05a — File de revue humaine ✅
 - Branche : `story/05a-review-queue`
 - Checklist :
   - [x] Une extraction issue d'une dictée est toujours `needs_review` (motif `from_audio`)
@@ -81,7 +81,7 @@
   - [x] Routes `GET /reviews`, `GET /reviews/stats`, `POST /reviews/{id}/approve|correct|reject` et `http/reviews.http`
   - [x] Guide `docs/apprentissage/11-revue-humaine.md`
   - [ ] Écran Angular de revue (en attente du design)
-## Story 05b — Recherche dans les documents (mini-RAG dans le dépôt) 🔄
+## Story 05b — Recherche dans les documents (mini-RAG dans le dépôt) ✅
 - Branche : `story/05b-document-search`
 - Checklist :
   - [x] Essai préalable : fastembed (ONNX) tourne sur Mac Intel sans PyTorch
@@ -106,5 +106,21 @@
   - [x] Guide `docs/apprentissage/13-agent.md`
   - Budget : 0,45 $ (essai de fumée 0,05 $ plus mesure 0,40 $) pour 80 essais ; plafond 1,00 $
   - Restes : mode de recherche pour l'agent (à tester sur un jeu neuf), vérification dans Docker (Docker était en panne), serveur MCP (05d facultative), écran Angular
-## Story 05c — Agent avec outils 📋
-## Story 06 — Écran Coûts et publication du dépôt 📋
+## Story 06a — API des coûts 🔄
+- Branche : `story/06a-costs-api`
+- Checklist :
+  - [x] Colonne `task` dans `api_calls`, renseignée par chaque appelant (extraction, agent, simple)
+  - [x] `CostService` : totaux, ventilation par modèle et par tâche (p50/p95), série par jour
+  - [x] Routes `GET /costs/summary` et `GET /costs/daily` (`from`/`to` inclus) et `http/costs.http`
+  - [x] Guide `docs/apprentissage/14-couts.md`
+  - [ ] Vérification dans Docker
+  - Base locale à recréer (pas d'Alembic en V1) : ancienne sauvegardée en `deskpilot.db.bak-before-06a`
+
+## Story 06b — Écran Angular « Évaluation et coûts » 📋
+- Attend le design de l'utilisateur. Décision : l'écran inclura aussi les rapports d'évaluation
+  (petite API de lecture de `docs/evaluation/` à prévoir).
+
+## Story 06c — Publication du dépôt 📋
+- Audit des secrets sur tout l'historique, nettoyage (`experiments/` supprimé avec l'image Docling),
+  intégration continue (pytest, ruff, black, tests Angular) avec `main` protégée, README public,
+  licence MIT, vérification Docker, puis passage en public sur « go » explicite.
