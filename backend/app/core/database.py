@@ -18,6 +18,7 @@ def build_engine(database_url: str) -> Engine:
 def init_database(engine: Engine) -> None:
     """Création simple des tables au démarrage (V1). Alembic viendra avec PostgreSQL."""
     # Import des modèles pour qu'ils soient enregistrés dans Base.metadata.
+    from app.domains.agent import models as _agent  # noqa: F401
     from app.domains.conversations import models as _conversations  # noqa: F401
     from app.domains.documents import models as _documents  # noqa: F401
     from app.domains.extraction import models as _extraction  # noqa: F401

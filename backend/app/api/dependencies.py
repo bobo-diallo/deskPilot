@@ -8,6 +8,8 @@ from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
+from app.domains.agent.registry import build_registry
+from app.domains.agent.service import AgentService
 from app.domains.documents.storage import FileStorage
 from app.domains.extraction.extractors.audio import AudioExtractor
 from app.domains.extraction.extractors.claude import ClaudeExtractor
@@ -15,6 +17,7 @@ from app.domains.extraction.extractors.dispatch import MediaTypeExtractor
 from app.domains.extraction.ports import DocumentExtractor
 from app.domains.llm.ports import LLMProvider
 from app.domains.llm.providers.anthropic import AnthropicProvider
+from app.domains.llm.router import Task, choose_model
 from app.domains.llm.service import LLMService
 from app.domains.search.embedders.fastembed_embedder import FastEmbedEmbedder
 from app.domains.search.ports import Embedder
@@ -75,3 +78,15 @@ def _fastembed_embedder() -> FastEmbedEmbedder:
 def get_embedder() -> Embedder:
     """Embeddings locaux. Les tests le remplacent par un faux."""
     return _fastembed_embedder()
+
+
+def get_agent_service(
+    provider: Annotated[LLMProvider, Depends(get_llm_provider)],
+    session: Annotated[Session, Depends(get_db_session)],
+    embedder: Annotated[Embedder, Depends(get_embedder)],
+) -> AgentService:
+    """L'agent et ses quatre outils, branchés sur le service LLM (donc sur le journal des coûts)."""
+    registry = build_registry(session, embedder, Path(get_settings().exports_dir))
+    return AgentService(
+        LLMService(provider, session), registry, session, model=choose_model(Task.AGENT)
+    )

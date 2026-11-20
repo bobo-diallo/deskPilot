@@ -5,6 +5,7 @@ class Task(Enum):
     """Type de tâche demandée à un modèle."""
 
     EXTRACTION = "extraction"  # lire un document et en tirer des champs : demande de la précision
+    AGENT = "agent"  # choisir des outils, enchaîner des étapes, répondre : demande du jugement
     SIMPLE = "simple"  # reformuler, classer, répondre court : un petit modèle suffit
 
 
@@ -14,6 +15,9 @@ class Task(Enum):
 # (docs/evaluation/). Provisoire : le jeu est synthétique et désormais trop facile pour trancher.
 MODEL_BY_TASK: dict[Task, str] = {
     Task.EXTRACTION: "claude-haiku-5-5",
+    # Haiku : 91,7 % de réussite contre 94,4 % pour Sonnet, aucune action non sûre, ~20x moins
+    # cher (docs/evaluation/2026-11-19-agent.md). Règle d'adoption posée avant la mesure (ADR 015).
+    Task.AGENT: "claude-haiku-5-5",
     Task.SIMPLE: "claude-haiku-5-5",
 }
 

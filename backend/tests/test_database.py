@@ -23,6 +23,8 @@ def test_init_database_creates_all_tables():
         "transcriptions",
         "review_decisions",
         "chunk_embeddings",
+        "agent_runs",
+        "agent_steps",
     }
 
 

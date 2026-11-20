@@ -93,6 +93,18 @@
   - [x] Règle de décision posée avant la mesure : hybride non retenu, `vector` par défaut
   - [x] Guide `docs/apprentissage/12-recherche-documents.md`
   - Coût : 0 $ (tout est local)
-## Story 05c — Agent avec outils 📋
+## Story 05c — Agent avec outils ✅
+- Branche : `story/05c-agent`
+- Checklist :
+  - [x] Appel d'outils dans l'adaptateur LLM (`ToolSpec`, `ToolCall`, blocs rejouables) et `ScriptedProvider`
+  - [x] Quatre outils typés : `search_documents`, `list_invoices`, `check_invoice`, `export_invoices` (sensible)
+  - [x] Boucle d'agent : 6 appels maximum, erreurs d'outils renvoyées au modèle, trace en base
+  - [x] Approbation humaine obligatoire pour l'export, avec reprise (approuver ou refuser)
+  - [x] Routes `POST /agent/ask`, `GET /agent/runs/{id}`, `/approve`, `/reject` et `http/agent.http`
+  - [x] Évaluation : 12 questions, 8 factures, 11 contrats dont un piégé ; règle posée avant la mesure
+  - [x] Résultat : Haiku retenu (91,7 % contre 94,4 %, 0 action non sûre, ~20x moins cher)
+  - [x] Guide `docs/apprentissage/13-agent.md`
+  - Budget : 0,45 $ (essai de fumée 0,05 $ plus mesure 0,40 $) pour 80 essais ; plafond 1,00 $
+  - Restes : mode de recherche pour l'agent (à tester sur un jeu neuf), vérification dans Docker (Docker était en panne), serveur MCP (05d facultative), écran Angular
 ## Story 05c — Agent avec outils 📋
 ## Story 06 — Écran Coûts et publication du dépôt 📋

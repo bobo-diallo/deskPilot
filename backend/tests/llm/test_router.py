@@ -16,3 +16,8 @@ def test_simple_tasks_use_the_cheapest_model():
 @pytest.mark.parametrize("task", list(Task))
 def test_every_chosen_model_has_a_known_price(task):
     assert choose_model(task) in PRICES
+
+
+def test_the_agent_has_its_own_task_so_its_model_can_be_chosen_by_measurement():
+    assert Task.AGENT in list(Task)
+    assert choose_model(Task.AGENT) in PRICES

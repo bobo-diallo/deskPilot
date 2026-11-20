@@ -26,6 +26,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | [10 — De la voix au texte](10-audio.md) | Transcription Whisper en local, taux d'erreurs sur les mots, jeu de dictées, erreurs de format du modèle (story 04) |
 | [11 — La revue humaine](11-revue-humaine.md) | Machine à états, piste d'audit, transactions atomiques, erreurs du domaine traduites en HTTP (story 05a) |
 | [12 — La recherche dans les documents](12-recherche-documents.md) | BM25, embeddings, fusion, rappel@k et MRR, règle de décision posée avant la mesure (story 05b) |
+| [13 — L'agent et ses outils](13-agent.md) | Appel d'outils, boucle d'agent, approbation humaine, injection de prompt, évaluer un agent (story 05c) |
 
 ## Glossaire rapide
 

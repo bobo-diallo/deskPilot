@@ -4,7 +4,7 @@ import anthropic
 from pydantic import ValidationError
 
 from app.domains.llm.errors import LLMInvalidOutputError, LLMRefusedError
-from app.domains.llm.schemas import LLMAttachment, LLMRequest, LLMResponse
+from app.domains.llm.schemas import LLMAttachment, LLMRequest, LLMResponse, ToolCall
 
 
 def _attachment_block(attachment: LLMAttachment) -> dict:
@@ -27,13 +27,20 @@ def _attachment_block(attachment: LLMAttachment) -> dict:
 
 def _build_messages(request: LLMRequest) -> list[dict]:
     messages = [{"role": m.role, "content": m.content} for m in request.messages]
-    if request.attachments:
+    if request.attachments and isinstance(messages[-1]["content"], str):
         # Les fichiers sont placés avant le texte du dernier message.
         last = messages[-1]
         blocks = [_attachment_block(a) for a in request.attachments]
         blocks.append({"type": "text", "text": last["content"]})
         last["content"] = blocks
     return messages
+
+
+def _block_to_dict(block) -> dict:
+    """Bloc de réponse du SDK en dictionnaire simple, rejouable dans le tour suivant."""
+    if hasattr(block, "model_dump"):
+        return block.model_dump(exclude_none=True)
+    return dict(vars(block))
 
 
 class AnthropicProvider:
@@ -53,6 +60,11 @@ class AnthropicProvider:
         }
         if request.system is not None:
             params["system"] = request.system
+        if request.tools:
+            params["tools"] = [
+                {"name": t.name, "description": t.description, "input_schema": t.input_schema}
+                for t in request.tools
+            ]
 
         if request.response_schema is not None:
             # `parse` contraint la réponse au schéma et la valide pour nous.
@@ -82,4 +94,11 @@ class AnthropicProvider:
             input_tokens=message.usage.input_tokens,
             output_tokens=message.usage.output_tokens,
             parsed=parsed,
+            tool_calls=[
+                ToolCall(block.id, block.name, dict(block.input))
+                for block in message.content
+                if block.type == "tool_use"
+            ],
+            content_blocks=[_block_to_dict(block) for block in message.content],
+            stop_reason=message.stop_reason,
         )

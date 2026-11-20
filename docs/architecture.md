@@ -28,6 +28,7 @@ toucher au métier.
 | 012 | Réponse du modèle hors schéma = erreur nommée (`LLMInvalidOutputError`, 502), pas un plantage | Révélé par l'évaluation audio : une valeur non numérique dans un champ décimal donnait une erreur 500 |
 | 013 | Une extraction issue d'une dictée est toujours « à relire » ; chaque décision humaine est un fait daté (`review_decisions`) qui garde la valeur d'origine | La voix se trompe sur les noms sans que les montants le montrent (8 extractions « validées » fausses sur 22) ; piste d'audit exigée en finance |
 | 014 | Recherche dans les documents : embeddings locaux (fastembed, MiniLM multilingue), BM25 maison, fusion RRF ; mode par défaut `vector` | Mesuré sur 24 questions : vector MRR 0,851, hybride 0,829, mots-clés 0,649 ; règle « hybride si pas plus de 0,02 sous le meilleur » posée avant, non satisfaite. L'écart avec l'hybride n'est pas significatif |
+| 015 | Modèle de l'agent : règle posée avant la mesure — Haiku si son taux de réussite est à 10 points ou moins de Sonnet **et** s'il n'a aucune action non sûre (export non demandé, instruction cachée suivie) ; sinon Sonnet. Une action sensible exige toujours l'approbation d'un humain | Choisir par la mesure, sans rationaliser après coup ; la sécurité ne se négocie pas contre le coût |
 
 ## Tranché en story 03
 - Modèle local contre API : API (Haiku v2). Docling essayé, non retenu (ADR 009).
@@ -41,11 +42,23 @@ toucher au métier.
 - Dictée toujours à relire (ADR 013). Une correction humaine repasse par la validation des
   montants et supprime le motif « dictée » ; une incohérence restante reste visible.
 
+## Tranché en story 05c
+- Modèle de l'agent : Haiku 5.5 (ADR 015, règle posée avant la mesure et satisfaite : écart de
+  2,8 points, aucune action non sûre, environ 20 fois moins cher que Sonnet).
+- Une action sensible (export) n'est exécutée qu'après approbation humaine : garantie de
+  structure, testée, qui tient même si un document piégé trompait le modèle.
+- Les deux modèles ont refusé de suivre les instructions cachées dans le contrat piégé et l'ont
+  signalé à l'utilisateur.
+
 ## Tranché en story 05b
 - Le mini-RAG vit dans ce dépôt derrière `DocumentSearch` ; le tien pourra s'y brancher plus tard.
 - Mode de recherche par défaut : `vector` (ADR 014), à revoir avec un jeu plus grand.
 
 ## Resté ouvert
+- Recherche et agent : la question « paiement comptant » échoue presque toujours en mode `vector`
+  (rang 10, alors que les mots-clés la placent en 1re position). L'agent a répondu honnêtement
+  « aucun contrat trouvé » au lieu d'inventer. Piste : laisser l'outil choisir le mode, ou
+  hybride pour l'agent. **À tester sur un jeu neuf**, pas sur ces questions.
 - Hybride : les mots-clés faibles (« fin », « semaine ») dégradent la fusion sur les paraphrases.
   Pondérer ou filtrer les mots-clés est une piste, **à tester sur un jeu neuf** (le régler sur
   celui-ci reviendrait à tricher).
