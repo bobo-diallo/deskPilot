@@ -73,7 +73,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 06a API des coûts (`/costs/summary`, `/costs/daily`, colonne `task` dans `api_calls`)
 - [x] 06d Page de test minimale (`/test-page`, outil de développement)
 - [ ] 06b Écran Angular « Évaluation et coûts » (attend le design)
-- [ ] 06c Publication du dépôt (audit des secrets, CI, README, licence MIT, passage en public)
+- [ ] 06c Publication du dépôt : audit, CI, README, licence MIT faits ; restent e-mail des commits, Docker, passage en public
 
 Détail par story : `docs/suivi-stories.md`.
 

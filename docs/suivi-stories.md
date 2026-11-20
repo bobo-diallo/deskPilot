@@ -47,7 +47,7 @@
   - [x] Mesures : Sonnet contre Haiku (v1 et v2 du jeu), prompt v2, texte seul, jeu indépendant
   - [x] Défaut du jeu v1 découvert et corrigé, rapport v1 conservé avec avertissement
   - [x] Prompts versionnés (v1, v2) ; routeur d'extraction passé à Haiku + v2
-  - [x] Essai Docling dans Docker : fonctionne, non retenu (`experiments/docling/`)
+  - [x] Essai Docling dans Docker : fonctionne, non retenu (`docs/evaluation/2026-11-17-docling-spike.md`)
   - [x] Guide `docs/apprentissage/09-evaluation.md`
   - Budget : 1,35 $ pour environ 460 appels réels (plafond 1,5 $)
   - Restes : jeu plus difficile (le jeu atteint 100 %), effort de réflexion, prompt caching, cascade Haiku vers Sonnet sur `needs_review`
@@ -129,7 +129,14 @@
 - Attend le design de l'utilisateur. Décision : l'écran inclura aussi les rapports d'évaluation
   (petite API de lecture de `docs/evaluation/` à prévoir).
 
-## Story 06c — Publication du dépôt 📋
-- Audit des secrets sur tout l'historique, nettoyage (`experiments/` supprimé avec l'image Docling),
-  intégration continue (pytest, ruff, black, tests Angular) avec `main` protégée, README public,
-  licence MIT, vérification Docker, puis passage en public sur « go » explicite.
+## Story 06c — Publication du dépôt 🔄
+- Branche : `story/06c-publication`
+- Checklist :
+  - [x] Audit des secrets : `gitleaks` sur 70 commits, aucune fuite (`docs/securite-publication.md`)
+  - [x] `experiments/` supprimé, résultats Docling conservés dans `docs/evaluation/`
+  - [x] Intégration continue (`.github/workflows/ci.yml`) : backend (ruff, black, pytest), frontend (Vitest), secrets (gitleaks)
+  - [x] Licence MIT et README public (chiffres mesurés, limites)
+  - [ ] Première exécution de la CI sur GitHub (la CI n'a été validée qu'en local : YAML, URL de gitleaks, commandes)
+  - [ ] Décision sur l'adresse e-mail dans les commits (réécriture de l'historique : sur « go » explicite)
+  - [ ] Vérification Docker de bout en bout ; nettoyage de l'image `deskpilot-docling-spike` et du volume `docling-cache`
+  - [ ] Passage en public (« go » explicite), puis protection de `main` avec les 3 contrôles requis

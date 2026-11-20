@@ -22,7 +22,7 @@ toucher au métier.
 | 006 | Confiance mesurée par recoupements de montants, pas par probabilité du modèle | L'API ne fournit pas de score par champ |
 | 007 | Montants en `Decimal`, type de fichier détecté par signature | Exactitude de l'argent ; ne pas croire le client |
 | 008 | Extraction routée vers Haiku 5.5 avec le prompt v2 (provisoire) | 100 % sur deux jeux, ~18x moins cher que Sonnet ; jeu trop facile pour trancher définitivement |
-| 009 | Docling non retenu en V1 | Fonctionne dans Docker mais lent sur CPU (28 s par image), ne remplace pas l'appel LLM ; `experiments/docling/` |
+| 009 | Docling non retenu en V1 | Fonctionne dans Docker mais lent sur CPU (28 s par image), ne remplace pas l'appel LLM ; `docs/evaluation/2026-11-17-docling-spike.md` |
 | 010 | Règle d'adoption posée avant la mesure, jeu de validation indépendant, prompts versionnés | Éviter de justifier un résultat après coup et la fuite de réglage |
 | 011 | Voix : Whisper en local (`faster-whisper`, taille `small` par défaut), puis Claude Haiku sur le texte | Gratuit, l'audio ne quitte pas la machine, tourne sans PyTorch sur Mac Intel ; `small` est la seule taille utilisable (voir le rapport audio) |
 | 012 | Réponse du modèle hors schéma = erreur nommée (`LLMInvalidOutputError`, 502), pas un plantage | Révélé par l'évaluation audio : une valeur non numérique dans un champ décimal donnait une erreur 500 |

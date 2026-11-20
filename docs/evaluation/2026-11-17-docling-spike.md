@@ -4,13 +4,8 @@ Question : Docling (extraction de documents open source, hébergé par la LF AI 
 remplacer ou compléter la lecture directe par Claude ? Essai limité dans le temps, réalisé
 le 2026-11-17 sur le jeu d'évaluation de 24 factures. Aucun appel à un modèle : coût nul.
 
-## Lancer l'essai
-```bash
-docker build -t deskpilot-docling-spike experiments/docling      # ~2 min, image de 2,9 Go
-docker run --rm -v "$PWD/demo-data/eval:/data:ro" -v /tmp/docling-out:/out \
-  -v docling-cache:/root/.cache deskpilot-docling-spike
-```
-Nettoyage : `docker rmi deskpilot-docling-spike && docker volume rm docling-cache`.
+Le code de l'essai (un Dockerfile et un script de conversion) a été retiré du dépôt avant sa
+publication ; il restait un essai jetable, et seuls ses résultats comptent.
 
 ## Pourquoi dans Docker
 Docling dépend de PyTorch. Sur Mac Intel, la dernière version de PyTorch disponible est la
