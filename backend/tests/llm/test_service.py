@@ -4,6 +4,7 @@ from sqlalchemy import select
 from app.domains.llm.models import ApiCall
 from app.domains.llm.pricing import UnknownModelError
 from app.domains.llm.providers.fake import FakeProvider
+from app.domains.llm.router import Task
 from app.domains.llm.schemas import LLMMessage, LLMRequest
 from app.domains.llm.service import LLMService
 
@@ -43,3 +44,22 @@ def test_unknown_model_is_not_recorded_with_a_zero_cost(session):
         service.complete(make_request("claude-inconnu"))
 
     assert session.scalars(select(ApiCall)).all() == []
+
+
+def test_the_task_of_the_request_is_recorded_in_the_journal(session):
+    service = LLMService(FakeProvider(), session)
+    request = LLMRequest(
+        model="claude-haiku-5-5",
+        messages=[LLMMessage(role="user", content="Bonjour")],
+        task=Task.AGENT,
+    )
+
+    service.complete(request)
+
+    assert session.scalars(select(ApiCall)).one().task == "agent"
+
+
+def test_a_request_without_task_is_recorded_with_no_task(session):
+    LLMService(FakeProvider(), session).complete(make_request())
+
+    assert session.scalars(select(ApiCall)).one().task is None

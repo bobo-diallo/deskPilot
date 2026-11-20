@@ -9,7 +9,7 @@ chaque story. Légende : ✅ fait, 🔄 en cours, 📋 prévu, ❌ pas encore pl
 |---|---|---|---|
 | 1 | Appeler le modèle via le SDK officiel, derrière une interface (changer de fournisseur sans refonte) | `LLMProvider`, `AnthropicProvider` (story 01) | ✅ |
 | 2 | Sorties structurées : schéma contraint et validé, jamais du texte libre à parser | `messages.parse` + Pydantic (story 02) | ✅ |
-| 3 | Suivre tokens, coût et latence de chaque appel | `api_calls`, `LLMService` (story 01) | ✅ |
+| 3 | Suivre tokens, coût et latence de chaque appel | `api_calls`, `LLMService` (story 01) ; lecture agrégée par modèle et par tâche, latence p50/p95 (story 06a) | ✅ |
 | 4 | Router les tâches vers le modèle adapté (coût contre qualité) | `router.py` : extraction vers Haiku, décision prise par la mesure (story 03) | ✅ |
 | 5 | Évaluer sur un jeu annoté avec des métriques, avant de changer de modèle ou de prompt | module `evaluation`, 460 appels mesurés (story 03) | ✅ |
 | 6 | Tests sans réseau avec des faux, tests réels séparés et ignorés sans clé | `FakeProvider`, tests `skipif` | ✅ |

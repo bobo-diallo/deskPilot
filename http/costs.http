@@ -1,0 +1,12 @@
+### Variables (modifier ici pour changer d'environnement)
+@baseUrl = http://localhost:8010
+
+### Résumé des coûts : totaux, puis ventilation par modèle et par tâche (coût, tokens, latence).
+### Sans paramètre : tout le journal.
+GET {{baseUrl}}/costs/summary
+
+### Limité à une période (les deux dates sont incluses, jours en UTC)
+GET {{baseUrl}}/costs/summary?from=2026-11-01&to=2026-11-30
+
+### Coût et nombre d'appels jour par jour (pour un graphique)
+GET {{baseUrl}}/costs/daily?from=2026-11-01&to=2026-11-30

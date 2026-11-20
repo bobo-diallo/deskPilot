@@ -67,10 +67,12 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 02 Extraction PDF/image vers JSON validé (évaluation du mini-RAG déplacée en story 05)
 - [x] 03 Évaluation : jeu annoté, précision par champ, comparaison de modèles
 - [x] 04 Audio vers texte puis extraction (Whisper local `small`, jeu de dictées, rapport audio)
-- [ ] 05a File de revue humaine (dictée toujours à relire, piste d'audit, statistiques)
+- [x] 05a File de revue humaine (dictée toujours à relire, piste d'audit, statistiques)
 - [x] 05b Recherche dans les documents : mini-RAG dans le dépôt derrière `DocumentSearch` (mode `vector` par défaut)
 - [x] 05c Agent avec outils (recherche, vérification, export avec approbation) et son évaluation (Haiku retenu)
-- [ ] 06 Écran Coûts et publication du dépôt (passage en public)
+- [x] 06a API des coûts (`/costs/summary`, `/costs/daily`, colonne `task` dans `api_calls`)
+- [ ] 06b Écran Angular « Évaluation et coûts » (attend le design)
+- [ ] 06c Publication du dépôt (audit des secrets, CI, README, licence MIT, passage en public)
 
 Détail par story : `docs/suivi-stories.md`.
 

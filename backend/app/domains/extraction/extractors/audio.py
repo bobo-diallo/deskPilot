@@ -52,6 +52,7 @@ class AudioExtractor:
 
         request = LLMRequest(
             model=self._model or choose_model(Task.EXTRACTION),
+            task=Task.EXTRACTION,
             system=self._system_prompt,
             messages=[
                 LLMMessage(

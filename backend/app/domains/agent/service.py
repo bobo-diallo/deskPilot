@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.domains.agent.errors import AgentRunNotFoundError, AgentStateError
 from app.domains.agent.models import AgentRun, AgentStep
 from app.domains.agent.tools.base import ToolExecutionError, ToolRegistry
+from app.domains.llm.router import Task
 from app.domains.llm.schemas import LLMMessage, LLMRequest
 from app.domains.llm.service import LLMService
 
@@ -89,6 +90,7 @@ class AgentService:
                     messages=[LLMMessage(m["role"], m["content"]) for m in run.messages],
                     tools=self._registry.specs(),
                     max_tokens=2048,
+                    task=Task.AGENT,
                 )
             )
             run.steps_used += 1
