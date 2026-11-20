@@ -46,7 +46,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
   chaque story met à jour ce tableau.
 - **Fichiers ignorés** : jamais de fichiers d'éditeur ni de secrets dans git (`.idea/`,
   `.vscode/`, `.vs/`, `.env`, `.venv/`…). Vérifier avec `git ls-files` avant de commiter.
-- **Données de démo** : compte Google `curioflow.demo@gmail.com`, jamais le compte personnel.
+- **Données de démo** : pour tout ce qui touche à Google (clés, inscriptions), utiliser le compte de démonstration défini dans les préférences globales, jamais le compte personnel.
 
 ## Commandes
 ```
