@@ -62,7 +62,7 @@ Les rapports vont dans `docs/evaluation/`. La clé est lue dans `.env` (ou la va
 - **Le texte seul égale la vision sur les PDF numériques** (100 % sur 14 cas) pour un coût
   plus bas, mais ne marche pas pour les scans.
 - **Docling** (open source) fonctionne dans Docker mais n'apporte rien ici : voir
-  `experiments/docling/README.md`.
+  `docs/evaluation/2026-11-17-docling-spike.md`.
 - **Variance d'une mesure à l'autre :** Haiku v1 a obtenu 81,2 % puis 87,5 % sur le même jeu.
   C'est pourquoi on regarde les intervalles et les comparaisons appariées, pas un seul chiffre.
 
