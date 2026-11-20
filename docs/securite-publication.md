@@ -16,8 +16,12 @@ La CI relance `gitleaks` sur tout l'historique à chaque pull request.
 - Les jeux de démonstration (`demo-data/`) sont synthétiques : fournisseurs, contrats et
   dictées fictifs (voix de synthèse).
 - Le compte Google de démonstration est cité dans `CLAUDE.md` ; le compte personnel ne l'est pas.
-- L'adresse e-mail de l'auteur figure dans les métadonnées de la majorité des commits (voir la
-  décision prise dans `docs/suivi-stories.md`, story 06c).
+- L'adresse e-mail personnelle de l'auteur figure dans 71 commits (auteur et validateur). C'est
+  courant sur les dépôts publics ; le risque (spam, hameçonnage) est modéré et accepté.
+  **Décision de l'auteur : on la garde.** Une réécriture de l'historique avait été préparée et
+  vérifiée, puis abandonnée : GitHub conserve une référence cachée par pull request qui aurait
+  gardé l'ancienne adresse, ce qui aurait imposé un second dépôt à maintenir.
+- Pour les futurs commits, GitHub propose une adresse `noreply` (Settings > Emails).
 
 ## Nettoyage
 - Le dossier `experiments/` (essai Docling) est supprimé ; ses résultats sont conservés dans
