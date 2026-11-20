@@ -71,6 +71,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 05b Recherche dans les documents : mini-RAG dans le dépôt derrière `DocumentSearch` (mode `vector` par défaut)
 - [x] 05c Agent avec outils (recherche, vérification, export avec approbation) et son évaluation (Haiku retenu)
 - [x] 06a API des coûts (`/costs/summary`, `/costs/daily`, colonne `task` dans `api_calls`)
+- [x] 06d Page de test minimale (`/test-page`, outil de développement)
 - [ ] 06b Écran Angular « Évaluation et coûts » (attend le design)
 - [ ] 06c Publication du dépôt (audit des secrets, CI, README, licence MIT, passage en public)
 
