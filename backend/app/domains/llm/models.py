@@ -22,4 +22,6 @@ class ApiCall(Base):
     output_tokens: Mapped[int]
     cost_usd: Mapped[float]
     latency_ms: Mapped[int]
+    # Tâche à l'origine de l'appel (extraction, agent…). Vide pour les appels d'avant la story 06a.
+    task: Mapped[str | None] = mapped_column(default=None)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)

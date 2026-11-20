@@ -24,6 +24,7 @@ class ClaudeExtractor:
     def extract(self, content: bytes, media_type: str) -> ExtractionOutput:
         request = LLMRequest(
             model=self._model or choose_model(Task.EXTRACTION),
+            task=Task.EXTRACTION,
             system=self._system_prompt,
             messages=[LLMMessage(role="user", content="Extrais les champs de cette facture.")],
             attachments=[LLMAttachment(media_type=media_type, data=content)],

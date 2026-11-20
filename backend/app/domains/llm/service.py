@@ -31,6 +31,7 @@ class LLMService:
                 output_tokens=response.output_tokens,
                 cost_usd=cost_usd,
                 latency_ms=latency_ms,
+                task=request.task.value if request.task else None,
             )
         )
         self._session.commit()

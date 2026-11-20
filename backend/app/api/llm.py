@@ -37,6 +37,7 @@ def complete(
 ) -> CompleteResult:
     request = LLMRequest(
         model=choose_model(body.task),
+        task=body.task,
         system=body.system,
         messages=[LLMMessage(role="user", content=body.prompt)],
     )

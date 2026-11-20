@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 
 from pydantic import BaseModel
 
+from app.domains.llm.router import Task
+
 
 @dataclass(frozen=True)
 class ToolSpec:
@@ -51,6 +53,8 @@ class LLMRequest:
     response_schema: type[BaseModel] | None = None
     # Outils proposés au modèle (agent). Vide : réponse simple.
     tools: list[ToolSpec] = field(default_factory=list)
+    # Tâche à l'origine de la demande : sert à ventiler les coûts par usage.
+    task: Task | None = None
 
 
 @dataclass(frozen=True)
