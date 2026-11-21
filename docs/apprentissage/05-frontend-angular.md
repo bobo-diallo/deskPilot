@@ -4,8 +4,8 @@
 Angular est un framework TypeScript complet pour interfaces web. Un écran est construit à
 partir de **composants** : une classe TypeScript (comportement), un gabarit HTML (affichage)
 et un fichier de style. Alternatives : React, Vue (plus légers, moins cadrés).
-On a pris Angular parce qu'il est très demandé en entreprise et que c'est la cible de ta
-future refonte d'InserJeune.
+On a pris Angular parce qu'il est très demandé en entreprise et que c'est la cible de tes
+futurs projets d'applications web.
 
 ## Les fichiers de `frontend/src/app/`
 | Fichier | Rôle |
