@@ -1,12 +1,20 @@
 {
   "app": {
     "title": "Bureau IA",
-    "language": "Langue"
+    "language": "Langue",
+    "navigation": "Navigation"
   },
   "zones": {
     "conversation": "Conversation",
     "modules": "Modules",
     "gallery": "Galerie",
     "empty": "Zone vide pour le moment"
+  },
+  "nav": {
+    "home": "Accueil",
+    "evaluation": "Évaluation et coûts"
+  },
+  "evaluation": {
+    "title": "Évaluation et coûts"
   }
 }

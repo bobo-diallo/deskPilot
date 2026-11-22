@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { TranslocoTestingModule } from '@jsverse/transloco';
 import { App } from './app';
 import en from '../../public/i18n/en.json';
@@ -7,6 +8,7 @@ import fr from '../../public/i18n/fr.json';
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [provideRouter([])],
       imports: [
         App,
         TranslocoTestingModule.forRoot({
@@ -26,15 +28,14 @@ describe('App', () => {
     expect(root.querySelector('h1')?.textContent).toContain('Bureau IA');
   });
 
-  it('shows three empty named zones', async () => {
+  it('links to the home page and to the evaluation screen', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const zones = (fixture.nativeElement as HTMLElement).querySelectorAll('section h2');
+    const links = (fixture.nativeElement as HTMLElement).querySelectorAll('nav a');
 
-    expect(Array.from(zones).map((zone) => zone.textContent?.trim())).toEqual([
-      'Conversation',
-      'Modules',
-      'Galerie',
+    expect(Array.from(links).map((link) => link.textContent?.trim())).toEqual([
+      'Accueil',
+      'Évaluation et coûts',
     ]);
   });
 

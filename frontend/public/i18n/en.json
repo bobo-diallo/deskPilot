@@ -1,12 +1,20 @@
 {
   "app": {
     "title": "AI Desk",
-    "language": "Language"
+    "language": "Language",
+    "navigation": "Navigation"
   },
   "zones": {
     "conversation": "Conversation",
     "modules": "Modules",
     "gallery": "Gallery",
     "empty": "Empty area for now"
+  },
+  "nav": {
+    "home": "Home",
+    "evaluation": "Evaluation and costs"
+  },
+  "evaluation": {
+    "title": "Evaluation and costs"
   }
 }
