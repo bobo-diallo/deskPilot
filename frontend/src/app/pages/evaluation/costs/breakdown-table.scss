@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  overflow-x: auto; // le tableau défile sur petit écran au lieu de déborder de la page
+}
+
+table {
+  width: 100%;
+}
+
+.caption {
+  text-align: left;
+  padding: 0.5rem 0;
+  font: var(--mat-sys-title-medium);
+}

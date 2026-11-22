@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoTestingModule } from '@jsverse/transloco';
 import en from '../../../../public/i18n/en.json';
@@ -15,6 +17,7 @@ describe('EvaluationPage', () => {
           preloadLangs: true,
         }),
       ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(EvaluationPage);
     await fixture.whenStable();

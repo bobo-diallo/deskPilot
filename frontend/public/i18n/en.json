@@ -16,5 +16,44 @@
   },
   "evaluation": {
     "title": "Evaluation and costs"
+  },
+  "costs": {
+    "title": "Costs",
+    "loading": "Loading costs…",
+    "error": "Unable to load the costs.",
+    "retry": "Retry",
+    "empty": "No call recorded in this period.",
+    "period": {
+      "label": "Period",
+      "30": "Last 30 days",
+      "7": "Last 7 days",
+      "all": "All time"
+    },
+    "cards": {
+      "cost": "Total cost",
+      "calls": "Calls",
+      "inputTokens": "Input tokens",
+      "outputTokens": "Output tokens"
+    },
+    "chartTitle": "Cost per day",
+    "chartLabel": "Cost per day, from {{from}} to {{to}}, {{total}} in total",
+    "barTitle": "{{day}}: {{cost}}, {{calls}} calls",
+    "byModel": "Costs and latencies by model",
+    "byTask": "Costs and latencies by task",
+    "columns": {
+      "model": "Model",
+      "task": "Task",
+      "calls": "Calls",
+      "tokens": "Tokens (input / output)",
+      "cost": "Cost",
+      "p50": "Median latency",
+      "p95": "p95 latency"
+    },
+    "tasks": {
+      "extraction": "Extraction",
+      "agent": "Agent",
+      "simple": "Simple task",
+      "unknown": "Not recorded"
+    }
   }
 }
