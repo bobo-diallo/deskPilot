@@ -34,6 +34,7 @@ class Report:
     title: str
     date: date | None
     intro: str
+    note: str  # avertissement en citation (« > … ») placé en tête du rapport
     sections: list[Section]
 
 
@@ -63,6 +64,7 @@ def parse_report(report_id: str, markdown: str) -> Report:
     """Lit un rapport Markdown : titre, introduction, puis sections (texte et tableaux)."""
     title = report_id
     intro_lines: list[str] = []
+    note_lines: list[str] = []
     sections: list[Section] = []
     current: Section | None = None
     table_lines: list[str] = []
@@ -81,6 +83,9 @@ def parse_report(report_id: str, markdown: str) -> Report:
         table_lines = []
 
     for line in markdown.splitlines():
+        if line.startswith(">"):
+            note_lines.append(line.lstrip("> ").strip())
+            continue
         if line.startswith("|"):
             table_lines.append(line)
             continue
@@ -99,6 +104,7 @@ def parse_report(report_id: str, markdown: str) -> Report:
         title=title,
         date=_date_of(report_id),
         intro=" ".join(intro_lines),
+        note=" ".join(note_lines),
         sections=sections,
     )
 

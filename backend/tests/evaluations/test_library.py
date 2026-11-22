@@ -76,3 +76,20 @@ def test_get_keeps_the_text_around_a_table(reports_dir):
 def test_get_rejects_an_id_that_is_not_a_listed_report(reports_dir, report_id):
     with pytest.raises(UnknownReportError):
         ReportLibrary(reports_dir).get(report_id)
+
+
+def test_a_quoted_warning_is_kept_apart_from_the_intro(tmp_path):
+    (tmp_path / "2026-11-17-old.md").write_text(
+        "> **Conservé pour mémoire.**\n> Le jeu était défectueux.\n\n# Titre\n\nIntro.\n",
+        encoding="utf-8",
+    )
+
+    report = ReportLibrary(tmp_path).get("2026-11-17-old")
+
+    assert report.note == "**Conservé pour mémoire.** Le jeu était défectueux."
+    assert report.intro == "Intro."
+    assert report.title == "Titre"
+
+
+def test_a_report_without_quote_has_an_empty_note(reports_dir):
+    assert ReportLibrary(reports_dir).get("2026-11-17-prompt-v2").note == ""

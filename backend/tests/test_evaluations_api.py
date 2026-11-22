@@ -31,6 +31,7 @@ def test_get_report(client):
     body = client.get("/evaluations/reports/2026-11-17-prompt-v2").json()
 
     assert body["intro"] == "Intro."
+    assert body["note"] == ""
     assert body["sections"][0]["tables"][0] == {"headers": ["A", "B"], "rows": [["1", "2"]]}
 
 

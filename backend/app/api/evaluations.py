@@ -33,6 +33,7 @@ class ReportResult(BaseModel):
     title: str
     date: date | None
     intro: str
+    note: str
     sections: list[SectionResult]
 
 
