@@ -21,6 +21,7 @@ export interface ReportSection {
 
 export interface Report extends ReportSummary {
   intro: string;
+  note: string; // avertissement placé en tête du rapport (vide si aucun)
   sections: ReportSection[];
 }
 

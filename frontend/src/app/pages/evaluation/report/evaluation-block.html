@@ -1,0 +1,81 @@
+<section *transloco="let t" class="evaluation" aria-labelledby="evaluation-title">
+  <h3 id="evaluation-title">{{ t('evaluation.reportsTitle') }}</h3>
+  @if (!contentIsTranslated()) {
+    <p class="content-notice">{{ t('evaluation.contentNotice') }}</p>
+  }
+
+  @switch (list().status) {
+    @case ('loading') {
+      <div role="status">
+        <p>{{ t('evaluation.loading') }}</p>
+        <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('evaluation.loading')" />
+      </div>
+    }
+    @case ('error') {
+      <div role="alert" class="error">
+        <p>{{ t('evaluation.error') }}</p>
+        <button mat-flat-button type="button" (click)="retryList()">{{ t('costs.retry') }}</button>
+      </div>
+    }
+    @case ('empty') {
+      <p class="empty">{{ t('evaluation.empty') }}</p>
+    }
+    @case ('ready') {
+      <mat-form-field appearance="outline" class="chooser">
+        <mat-label>{{ t('evaluation.chooseReport') }}</mat-label>
+        <select
+          matNativeControl
+          [value]="selectedId()"
+          (change)="choose($any($event.target).value)"
+        >
+          @for (option of options(); track option.id) {
+            <option [value]="option.id" [selected]="option.id === selectedId()">
+              {{ option.label }}
+            </option>
+          }
+        </select>
+      </mat-form-field>
+
+      @switch (report().status) {
+        @case ('loading') {
+          <div role="status">
+            <p>{{ t('evaluation.loading') }}</p>
+            <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('evaluation.loading')" />
+          </div>
+        }
+        @case ('error') {
+          <div role="alert" class="error">
+            <p>{{ t('evaluation.error') }}</p>
+            <button mat-flat-button type="button" (click)="retryReport()">
+              {{ t('costs.retry') }}
+            </button>
+          </div>
+        }
+      }
+
+      @if (report(); as state) {
+        @if (state.status === 'ready') {
+          <article>
+            @if (state.report.note) {
+              <p role="note" class="note">
+                <strong>{{ t('evaluation.note') }} :</strong> {{ plainText(state.report.note) }}
+              </p>
+            }
+            @if (state.report.intro) {
+              <p>{{ plainText(state.report.intro) }}</p>
+            }
+            @for (section of state.report.sections; track $index) {
+              <h4>{{ plainText(section.title) }}</h4>
+              @for (paragraph of section.paragraphs; track $index) {
+                <p>{{ plainText(paragraph) }}</p>
+              }
+              @for (table of section.tables; track $index) {
+                <app-report-table [table]="table" [label]="plainText(section.title)" />
+              }
+            }
+          </article>
+        }
+      }
+    }
+  }
+</section>

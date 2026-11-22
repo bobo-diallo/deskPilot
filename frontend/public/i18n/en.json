@@ -15,7 +15,25 @@
     "evaluation": "Evaluation and costs"
   },
   "evaluation": {
-    "title": "Evaluation and costs"
+    "title": "Evaluation and costs",
+    "chooseReport": "Report",
+    "loading": "Loading reports…",
+    "error": "Unable to load the reports.",
+    "empty": "No evaluation report available.",
+    "note": "Please note",
+    "contentNotice": "The content of the reports is in French.",
+    "reportNames": {
+      "agent": "Tool-using agent",
+      "search": "Document search",
+      "text-layer": "Extraction: PDF text layer",
+      "prompt-v2": "Extraction: prompt v2",
+      "holdout": "Extraction: independent set",
+      "baseline-v2": "Extraction: corrected baseline",
+      "baseline-v1": "Extraction: first baseline (faulty dataset)",
+      "audio-whisper-sizes": "Audio: Whisper sizes",
+      "docling-spike": "Docling trial"
+    },
+    "reportsTitle": "Evaluation reports"
   },
   "costs": {
     "title": "Costs",

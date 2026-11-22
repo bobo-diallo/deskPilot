@@ -15,7 +15,25 @@
     "evaluation": "Évaluation et coûts"
   },
   "evaluation": {
-    "title": "Évaluation et coûts"
+    "title": "Évaluation et coûts",
+    "chooseReport": "Rapport",
+    "loading": "Chargement des rapports…",
+    "error": "Impossible de charger les rapports.",
+    "empty": "Aucun rapport d'évaluation disponible.",
+    "note": "À noter",
+    "contentNotice": "",
+    "reportNames": {
+      "agent": "Agent avec outils",
+      "search": "Recherche dans les documents",
+      "text-layer": "Extraction : couche texte des PDF",
+      "prompt-v2": "Extraction : prompt v2",
+      "holdout": "Extraction : jeu indépendant",
+      "baseline-v2": "Extraction : référence corrigée",
+      "baseline-v1": "Extraction : référence initiale (jeu défectueux)",
+      "audio-whisper-sizes": "Audio : tailles de Whisper",
+      "docling-spike": "Essai Docling"
+    },
+    "reportsTitle": "Rapports d'évaluation"
   },
   "costs": {
     "title": "Coûts",
