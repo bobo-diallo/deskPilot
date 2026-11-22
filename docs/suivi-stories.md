@@ -129,7 +129,7 @@
 - Attend le design de l'utilisateur. Décision : l'écran inclura aussi les rapports d'évaluation
   (petite API de lecture de `docs/evaluation/` à prévoir).
 
-## Story 06c — Publication du dépôt 🔄
+## Story 06c — Publication du dépôt ✅
 - Branche : `story/06c-publication`
 - Checklist :
   - [x] Audit des secrets : `gitleaks` sur 70 commits, aucune fuite (`docs/securite-publication.md`)
@@ -139,4 +139,5 @@
   - [x] CI validée sur GitHub (trois contrôles verts, 46 s au plus)
   - [x] Adresse e-mail : conservée dans les commits (décision de l'auteur), un seul dépôt
   - [x] Vérification Docker de bout en bout (extraction PDF et audio, revue, recherche, agent avec approbation d'export, coûts) ; image `deskpilot-docling-spike` et volume `docling-cache` supprimés
-  - [ ] Passage en public (« go » explicite), puis protection de `main` avec les 3 contrôles requis
+  - [x] Mention d'un projet client rendue générique dans le guide Angular
+  - [x] Passage en public le 2026-11-21, puis protection de `main` (PR obligatoire, 3 contrôles requis, pas de force push)
