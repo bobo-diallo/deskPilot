@@ -3,7 +3,7 @@
 Démonstrateur d'automatisation IA pour PME : transforme des documents non structurés
 (PDF, images, audio) en données structurées validées, avec un agent IA outillé (dont un
 mini-RAG) et une évaluation chiffrée. Projet d'apprentissage « AI engineer ».
-Dépôt GitHub : `deskPilot` (privé jusqu'à la fin de la V1). Nom d'écran : « Bureau IA ».
+Dépôt GitHub : `deskPilot` (public depuis le 2026-11-21, `main` protégée : PR et 3 contrôles requis). Nom d'écran : « Bureau IA ».
 Pratiques standard de l'intégration IA (suivi de ce qui est couvert) : `docs/standards-ia.md`.
 Guides de cours : `docs/apprentissage/`. Prompt de design : `docs/design/prompt-design.md`.
 Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `docs/roadmap.md`.
@@ -73,7 +73,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 06a API des coûts (`/costs/summary`, `/costs/daily`, colonne `task` dans `api_calls`)
 - [x] 06d Page de test minimale (`/test-page`, outil de développement)
 - [ ] 06b Écran Angular « Évaluation et coûts » (attend le design)
-- [ ] 06c Publication du dépôt : audit, CI, README, licence MIT faits ; restent e-mail des commits, Docker, passage en public
+- [x] 06c Publication du dépôt : audit, CI, README, licence MIT, vérification Docker, passage en public et protection de `main`
 
 Détail par story : `docs/suivi-stories.md`.
 
