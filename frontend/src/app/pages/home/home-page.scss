@@ -7,8 +7,8 @@
   section {
     min-height: 240px;
     padding: 1rem;
-    background: #fff;
-    border: 1px dashed #d1d5db;
+    background: var(--mat-sys-surface-container-low);
+    border: 1px dashed var(--mat-sys-outline);
     border-radius: 8px;
   }
 
@@ -18,7 +18,7 @@
   }
 
   .empty {
-    color: #6b7280;
+    color: var(--mat-sys-on-surface-variant);
     font-size: 0.9rem;
   }
 }

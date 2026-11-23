@@ -57,6 +57,14 @@ describe('DailyCostChart', () => {
     expect(root.querySelector('svg')?.getAttribute('aria-label')).toContain('Coût par jour');
   });
 
+  it('keeps a lone bar narrow instead of filling the whole chart', async () => {
+    const root = await render([{ day: '2026-11-01', calls: 2, cost_usd: 0.01 }]);
+
+    expect(parseFloat(root.querySelector('rect.bar')?.getAttribute('width') ?? '100')).toBeLessThan(
+      12,
+    );
+  });
+
   it('draws no bar when every cost is zero', async () => {
     const root = await render([{ day: '2026-11-01', calls: 0, cost_usd: 0 }]);
 

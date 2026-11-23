@@ -1,9 +1,6 @@
 :host {
   display: block;
   min-height: 100vh;
-  font-family: system-ui, sans-serif;
-  color: #1f2937;
-  background: #f9fafb;
 }
 
 .topbar {
@@ -11,24 +8,28 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--mat-sys-surface-container-low);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 
   h1 {
     margin: 0;
-    font-size: 1.4rem;
+    font: var(--mat-sys-title-large);
   }
 }
 
 .lang button {
   padding: 0.3rem 0.8rem;
-  border: 1px solid #d1d5db;
-  background: #fff;
+  border: 1px solid var(--mat-sys-outline);
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font: inherit;
   cursor: pointer;
 
   &.active {
-    background: #1f2937;
-    color: #fff;
+    background: var(--mat-sys-primary);
+    border-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+    font-weight: 700;
   }
 }
 
@@ -36,8 +37,28 @@ nav {
   display: flex;
   gap: 1rem;
   padding: 0.5rem 1.5rem;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--mat-sys-surface-container-low);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  a {
+    color: var(--mat-sys-primary);
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+
+    // La page courante se voit par un soulignement épais, pas seulement par la couleur.
+    &.active {
+      font-weight: 700;
+      border-bottom-color: var(--mat-sys-primary);
+    }
+  }
+}
+
+// Focus clavier visible partout (WCAG 2.2 : 2.4.7 et 2.4.11)
+a:focus-visible,
+button:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--mat-sys-primary);
+  outline-offset: 2px;
 }
 
 main {

@@ -4,10 +4,10 @@ import { TranslocoService } from '@jsverse/transloco';
 import { DailyCost } from '../../../api/costs.service';
 import { formatUsd } from './format';
 
-const WIDTH = 600;
 const PLOT_HEIGHT = 160; // hauteur de la zone des barres
 const LABEL_HEIGHT = 24; // place sous les barres pour les dates
-const GAP = 4;
+const MAX_BAR_PERCENT = 8; // une barre seule ne remplit pas tout le graphique
+const FILL = 0.7; // part de la place d'un jour occupée par sa barre
 
 /** Histogramme SVG du coût par jour (sans bibliothèque de graphiques). */
 @Component({
@@ -24,7 +24,6 @@ export class DailyCostChart {
     initialValue: this.transloco.getActiveLang(),
   });
 
-  readonly width = WIDTH;
   readonly height = PLOT_HEIGHT + LABEL_HEIGHT;
   readonly baseline = PLOT_HEIGHT;
 
@@ -32,12 +31,14 @@ export class DailyCostChart {
     const days = this.days();
     const lang = this.lang();
     const max = Math.max(...days.map((d) => d.cost_usd), 0);
-    const slot = days.length ? WIDTH / days.length : WIDTH;
+    // x et largeur en pourcentage : le graphique s'étire, mais les textes gardent leur taille.
+    const slot = days.length ? 100 / days.length : 100;
+    const barWidth = Math.min(slot * FILL, MAX_BAR_PERCENT);
     return days.map((d, i) => {
       const height = max > 0 ? (d.cost_usd / max) * PLOT_HEIGHT : 0;
       return {
-        x: i * slot + GAP / 2,
-        width: Math.max(slot - GAP, 1),
+        x: `${i * slot + (slot - barWidth) / 2}%`,
+        width: `${barWidth}%`,
         height,
         y: PLOT_HEIGHT - height,
         title: this.transloco.translate('costs.barTitle', {
