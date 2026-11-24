@@ -152,3 +152,15 @@
   - [x] Vérification Docker de bout en bout (extraction PDF et audio, revue, recherche, agent avec approbation d'export, coûts) ; image `deskpilot-docling-spike` et volume `docling-cache` supprimés
   - [x] Mention d'un projet client rendue générique dans le guide Angular
   - [x] Passage en public le 2026-11-21, puis protection de `main` (PR obligatoire, 3 contrôles requis, pas de force push)
+
+## Story 07 — Résilience des appels au modèle ✅
+- Branche : `story/07-llm-resilience`
+- Checklist :
+  - [x] Erreurs nommées (`LLMProviderError` et cinq sous-classes), traduites depuis le SDK en un seul endroit
+  - [x] `RetryingProvider` : délai croissant avec hasard, `retry-after` respecté, seules les pannes passagères retentées
+  - [x] Délai maximum et nombre d'essais configurables (`LLM_TIMEOUT_SECONDS`, `LLM_MAX_RETRIES`), SDK sans retentatives propres
+  - [x] Gestionnaire unique : 503 (limite de débit, clé), 502 (panne, requête rejetée), 504 (délai) avec message en français
+  - [x] Vérifié avec le vrai SDK contre un faux serveur local (0 $) : succès après 529 puis 429, abandon après 3 appels, aucune relance sur 401 et 400, délai dépassé en 504
+  - [x] Guide `docs/apprentissage/16-resilience.md`
+  - Hors story : repli vers un autre modèle (à mesurer par l'évaluation), coupe-circuit
+- Tests : 434 backend.

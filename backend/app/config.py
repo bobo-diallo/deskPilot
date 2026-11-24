@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     # Dossier des rapports d'évaluation (Markdown), lus en lecture seule par l'API.
     evaluation_reports_dir: str = "../docs/evaluation"
     anthropic_api_key: str = ""
+    # Appels au modèle : délai maximum (secondes) et nouvelles tentatives après une panne passagère.
+    llm_timeout_seconds: float = 60.0
+    llm_max_retries: int = 3
     # Taille du modèle Whisper : tiny, base, small… (plus gros = plus juste mais plus lent)
     whisper_model_size: str = "small"
 

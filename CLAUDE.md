@@ -14,7 +14,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 - Base : SQLite en V1 (tables créées au démarrage), PostgreSQL + Alembic en V2.
 - Frontend : Angular 21 (standalone), Transloco (FR/EN à l'exécution), tests Vitest.
 - Exécution : `docker compose up --build` (backend sur le port 8010, frontend sur 4200).
-- LLM : Anthropic (SDK `anthropic`) derrière l'interface `LLMProvider` ; routeur Haiku 5.5 pour l'extraction (prompt v2, validé par évaluation) et pour les tâches simples ; chaque appel est journalisé dans `api_calls`.
+- LLM : Anthropic (SDK `anthropic`) derrière l'interface `LLMProvider` ; routeur Haiku 5.5 pour l'extraction (prompt v2, validé par évaluation) et pour les tâches simples ; chaque appel est journalisé dans `api_calls` ; les pannes passagères sont retentées (`RetryingProvider`) et traduites en erreurs HTTP propres.
 
 ## Architecture
 1. Monorepo : `backend/`, `frontend/`, `demo-data/`, `docs/`.
@@ -75,6 +75,7 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 06d Page de test minimale (`/test-page`, outil de développement)
 - [x] 06b Écran Angular « Évaluation et coûts » (Material, API `/evaluations` ; design définitif encore attendu, autres écrans à faire)
 - [x] 06c Publication du dépôt : audit, CI, README, licence MIT, vérification Docker, passage en public et protection de `main`
+- [x] 07 Résilience des appels au modèle (erreurs nommées, nouvelles tentatives à délai croissant, réponses 502/503/504)
 
 Détail par story : `docs/suivi-stories.md`.
 

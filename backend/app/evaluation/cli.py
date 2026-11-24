@@ -9,7 +9,6 @@ from collections.abc import Callable
 from datetime import date
 from pathlib import Path
 
-import anthropic
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
@@ -17,7 +16,7 @@ from app.config import Settings
 from app.core.database import init_database
 from app.domains.llm.ports import LLMProvider
 from app.domains.llm.pricing import compute_cost_usd
-from app.domains.llm.providers.anthropic import AnthropicProvider
+from app.domains.llm.providers.factory import build_llm_provider
 from app.domains.llm.service import LLMService
 from app.evaluation.dataset import load_dataset
 from app.evaluation.report import render_markdown
@@ -28,10 +27,10 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
 def _default_provider() -> LLMProvider:
-    api_key = Settings(_env_file=REPO_ROOT / ".env").anthropic_api_key
-    if not api_key:
+    settings = Settings(_env_file=REPO_ROOT / ".env")
+    if not settings.anthropic_api_key:
         raise SystemExit("ANTHROPIC_API_KEY est absente (variable d'environnement ou .env)")
-    return AnthropicProvider(anthropic.Anthropic(api_key=api_key))
+    return build_llm_provider(settings)
 
 
 def _parser() -> argparse.ArgumentParser:

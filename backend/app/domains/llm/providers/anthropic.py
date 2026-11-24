@@ -3,7 +3,16 @@ import base64
 import anthropic
 from pydantic import ValidationError
 
-from app.domains.llm.errors import LLMInvalidOutputError, LLMRefusedError
+from app.domains.llm.errors import (
+    LLMAuthenticationError,
+    LLMInvalidOutputError,
+    LLMProviderError,
+    LLMRateLimitedError,
+    LLMRefusedError,
+    LLMRequestRejectedError,
+    LLMTimeoutError,
+    LLMUnavailableError,
+)
 from app.domains.llm.schemas import LLMAttachment, LLMRequest, LLMResponse, ToolCall
 
 
@@ -43,6 +52,31 @@ def _block_to_dict(block) -> dict:
     return dict(vars(block))
 
 
+def _retry_after(error: anthropic.APIStatusError) -> float | None:
+    """Délai demandé par le fournisseur (en-tête `retry-after`, en secondes), s'il est lisible."""
+    try:
+        return float(error.response.headers.get("retry-after"))
+    except (TypeError, ValueError):
+        return None
+
+
+def translate_error(error: anthropic.APIError) -> LLMProviderError:
+    """Traduit une erreur du SDK en l'une des nôtres (la seule fonction qui connaît le SDK)."""
+    message = f"{type(error).__name__} : {error}"
+    # L'ordre compte : APITimeoutError est une sorte d'APIConnectionError.
+    if isinstance(error, anthropic.APITimeoutError):
+        return LLMTimeoutError(message)
+    if isinstance(error, anthropic.APIConnectionError):
+        return LLMUnavailableError(message)
+    if isinstance(error, anthropic.RateLimitError):
+        return LLMRateLimitedError(message, retry_after=_retry_after(error))
+    if isinstance(error, anthropic.InternalServerError):  # 5xx, dont 529 « surchargé »
+        return LLMUnavailableError(message, retry_after=_retry_after(error))
+    if isinstance(error, (anthropic.AuthenticationError, anthropic.PermissionDeniedError)):
+        return LLMAuthenticationError(message)
+    return LLMRequestRejectedError(message)
+
+
 class AnthropicProvider:
     """Fournisseur qui appelle les modèles Claude via le SDK officiel."""
 
@@ -72,6 +106,8 @@ class AnthropicProvider:
                 message = self._client.messages.parse(
                     output_format=request.response_schema, **params
                 )
+            except anthropic.APIError as error:
+                raise translate_error(error) from error
             except ValidationError as error:
                 # Le modèle a répondu, mais pas dans le format demandé (ex. « 12 euros 97 » dans
                 # un champ décimal). Erreur du modèle, pas un bogue : on la nomme clairement.
@@ -80,7 +116,10 @@ class AnthropicProvider:
                 ) from error
             parsed = message.parsed_output
         else:
-            message = self._client.messages.create(**params)
+            try:
+                message = self._client.messages.create(**params)
+            except anthropic.APIError as error:
+                raise translate_error(error) from error
             parsed = None
 
         if message.stop_reason == "refusal":

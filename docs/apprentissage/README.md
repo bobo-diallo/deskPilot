@@ -29,6 +29,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | [13 — L'agent et ses outils](13-agent.md) | Appel d'outils, boucle d'agent, approbation humaine, injection de prompt, évaluer un agent (story 05c) |
 | [14 — Lire le journal des coûts](14-couts.md) | Agrégats SQL, `GROUP BY`, percentiles p50/p95, période incluse/exclue (story 06a) |
 | [15 — L'écran « Évaluation et coûts »](15-ecran-evaluation.md) | Composants Angular, signaux, `switchMap`, Material, graphique SVG, accessibilité, tests HTTP (story 06b) |
+| [16 — Survivre aux pannes du fournisseur](16-resilience.md) | Erreurs passagères ou définitives, délai croissant, hasard, enrobage, idempotence (story 07) |
 
 ## Glossaire rapide
 
@@ -43,3 +44,5 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | RAG | Répondre en allant d'abord chercher des extraits pertinents dans tes documents |
 | Agent | Un LLM qui peut décider d'appeler des outils pour accomplir une tâche |
 | i18n | Internationalisation : afficher l'interface en plusieurs langues |
+| Délai croissant | Attendre de plus en plus longtemps entre deux nouvelles tentatives (1 s, 2 s, 4 s…) |
+| Idempotent | Qu'on peut rejouer sans changer le résultat ni provoquer d'effet de bord |
