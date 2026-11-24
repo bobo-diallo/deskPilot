@@ -1,0 +1,67 @@
+<section *transloco="let t" class="costs" aria-labelledby="costs-title">
+  <div class="head">
+    <h3 id="costs-title">{{ t('costs.title') }}</h3>
+    <div class="periods" role="group" [attr.aria-label]="t('costs.period.label')">
+      @for (p of presets; track p) {
+        <button
+          mat-stroked-button
+          type="button"
+          [attr.data-period]="p"
+          [attr.aria-pressed]="preset() === p"
+          [class.selected]="preset() === p"
+          (click)="select(p)"
+        >
+          {{ t('costs.period.' + p) }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @switch (state().status) {
+    @case ('loading') {
+      <div role="status">
+        <p>{{ t('costs.loading') }}</p>
+        <mat-progress-bar mode="indeterminate" [attr.aria-label]="t('costs.loading')" />
+      </div>
+    }
+    @case ('error') {
+      <div role="alert" class="error">
+        <p>{{ t('costs.error') }}</p>
+        <button mat-flat-button type="button" (click)="retry()">{{ t('costs.retry') }}</button>
+      </div>
+    }
+    @case ('empty') {
+      <p class="empty">{{ t('costs.empty') }}</p>
+    }
+    @case ('ready') {
+      <div class="cards">
+        @for (card of cards(); track card.key) {
+          <mat-card appearance="outlined">
+            <mat-card-content>
+              <p class="card-label">{{ t('costs.cards.' + card.key) }}</p>
+              <p class="card-value">{{ card.value }}</p>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+
+      <mat-card appearance="outlined" class="chart">
+        <mat-card-content>
+          <h4>{{ t('costs.chartTitle') }}</h4>
+          <app-daily-cost-chart [days]="ready()!.daily" />
+        </mat-card-content>
+      </mat-card>
+
+      <app-breakdown-table
+        [rows]="modelRows()"
+        [caption]="t('costs.byModel')"
+        [firstColumn]="t('costs.columns.model')"
+      />
+      <app-breakdown-table
+        [rows]="taskRows()"
+        [caption]="t('costs.byTask')"
+        [firstColumn]="t('costs.columns.task')"
+      />
+    }
+  }
+</section>

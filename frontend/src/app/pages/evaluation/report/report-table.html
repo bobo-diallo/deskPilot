@@ -1,0 +1,11 @@
+<table mat-table [dataSource]="table().rows" [attr.aria-label]="label()">
+  @for (header of table().headers; track $index) {
+    <ng-container [matColumnDef]="'c' + $index">
+      <th mat-header-cell *matHeaderCellDef scope="col">{{ plainText(header) }}</th>
+      <td mat-cell *matCellDef="let row">{{ plainText(row[$index] ?? '') }}</td>
+    </ng-container>
+  }
+
+  <tr mat-header-row *matHeaderRowDef="columns()"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns()"></tr>
+</table>

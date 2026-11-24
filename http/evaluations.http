@@ -1,0 +1,8 @@
+### Liste des rapports d'évaluation (le plus récent d'abord)
+GET http://localhost:8010/evaluations/reports
+
+### Un rapport : titre, introduction, sections (texte et tableaux)
+GET http://localhost:8010/evaluations/reports/2026-11-18-search
+
+### Identifiant inconnu : 404
+GET http://localhost:8010/evaluations/reports/inconnu

@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  overflow-x: auto; // les tableaux larges défilent au lieu de déborder de la page
+}
+
+table {
+  width: 100%;
+}

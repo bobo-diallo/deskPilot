@@ -1,0 +1,16 @@
+<svg role="img" [attr.aria-label]="label()" width="100%" [attr.height]="height">
+  <line class="axis" x1="0" x2="100%" [attr.y1]="baseline" [attr.y2]="baseline" />
+  @for (bar of bars(); track $index) {
+    <rect
+      class="bar"
+      [attr.x]="bar.x"
+      [attr.y]="bar.y"
+      [attr.width]="bar.width"
+      [attr.height]="bar.height"
+    >
+      <title>{{ bar.title }}</title>
+    </rect>
+  }
+  <text class="tick" x="0" [attr.y]="height - 6" text-anchor="start">{{ firstDay() }}</text>
+  <text class="tick" x="100%" [attr.y]="height - 6" text-anchor="end">{{ lastDay() }}</text>
+</svg>

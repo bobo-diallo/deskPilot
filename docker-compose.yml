@@ -7,8 +7,11 @@ services:
       - .env
     environment:
       DATABASE_URL: sqlite:///./data/deskpilot.db
+      EVALUATION_REPORTS_DIR: /app/reports
     volumes:
       - ./backend/data:/app/data
+      # Rapports d'évaluation (Markdown), en lecture seule, servis par /evaluations
+      - ./docs/evaluation:/app/reports:ro
       # Cache des modèles Whisper : évite de les retélécharger à chaque recréation du conteneur
       - whisper-cache:/root/.cache/huggingface
       # Cache du modèle d'embeddings (recherche dans les documents)
@@ -18,6 +21,8 @@ services:
     build: ./frontend
     ports:
       - "4200:4200"
+    environment:
+      BACKEND_URL: http://backend:8000
     depends_on:
       - backend
 

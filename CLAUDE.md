@@ -18,7 +18,7 @@ Cadrage : `docs/produit.md`. Décisions : `docs/architecture.md`. Idées V2 : `d
 
 ## Architecture
 1. Monorepo : `backend/`, `frontend/`, `demo-data/`, `docs/`.
-2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm, transcription, review, search, agent).
+2. Backend organisé par domaine dans `backend/app/domains/` (conversations, documents, extraction, llm, transcription, review, search, agent, costs, evaluations).
 3. Chaque domaine isole son modèle métier ; les routes sont dans `backend/app/api/`.
 4. `backend/app/core/database.py` : moteur SQLAlchemy et création des tables au démarrage.
 5. `backend/app/config.py` : configuration lue depuis `.env` (modèle : `.env.example`).
@@ -59,6 +59,7 @@ python -m app.evaluation.search_cli    # évaluation de la recherche (gratuite, 
 python -m app.evaluation.agent_cli --help   # évaluation de l'agent (estime le coût, --yes pour exécuter)
 black app tests && ruff check app tests
 cd frontend && npx ng test --watch=false   # tests frontend
+# http://localhost:4200/evaluation : écran Évaluation et coûts
 ```
 
 ## Avancement (V1)
@@ -72,12 +73,14 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 05c Agent avec outils (recherche, vérification, export avec approbation) et son évaluation (Haiku retenu)
 - [x] 06a API des coûts (`/costs/summary`, `/costs/daily`, colonne `task` dans `api_calls`)
 - [x] 06d Page de test minimale (`/test-page`, outil de développement)
-- [ ] 06b Écran Angular « Évaluation et coûts » (attend le design)
+- [x] 06b Écran Angular « Évaluation et coûts » (Material, API `/evaluations` ; design définitif encore attendu, autres écrans à faire)
 - [x] 06c Publication du dépôt : audit, CI, README, licence MIT, vérification Docker, passage en public et protection de `main`
 
 Détail par story : `docs/suivi-stories.md`.
 
 ## Notes techniques
+- Le conteneur frontend copie le code au build : après une modification, `docker compose up -d --build frontend`.
+- Le frontend appelle `/api/...` ; le proxy (`frontend/proxy.conf.js`) retire `/api` et transmet au backend.
 - Après modification de `.env`, recréer le conteneur : `docker compose up -d --force-recreate backend`.
 - Angular 21 (et non la dernière version) : la machine de développement a Node 24.10, alors que
   le dernier Angular CLI exige Node ≥ 24.15.

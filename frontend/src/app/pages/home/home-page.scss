@@ -1,0 +1,24 @@
+.zones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+
+  section {
+    min-height: 240px;
+    padding: 1rem;
+    background: var(--mat-sys-surface-container-low);
+    border: 1px dashed var(--mat-sys-outline);
+    border-radius: 8px;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .empty {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.9rem;
+  }
+}

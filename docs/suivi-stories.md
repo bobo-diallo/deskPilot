@@ -106,14 +106,14 @@
   - [x] Guide `docs/apprentissage/13-agent.md`
   - Budget : 0,45 $ (essai de fumée 0,05 $ plus mesure 0,40 $) pour 80 essais ; plafond 1,00 $
   - Restes : mode de recherche pour l'agent (à tester sur un jeu neuf), vérification dans Docker (Docker était en panne), serveur MCP (05d facultative), écran Angular
-## Story 06a — API des coûts 🔄
+## Story 06a — API des coûts ✅
 - Branche : `story/06a-costs-api`
 - Checklist :
   - [x] Colonne `task` dans `api_calls`, renseignée par chaque appelant (extraction, agent, simple)
   - [x] `CostService` : totaux, ventilation par modèle et par tâche (p50/p95), série par jour
   - [x] Routes `GET /costs/summary` et `GET /costs/daily` (`from`/`to` inclus) et `http/costs.http`
   - [x] Guide `docs/apprentissage/14-couts.md`
-  - [ ] Vérification dans Docker
+  - [x] Vérification dans Docker (api_calls et /costs, story 06c)
   - Base locale à recréer (pas d'Alembic en V1) : ancienne sauvegardée en `deskpilot.db.bak-before-06a`
 
 ## Story 06d — Page de test minimale ✅
@@ -125,9 +125,20 @@
   - [ ] Parcours cliqué dans un navigateur (syntaxe JavaScript et routes vérifiées, pas le rendu) et vérification dans Docker
   - Hors produit : outil de développement, l'interface réelle reste la 06b
 
-## Story 06b — Écran Angular « Évaluation et coûts » 📋
-- Attend le design de l'utilisateur. Décision : l'écran inclura aussi les rapports d'évaluation
-  (petite API de lecture de `docs/evaluation/` à prévoir).
+## Story 06b — Écran Angular « Évaluation et coûts » ✅
+- Branche : `story/06b-evaluation-costs-screen`
+- Périmètre : l'écran 5 seulement (Dépôt, Résultat, Revue et Agent restent à faire). Design en
+  attente : socle Angular Material et thème Material 3 clair/sombre, à remplacer par la charte.
+- Checklist :
+  - [x] API `GET /evaluations/reports` et `/{id}` : lecture des rapports Markdown, avertissement à part, id validé contre les fichiers (pas de traversée de répertoire)
+  - [x] Socle Angular : Material, routage (écran chargé à la demande), services typés, proxy `/api`
+  - [x] Bloc Coûts : cartes, histogramme SVG, tableaux par modèle et par tâche, choix de période, quatre états
+  - [x] Bloc Évaluation : choix d'un rapport, tableaux, avertissements, quatre états
+  - [x] Textes FR/EN (Transloco), aucune valeur technique brute, thème clair et sombre sans couleur en dur
+  - [x] Vérifié dans Docker et sur captures (Chrome headless, clair et sombre, 500 px)
+  - [x] Guide `docs/apprentissage/15-ecran-evaluation.md`
+  - [ ] Non vérifié : navigation au clavier et contrastes mesurés ; largeur mobile 390 px
+- Tests : 394 backend, 50 frontend.
 
 ## Story 06c — Publication du dépôt ✅
 - Branche : `story/06c-publication`

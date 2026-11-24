@@ -1,12 +1,77 @@
 {
   "app": {
     "title": "Bureau IA",
-    "language": "Langue"
+    "language": "Langue",
+    "navigation": "Navigation"
   },
   "zones": {
     "conversation": "Conversation",
     "modules": "Modules",
     "gallery": "Galerie",
     "empty": "Zone vide pour le moment"
+  },
+  "nav": {
+    "home": "Accueil",
+    "evaluation": "Évaluation et coûts"
+  },
+  "evaluation": {
+    "title": "Évaluation et coûts",
+    "chooseReport": "Rapport",
+    "loading": "Chargement des rapports…",
+    "error": "Impossible de charger les rapports.",
+    "empty": "Aucun rapport d'évaluation disponible.",
+    "note": "À noter",
+    "contentNotice": "",
+    "reportNames": {
+      "agent": "Agent avec outils",
+      "search": "Recherche dans les documents",
+      "text-layer": "Extraction : couche texte des PDF",
+      "prompt-v2": "Extraction : prompt v2",
+      "holdout": "Extraction : jeu indépendant",
+      "baseline-v2": "Extraction : référence corrigée",
+      "baseline-v1": "Extraction : référence initiale (jeu défectueux)",
+      "audio-whisper-sizes": "Audio : tailles de Whisper",
+      "docling-spike": "Essai Docling"
+    },
+    "reportsTitle": "Rapports d'évaluation"
+  },
+  "costs": {
+    "title": "Coûts",
+    "loading": "Chargement des coûts…",
+    "error": "Impossible de charger les coûts.",
+    "retry": "Réessayer",
+    "empty": "Aucun appel enregistré sur cette période.",
+    "period": {
+      "label": "Période",
+      "30": "30 derniers jours",
+      "7": "7 derniers jours",
+      "all": "Tout"
+    },
+    "cards": {
+      "cost": "Coût total",
+      "calls": "Appels",
+      "inputTokens": "Tokens en entrée",
+      "outputTokens": "Tokens en sortie"
+    },
+    "chartTitle": "Coût par jour",
+    "chartLabel": "Coût par jour, du {{from}} au {{to}}, {{total}} au total",
+    "barTitle": "{{day}} : {{cost}}, {{calls}} appels",
+    "byModel": "Coûts et latences par modèle",
+    "byTask": "Coûts et latences par tâche",
+    "columns": {
+      "model": "Modèle",
+      "task": "Tâche",
+      "calls": "Appels",
+      "tokens": "Tokens (entrée / sortie)",
+      "cost": "Coût",
+      "p50": "Latence médiane",
+      "p95": "Latence p95"
+    },
+    "tasks": {
+      "extraction": "Extraction",
+      "agent": "Agent",
+      "simple": "Tâche simple",
+      "unknown": "Non renseignée"
+    }
   }
 }

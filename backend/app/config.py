@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./data/deskpilot.db"
     uploads_dir: str = "./data/uploads"
     exports_dir: str = "./data/exports"  # CSV produits par l'agent après approbation
+    # Dossier des rapports d'évaluation (Markdown), lus en lecture seule par l'API.
+    evaluation_reports_dir: str = "../docs/evaluation"
     anthropic_api_key: str = ""
     # Taille du modèle Whisper : tiny, base, small… (plus gros = plus juste mais plus lent)
     whisper_model_size: str = "small"

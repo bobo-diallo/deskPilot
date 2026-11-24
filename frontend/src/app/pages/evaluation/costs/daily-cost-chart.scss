@@ -1,0 +1,18 @@
+svg {
+  display: block;
+  overflow: visible;
+}
+
+.bar {
+  fill: var(--mat-sys-primary);
+}
+
+.axis {
+  stroke: var(--mat-sys-outline);
+  stroke-width: 1;
+}
+
+.tick {
+  fill: var(--mat-sys-on-surface-variant);
+  font-size: 12px;
+}
