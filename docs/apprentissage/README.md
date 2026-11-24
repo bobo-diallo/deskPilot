@@ -30,6 +30,7 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | [14 — Lire le journal des coûts](14-couts.md) | Agrégats SQL, `GROUP BY`, percentiles p50/p95, période incluse/exclue (story 06a) |
 | [15 — L'écran « Évaluation et coûts »](15-ecran-evaluation.md) | Composants Angular, signaux, `switchMap`, Material, graphique SVG, accessibilité, tests HTTP (story 06b) |
 | [16 — Survivre aux pannes du fournisseur](16-resilience.md) | Erreurs passagères ou définitives, délai croissant, hasard, enrobage, idempotence (story 07) |
+| [17 — Prompts versionnés et traçables](17-prompts-versionnes.md) | Versions immuables, empreintes, test verrou, traçabilité des résultats, `ALTER TABLE` manuel (story 08) |
 
 ## Glossaire rapide
 
@@ -46,3 +47,4 @@ expliquée quand elle apparaît, avec des comparaisons PHP/JavaScript quand elle
 | i18n | Internationalisation : afficher l'interface en plusieurs langues |
 | Délai croissant | Attendre de plus en plus longtemps entre deux nouvelles tentatives (1 s, 2 s, 4 s…) |
 | Idempotent | Qu'on peut rejouer sans changer le résultat ni provoquer d'effet de bord |
+| Empreinte | Résumé court d'un texte (SHA-256) qui change dès qu'un caractère change |
