@@ -45,6 +45,7 @@ class VariantResult:
     name: str
     model: str
     trials: list[TrialResult]
+    prompt_version: str | None = None
 
 
 def run_agent_variant(
@@ -63,6 +64,7 @@ def run_agent_variant(
     `api_calls`, comme pour les autres évaluations.
     """
     trials: list[TrialResult] = []
+    prompt_version: str | None = None
     engine = create_engine("sqlite://")
     init_database(engine)
     with Session(engine) as session, tempfile.TemporaryDirectory() as export_dir:
@@ -82,6 +84,8 @@ def run_agent_variant(
                 ) as exc:  # noqa: BLE001 - un essai raté ne doit pas arrêter la mesure
                     error = f"{type(exc).__name__}: {exc}"
                 latency_ms = round((time.perf_counter() - started) * 1000)
+                if agent_run:
+                    prompt_version = agent_run.prompt_version
 
                 calls = session.scalars(select(ApiCall).where(ApiCall.id > last_id)).all()
                 tools = (
@@ -117,4 +121,4 @@ def run_agent_variant(
                         error=error,
                     )
                 )
-    return VariantResult(name=name, model=model, trials=trials)
+    return VariantResult(name=name, model=model, trials=trials, prompt_version=prompt_version)

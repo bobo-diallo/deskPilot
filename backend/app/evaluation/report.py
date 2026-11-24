@@ -4,6 +4,7 @@ import math
 import statistics
 from datetime import date
 
+from app.domains.extraction.prompts import EXTRACTION_PROMPTS
 from app.evaluation.metrics import FIELDS, paired_bootstrap, summarize, wilson_interval
 from app.evaluation.runner import TrialResult, VariantResult
 
@@ -126,6 +127,20 @@ def render_markdown(variants: list[VariantResult], runs: int, generated_on: date
         header[2:2] = ["Montants et date exacts"]
         header[5:5] = ["Erreurs sur les mots", "Temps de calcul / durée audio"]
     parts += ["## Résumé", _table(header, rows)]
+
+    # Quelle consigne a produit ces chiffres : version et empreinte du texte (voir test_prompt_lock)
+    versioned = [v for v in variants if v.prompt_version]
+    if versioned:
+        parts += [
+            "## Versions de prompt",
+            _table(
+                ["Variante", "Version", "Empreinte"],
+                [
+                    [v.name, v.prompt_version, EXTRACTION_PROMPTS.fingerprint(v.prompt_version)]
+                    for v in versioned
+                ],
+            ),
+        ]
 
     parts += [
         "## Exactitude par champ",

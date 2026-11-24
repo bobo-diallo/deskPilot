@@ -48,7 +48,10 @@ def _per_question(trials: list[TrialResult]) -> dict[str, float]:
 
 
 def render_agent_report(
-    results: dict[str, list[TrialResult]], generated_on: date, models: dict[str, str]
+    results: dict[str, list[TrialResult]],
+    generated_on: date,
+    models: dict[str, str],
+    prompt_label: str | None = None,
 ) -> str:
     names = list(results)
     first = results[names[0]]
@@ -60,6 +63,8 @@ def render_agent_report(
         f"{questions} questions, {runs} répétition(s) chacune. Aucune action sensible n'est "
         "jamais approuvée pendant la mesure : on observe ce que l'agent voulait faire.",
     ]
+    if prompt_label:
+        parts.append(f"Prompt de l'agent : {prompt_label}.")
 
     rows = []
     for name in names:

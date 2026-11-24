@@ -198,7 +198,8 @@ def test_the_command_runs_writes_the_report_and_raw_results(tmp_path, capsys):
     )  # fmt: skip
 
     assert code == 0
-    assert list(tmp_path.glob("*-agent-test.md"))
+    report_text = next(tmp_path.glob("*-agent-test.md")).read_text(encoding="utf-8")
+    assert "Prompt de l'agent : v1 (empreinte ffce61f4)" in report_text
     raw = json.loads((tmp_path / "raw" / "agent-test.json").read_text(encoding="utf-8"))
     assert raw["variants"][0]["name"] == "haiku"
     assert raw["variants"][0]["trials"][0]["tools"] == ["search_documents"]
@@ -208,3 +209,23 @@ def test_the_command_runs_writes_the_report_and_raw_results(tmp_path, capsys):
 def test_unknown_models_are_refused(capsys):
     assert main(["--models", "gpt", "--embedder", "fake"]) == 2
     assert "inconnu" in capsys.readouterr().out.lower()
+
+
+def test_the_agent_report_names_the_prompt_version_and_its_fingerprint():
+    report = render_agent_report(
+        make_results(), date(2026, 11, 19),
+        models={"haiku": "claude-haiku-5-5", "sonnet": "claude-sonnet-5-5"},
+        prompt_label="v1 (empreinte ffce61f4)",
+    )  # fmt: skip
+
+    assert "Prompt de l'agent : v1 (empreinte ffce61f4)" in report
+
+
+def test_the_agent_runner_reports_the_prompt_version_the_runs_used(dataset):
+    provider = ScriptedProvider([answer("Le préavis est d'un mois.")])
+    result = run_agent_variant(
+        "haiku", "claude-haiku-5-5", provider, dataset, FakeEmbedder(), runs=1,
+        questions=pick(dataset, "a01"),
+    )  # fmt: skip
+
+    assert result.prompt_version == "v1"
