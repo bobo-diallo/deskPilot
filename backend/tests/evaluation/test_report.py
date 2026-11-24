@@ -144,3 +144,24 @@ def test_an_audio_report_adds_the_financial_column_and_flags_it_as_a_posteriori(
 
 def test_a_document_report_has_no_financial_column():
     assert "Montants et date exacts" not in make_report()
+
+
+def test_report_lists_the_prompt_version_and_fingerprint_of_each_variant():
+    results = [
+        VariantResult("sonnet", [trial("c0", ("digital",), "30.00")], prompt_version="v1"),
+        VariantResult(
+            "haiku", [trial("c0", ("digital",), "30.00")], prompt_version="v2-date-convention"
+        ),
+    ]
+
+    report = render_markdown(results, runs=1, generated_on=date(2026, 11, 18))
+
+    assert "## Versions de prompt" in report
+    assert "| sonnet | v1 | cce8374a |" in report
+    assert "| haiku | v2-date-convention | 8ffb1d16 |" in report
+
+
+def test_report_has_no_prompt_section_when_no_variant_knows_its_version():
+    report = make_report()
+
+    assert "Versions de prompt" not in report

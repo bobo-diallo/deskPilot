@@ -36,6 +36,7 @@ class AudioExtractor:
         self._transcriber = transcriber
         self._llm_service = llm_service
         self._model = model
+        self._prompt_version = prompt_version
         self._system_prompt = get_prompt(prompt_version)
         self._language = language
 
@@ -67,4 +68,9 @@ class AudioExtractor:
 
         if not isinstance(response.parsed, Invoice):
             raise ExtractionError("Le modèle n'a pas renvoyé de facture structurée")
-        return ExtractionOutput(data=response.parsed, model=response.model, transcript=transcript)
+        return ExtractionOutput(
+            data=response.parsed,
+            model=response.model,
+            transcript=transcript,
+            prompt_version=self._prompt_version,
+        )

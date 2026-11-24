@@ -76,10 +76,13 @@ cd frontend && npx ng test --watch=false   # tests frontend
 - [x] 06b Écran Angular « Évaluation et coûts » (Material, API `/evaluations` ; design définitif encore attendu, autres écrans à faire)
 - [x] 06c Publication du dépôt : audit, CI, README, licence MIT, vérification Docker, passage en public et protection de `main`
 - [x] 07 Résilience des appels au modèle (erreurs nommées, nouvelles tentatives à délai croissant, réponses 502/503/504)
+- [x] 08 Prompts versionnés et reliés aux résultats (empreintes verrouillées, `prompt_version` dans `extractions` et `agent_runs`)
 
 Détail par story : `docs/suivi-stories.md`.
 
 ## Notes techniques
+- Un prompt publié ne se modifie jamais : ajouter une nouvelle version, la mesurer, puis verrouiller son empreinte dans `backend/tests/test_prompt_lock.py`.
+- Pas d'Alembic en V1 : une colonne ajoutée à un modèle demande un `ALTER TABLE` manuel sur la base locale (sauvegarde d'abord ; voir `docs/apprentissage/17-prompts-versionnes.md`).
 - Le conteneur frontend copie le code au build : après une modification, `docker compose up -d --build frontend`.
 - Le frontend appelle `/api/...` ; le proxy (`frontend/proxy.conf.js`) retire `/api` et transmet au backend.
 - Après modification de `.env`, recréer le conteneur : `docker compose up -d --force-recreate backend`.

@@ -128,3 +128,14 @@ def test_without_an_api_key_the_agent_gives_503(setup):
     application, _, _ = setup  # pas de surcharge du fournisseur : on utilise le vrai, sans clé
     with TestClient(application) as client:
         assert client.post("/agent/ask", json={"question": "Bonjour"}).status_code == 503
+
+
+def test_the_run_exposes_the_prompt_version_it_used(setup):
+    application, use_script, _ = setup
+    use_script(answer("Bonjour !"))
+    with TestClient(application) as client:
+        created = client.post("/agent/ask", json={"question": "Bonjour"}).json()
+        read_back = client.get(f"/agent/runs/{created['id']}").json()
+
+    assert created["prompt_version"] == "v1"
+    assert read_back["prompt_version"] == "v1"

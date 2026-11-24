@@ -10,6 +10,7 @@ class ExtractionOutput:
     data: Invoice
     model: str  # modèle (ou outil) qui a produit les données
     transcript: Transcript | None = None  # présent seulement quand la source est de l'audio
+    prompt_version: str | None = None  # version du prompt utilisée (None : extracteur sans prompt)
 
 
 class DocumentExtractor(Protocol):

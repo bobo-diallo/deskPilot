@@ -41,6 +41,7 @@ class ExtractionResult(BaseModel):
     data: dict
     issues: list[dict]
     model: str
+    prompt_version: str | None = None  # null : extraction d'avant la story 08
     transcript: TranscriptResult | None = None  # seulement pour un enregistrement
 
 
@@ -55,6 +56,7 @@ def to_result(
         data=extraction.data,
         issues=extraction.issues,
         model=extraction.model,
+        prompt_version=extraction.prompt_version,
         transcript=(
             TranscriptResult(
                 text=transcription.text,

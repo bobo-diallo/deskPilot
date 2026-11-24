@@ -191,3 +191,24 @@ def test_a_document_trial_has_no_word_error_rate(small_dataset, session):
 
     assert result.trials[0].word_error_rate is None
     assert result.trials[0].audio_seconds is None
+
+
+def test_runner_remembers_the_prompt_version_the_extractor_reported(small_dataset, session):
+    provider = FakeProvider(parsed=make_invoice())
+    extractor = ClaudeExtractor(LLMService(provider, session), prompt_version="v1")
+
+    result = run_variant("test", extractor, load_dataset(small_dataset), session, runs=1)
+
+    assert result.prompt_version == "v1"
+
+
+def test_runner_leaves_the_prompt_version_empty_when_the_extractor_gives_none(
+    small_dataset, session
+):
+    class NoPrompt:
+        def extract(self, content, media_type):
+            return ExtractionOutput(data=make_invoice(), model="x")
+
+    result = run_variant("test", NoPrompt(), load_dataset(small_dataset), session, runs=1)
+
+    assert result.prompt_version is None

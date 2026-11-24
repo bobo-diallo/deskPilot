@@ -38,6 +38,8 @@ class TrialResult:
 class VariantResult:
     name: str
     trials: list[TrialResult]
+    # Version du prompt rapportée par l'extracteur (None : extracteur sans prompt).
+    prompt_version: str | None = None
 
 
 def run_variant(
@@ -53,6 +55,7 @@ def run_variant(
     que l'application). Une session dédiée à l'évaluation évite de polluer la vraie base.
     """
     trials: list[TrialResult] = []
+    prompt_version: str | None = None
     for case in cases:
         content = case.path.read_bytes()
         for run in range(1, runs + 1):
@@ -76,6 +79,8 @@ def run_variant(
                 status = ExtractionStatus.NEEDS_REVIEW if issues else ExtractionStatus.VALIDATED
                 score = score_extraction(case.expected, output.data, status.value)
 
+            if output and output.prompt_version:
+                prompt_version = output.prompt_version
             transcript = output.transcript if output else None
             wer = None
             if transcript and case.spoken:
@@ -97,4 +102,4 @@ def run_variant(
                     audio_seconds=transcript.duration_seconds if transcript else None,
                 )
             )
-    return VariantResult(name=name, trials=trials)
+    return VariantResult(name=name, trials=trials, prompt_version=prompt_version)

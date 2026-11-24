@@ -20,7 +20,7 @@ chaque story. Légende : ✅ fait, 🔄 en cours, 📋 prévu, ❌ pas encore pl
 | 11 | Secrets et configuration hors du code | `.env`, `pydantic-settings` | ✅ |
 | 12 | Confidentialité : choix API contre modèle local, pas de données réelles dans les démos | données factices ; essai Docling (non retenu) | 🔄 |
 | 13 | Traitement en masse à moitié prix (Batch API) pour les évaluations | non utilisé (l'évaluation mesure aussi la latence) | 📋 |
-| 14 | Versionner les prompts et relier chaque résultat à la version utilisée | `prompts.py` (v1, v2), variantes épinglées ; pas encore stocké dans `extractions` | 🔄 |
+| 14 | Versionner les prompts et relier chaque résultat à la version utilisée | story 08 : `PromptSet` (extraction, agent), empreintes verrouillées par un test, version enregistrée dans `extractions` et `agent_runs`, citée par les rapports d'évaluation | ✅ |
 | 15 | Réduire le coût d'un contexte répété (prompt caching) | non étudié | 📋 |
 | 16 | Observabilité : journaux structurés, traces (OpenTelemetry) | journal des coûts, visible dans l'écran Évaluation et coûts (story 06b) ; pas de traces ni de journaux structurés | 🔄 |
 | 17 | Agents : boucle d'outils typés, limites de pas, validation des arguments | story 05c : quatre outils, 6 pas maximum, arguments validés par Pydantic | ✅ |
@@ -40,7 +40,7 @@ vrais produits. Chacune est rattachée à une story où elle sera réellement pr
 | A2 | Évaluation en régression : un score minimal qui bloque une PR (qualité traitée comme les tests) | Éviter qu'un changement de prompt dégrade en silence | story 03 puis CI | 📋 |
 | A3 | Analyse d'erreurs par catégorie (étiquettes de difficulté), pas seulement une moyenne | Trouver où le système échoue vraiment | story 03 | ✅ |
 | A4 | Ingénierie des coûts : Batch API, prompt caching, texte extrait au lieu d'images, plus petit modèle suffisant, effort de réflexion | Diviser la facture sans perdre en qualité | story 03 (fait : modèle et texte) ; reste : caching, effort | 🔄 |
-| A5 | Prompts versionnés, comparés par l'évaluation, reliés à chaque résultat | Traiter les prompts comme du code | story 03 | 🔄 |
+| A5 | Prompts versionnés, comparés par l'évaluation, reliés à chaque résultat | Traiter les prompts comme du code | story 03, story 08 | ✅ |
 | A6 | Modèles ouverts et inférence locale (Hugging Face, quantification), mesurés contre l'API | Savoir quand « local » est justifié | Docling essayé en story 03 (non retenu) ; Whisper local en story 04 (`small` retenu, trois tailles mesurées) | ✅ |
 | A7 | Résilience : replis entre modèles, coupe-circuit, relances avec délai croissant, idempotence | Un service qui survit aux pannes du fournisseur | story 07 (fait : relances à délai croissant avec hasard, `retry-after` respecté, appels idempotents) ; reste : repli entre modèles, coupe-circuit | 🔄 |
 | A8 | Pipeline asynchrone : file de tâches, traitement en arrière-plan, statut consultable | Les documents lourds ne bloquent pas la requête | à planifier | ❌ |

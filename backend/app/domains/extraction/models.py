@@ -30,4 +30,6 @@ class Extraction(Base):
     data: Mapped[dict] = mapped_column(JSON)  # champs extraits
     issues: Mapped[list] = mapped_column(JSON)  # anomalies détectées
     model: Mapped[str]
+    # Version du prompt qui a produit les données. Vide avant la story 08.
+    prompt_version: Mapped[str | None] = mapped_column(default=None)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)

@@ -9,6 +9,7 @@ from collections.abc import Callable
 from datetime import date
 from pathlib import Path
 
+from app.domains.agent.prompts import AGENT_PROMPTS
 from app.domains.llm.ports import LLMProvider
 from app.domains.llm.pricing import compute_cost_usd
 from app.domains.search.embedders.fake import FakeEmbedder
@@ -25,6 +26,15 @@ MODELS = {"haiku": "claude-haiku-5-5", "sonnet": "claude-sonnet-5-5"}
 CALLS_PER_QUESTION = 2.5
 ESTIMATED_INPUT_TOKENS = 1_500
 ESTIMATED_OUTPUT_TOKENS = 220
+
+
+def _prompt_label(variants) -> str | None:
+    """« v1 (empreinte ffce61f4) » : la version utilisée par les mesures, avec son empreinte."""
+    versions = {v.prompt_version for v in variants if v.prompt_version}
+    if len(versions) != 1:
+        return None
+    version = versions.pop()
+    return f"{version} (empreinte {AGENT_PROMPTS.fingerprint(version)})"
 
 
 def main(
@@ -93,7 +103,10 @@ def main(
     args.raw_dir.mkdir(parents=True, exist_ok=True)
     report_path = args.report_dir / f"{today.isoformat()}-{args.name}.md"
     report_path.write_text(
-        render_agent_report({v.name: v.trials for v in variants}, today, MODELS), encoding="utf-8"
+        render_agent_report(
+            {v.name: v.trials for v in variants}, today, MODELS, _prompt_label(variants)
+        ),
+        encoding="utf-8",
     )
     raw = {
         "variants": [

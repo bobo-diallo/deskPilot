@@ -38,6 +38,7 @@ class ExtractionService:
                 for issue in issues
             ],
             model=output.model,
+            prompt_version=output.prompt_version,
         )
         self._session.add(extraction)
         self._session.flush()  # attribue l'id de l'extraction sans valider la transaction

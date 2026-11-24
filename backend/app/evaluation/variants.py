@@ -17,6 +17,7 @@ class VariantSpec:
     model: str
     estimated_input_tokens: int
     estimated_output_tokens: int
+    prompt_version: str  # doit être celle que `build` utilise (un test le vérifie)
     build: Callable[[LLMService], DocumentExtractor]
 
 
@@ -29,6 +30,7 @@ VARIANTS: dict[str, VariantSpec] = {
         model="claude-sonnet-5-5",
         estimated_input_tokens=3_200,
         estimated_output_tokens=250,
+        prompt_version="v1",
         build=lambda llm: ClaudeExtractor(llm, model="claude-sonnet-5-5", prompt_version="v1"),
     ),
     "haiku-vision": VariantSpec(
@@ -36,6 +38,7 @@ VARIANTS: dict[str, VariantSpec] = {
         model="claude-haiku-5-5",
         estimated_input_tokens=3_200,
         estimated_output_tokens=250,
+        prompt_version="v1",
         build=lambda llm: ClaudeExtractor(llm, model="claude-haiku-5-5", prompt_version="v1"),
     ),
     # Prompt v2 : même modèle, même jeu, seule la consigne sur les dates change.
@@ -44,6 +47,7 @@ VARIANTS: dict[str, VariantSpec] = {
         model="claude-haiku-5-5",
         estimated_input_tokens=3_200,
         estimated_output_tokens=250,
+        prompt_version="v2-date-convention",
         build=lambda llm: ClaudeExtractor(
             llm, model="claude-haiku-5-5", prompt_version="v2-date-convention"
         ),
@@ -54,6 +58,7 @@ VARIANTS: dict[str, VariantSpec] = {
         model="claude-sonnet-5-5",
         estimated_input_tokens=700,
         estimated_output_tokens=250,
+        prompt_version="v1",
         build=lambda llm: TextLayerExtractor(llm, model="claude-sonnet-5-5", prompt_version="v1"),
     ),
     "haiku-text": VariantSpec(
@@ -61,9 +66,14 @@ VARIANTS: dict[str, VariantSpec] = {
         model="claude-haiku-5-5",
         estimated_input_tokens=700,
         estimated_output_tokens=250,
+        prompt_version="v1",
         build=lambda llm: TextLayerExtractor(llm, model="claude-haiku-5-5", prompt_version="v1"),
     ),
 }
+
+
+# Épinglée comme les autres : la mesure audio doit rester reproductible si le défaut change.
+_AUDIO_PROMPT_VERSION = "v2-date-convention"
 
 
 def _whisper_variant(size: str) -> VariantSpec:
@@ -74,8 +84,12 @@ def _whisper_variant(size: str) -> VariantSpec:
         # Calibré sur la première mesure audio : 0,0006 $ par dictée, réflexion comprise.
         estimated_input_tokens=1_200,
         estimated_output_tokens=900,
+        prompt_version=_AUDIO_PROMPT_VERSION,
         build=lambda llm: AudioExtractor(
-            FasterWhisperTranscriber(size), llm, model="claude-haiku-5-5"
+            FasterWhisperTranscriber(size),
+            llm,
+            model="claude-haiku-5-5",
+            prompt_version=_AUDIO_PROMPT_VERSION,
         ),
     )
 

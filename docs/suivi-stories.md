@@ -164,3 +164,16 @@
   - [x] Guide `docs/apprentissage/16-resilience.md`
   - Hors story : repli vers un autre modèle (à mesurer par l'évaluation), coupe-circuit
 - Tests : 434 backend.
+
+## Story 08 — Prompts versionnés et reliés aux résultats ✅
+- Branche : `story/08-prompt-versioning`
+- Checklist :
+  - [x] `PromptSet` : versions immuables, empreinte SHA-256 (8 caractères), défaut validé
+  - [x] Test verrou (`tests/test_prompt_lock.py`) : une version publiée ne se modifie pas en place ; toute version doit être verrouillée
+  - [x] Prompt de l'agent versionné (`AGENT_PROMPTS`, v1) ; une exécution reprise garde son prompt d'origine
+  - [x] Colonnes `extractions.prompt_version` et `agent_runs.prompt_version` (vides pour l'ancien), exposées par l'API
+  - [x] Variantes d'évaluation : version déclarée et vérifiée par test ; rapports : section « Versions de prompt » (extraction) et ligne de version (agent)
+  - [x] Base locale : sauvegarde (`deskpilot.db.bak-before-08`) puis `ALTER TABLE` manuel ; 8 extractions et 4 exécutions conservées
+  - [x] Guide `docs/apprentissage/17-prompts-versionnes.md`
+  - Hors story : version du prompt dans `api_calls` (coût par version), comparaison automatique de deux versions, blocage d'une PR par un score minimal
+- Tests : 470 backend.
