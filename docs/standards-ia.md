@@ -9,7 +9,7 @@ chaque story. Légende : ✅ fait, 🔄 en cours, 📋 prévu, ❌ pas encore pl
 |---|---|---|---|
 | 1 | Appeler le modèle via le SDK officiel, derrière une interface (changer de fournisseur sans refonte) | `LLMProvider`, `AnthropicProvider` (story 01) | ✅ |
 | 2 | Sorties structurées : schéma contraint et validé, jamais du texte libre à parser | `messages.parse` + Pydantic (story 02) | ✅ |
-| 3 | Suivre tokens, coût et latence de chaque appel | `api_calls`, `LLMService` (story 01) ; lecture agrégée par modèle et par tâche, latence p50/p95 (story 06a) | ✅ |
+| 3 | Suivre tokens, coût et latence de chaque appel | `api_calls`, `LLMService` (story 01) ; lecture agrégée par modèle et par tâche, latence p50/p95 (story 06a) ; affichés dans l'écran Évaluation et coûts (story 06b) | ✅ |
 | 4 | Router les tâches vers le modèle adapté (coût contre qualité) | `router.py` : extraction vers Haiku, décision prise par la mesure (story 03) | ✅ |
 | 5 | Évaluer sur un jeu annoté avec des métriques, avant de changer de modèle ou de prompt | module `evaluation`, 460 appels mesurés (story 03) | ✅ |
 | 6 | Tests sans réseau avec des faux, tests réels séparés et ignorés sans clé | `FakeProvider`, tests `skipif` | ✅ |
@@ -22,11 +22,11 @@ chaque story. Légende : ✅ fait, 🔄 en cours, 📋 prévu, ❌ pas encore pl
 | 13 | Traitement en masse à moitié prix (Batch API) pour les évaluations | non utilisé (l'évaluation mesure aussi la latence) | 📋 |
 | 14 | Versionner les prompts et relier chaque résultat à la version utilisée | `prompts.py` (v1, v2), variantes épinglées ; pas encore stocké dans `extractions` | 🔄 |
 | 15 | Réduire le coût d'un contexte répété (prompt caching) | non étudié | 📋 |
-| 16 | Observabilité : journaux structurés, traces (OpenTelemetry) | journal des coûts seulement | ❌ |
+| 16 | Observabilité : journaux structurés, traces (OpenTelemetry) | journal des coûts, visible dans l'écran Évaluation et coûts (story 06b) ; pas de traces ni de journaux structurés | 🔄 |
 | 17 | Agents : boucle d'outils typés, limites de pas, validation des arguments | story 05c : quatre outils, 6 pas maximum, arguments validés par Pydantic | ✅ |
 | 18 | RAG : découpage, embeddings, recherche, évaluation de la recherche | story 05b : découpage, embeddings, recherche et son évaluation faits | ✅ |
 | 19 | Garde-fous : injection de prompt, données personnelles | story 05c : instructions cachées dans un contrat, extraits encadrés comme données ; reste : filtrage des données personnelles | 🔄 |
-| 20 | Intégration continue : tests et lint à chaque PR | pas de pipeline | ❌ |
+| 20 | Intégration continue : tests et lint à chaque PR | GitHub Actions : ruff, black, pytest, Vitest, gitleaks ; `main` protégée (story 06c) | ✅ |
 
 ## Niveau avancé : ce qui distingue un profil senior
 
