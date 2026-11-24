@@ -21,6 +21,8 @@ class AgentRun(Base):
     status: Mapped[str]
     answer: Mapped[str | None] = mapped_column(Text, default=None)
     model: Mapped[str]
+    # Version du prompt système utilisée. Vide avant la story 08 (c'était la version v1).
+    prompt_version: Mapped[str | None] = mapped_column(default=None)
     steps_used: Mapped[int] = mapped_column(default=0)  # nombre d'appels au modèle
     # Conversation complète (blocs bruts) : permet de reprendre l'agent là où il s'est arrêté.
     messages: Mapped[list] = mapped_column(JSON)

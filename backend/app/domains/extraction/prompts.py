@@ -5,6 +5,8 @@ compare à la précédente avec l'évaluation, puis on décide. `v1` reste intac
 reproduire les anciennes mesures.
 """
 
+from app.domains.llm.prompts import PromptSet
+
 _V1 = (
     "Tu extrais les champs d'une facture à partir du document fourni. "
     "Si une information est absente ou illisible, laisse le champ vide : "
@@ -12,21 +14,23 @@ _V1 = (
     "Les montants sont des nombres décimaux sans symbole monétaire ni séparateur de milliers."
 )
 
-PROMPTS: dict[str, str] = {
-    "v1": _V1,
-    # Ajoutée après la première évaluation : des dates américaines étaient lues à l'envers.
-    "v2-date-convention": _V1
-    + " Pour une date écrite en chiffres, applique la convention du document : "
+# Ajoutée après la première évaluation : des dates américaines étaient lues à l'envers.
+_V2 = (
+    _V1 + " Pour une date écrite en chiffres, applique la convention du document : "
     "mois/jour/année sur une facture américaine (montants en dollars US, libellés en anglais), "
-    "jour/mois/année sinon.",
-}
+    "jour/mois/année sinon."
+)
 
 # Version validée par l'évaluation (voir docs/evaluation/) ; `v1` reste sélectionnable.
 DEFAULT_PROMPT_VERSION = "v2-date-convention"
 
+EXTRACTION_PROMPTS = PromptSet(
+    name="extraction",
+    versions={"v1": _V1, "v2-date-convention": _V2},
+    default=DEFAULT_PROMPT_VERSION,
+)
+PROMPTS = EXTRACTION_PROMPTS.versions
+
 
 def get_prompt(version: str) -> str:
-    try:
-        return PROMPTS[version]
-    except KeyError:
-        raise ValueError(f"Version de prompt inconnue : {version}") from None
+    return EXTRACTION_PROMPTS.get(version)

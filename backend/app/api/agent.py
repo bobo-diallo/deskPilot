@@ -37,6 +37,7 @@ class AgentRunResult(BaseModel):
     status: str
     answer: str | None
     model: str
+    prompt_version: str | None = None
     steps_used: int
     steps: list[StepResult]
     pending_tool: PendingTool | None  # l'action sensible qui attend l'approbation, le cas échéant
@@ -57,6 +58,7 @@ def _result(session: Session, run: AgentRun) -> AgentRunResult:
         status=run.status,
         answer=run.answer,
         model=run.model,
+        prompt_version=run.prompt_version,
         steps_used=run.steps_used,
         steps=[
             StepResult(

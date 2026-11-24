@@ -17,6 +17,7 @@ class ClaudeExtractor:
         prompt_version: str = DEFAULT_PROMPT_VERSION,
     ):
         self._llm_service = llm_service
+        self._prompt_version = prompt_version
         self._system_prompt = get_prompt(prompt_version)
         # Modèle imposé (utile pour comparer) ; sinon le routeur choisit selon la tâche.
         self._model = model
@@ -35,4 +36,6 @@ class ClaudeExtractor:
 
         if not isinstance(response.parsed, Invoice):
             raise ExtractionError("Le modèle n'a pas renvoyé de facture structurée")
-        return ExtractionOutput(data=response.parsed, model=response.model)
+        return ExtractionOutput(
+            data=response.parsed, model=response.model, prompt_version=self._prompt_version
+        )

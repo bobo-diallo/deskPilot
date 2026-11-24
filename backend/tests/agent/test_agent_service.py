@@ -4,7 +4,8 @@ from sqlalchemy import select
 
 from app.domains.agent.errors import AgentRunNotFoundError, AgentStateError
 from app.domains.agent.models import AgentStep
-from app.domains.agent.service import SYSTEM_PROMPT, AgentService
+from app.domains.agent.prompts import AGENT_PROMPTS
+from app.domains.agent.service import AgentService
 from app.domains.agent.tools.base import Tool, ToolExecutionError, ToolRegistry
 from app.domains.llm.providers.fake import ScriptedProvider
 from app.domains.llm.schemas import LLMResponse, ToolCall
@@ -117,13 +118,15 @@ def test_every_request_carries_the_system_prompt_and_the_tools(session, recorder
     service.ask("Bonjour")
 
     request = provider.received[0]
-    assert request.system == SYSTEM_PROMPT
+    assert request.system == AGENT_PROMPTS.get(AGENT_PROMPTS.default)
     assert [tool.name for tool in request.tools] == ["upper", "boom", "wipe"]
 
 
 def test_the_system_prompt_tells_the_model_to_treat_documents_as_data(session, recorder):
-    assert "jamais" in SYSTEM_PROMPT and "instruction" in SYSTEM_PROMPT
-    assert "export_invoices" in SYSTEM_PROMPT
+    assert "jamais" in AGENT_PROMPTS.get(
+        AGENT_PROMPTS.default
+    ) and "instruction" in AGENT_PROMPTS.get(AGENT_PROMPTS.default)
+    assert "export_invoices" in AGENT_PROMPTS.get(AGENT_PROMPTS.default)
 
 
 def test_a_tool_is_executed_and_its_result_goes_back_to_the_model(session, recorder):
