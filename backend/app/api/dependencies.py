@@ -3,7 +3,6 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Annotated
 
-import anthropic
 from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
@@ -16,7 +15,7 @@ from app.domains.extraction.extractors.claude import ClaudeExtractor
 from app.domains.extraction.extractors.dispatch import MediaTypeExtractor
 from app.domains.extraction.ports import DocumentExtractor
 from app.domains.llm.ports import LLMProvider
-from app.domains.llm.providers.anthropic import AnthropicProvider
+from app.domains.llm.providers.factory import build_llm_provider
 from app.domains.llm.router import Task, choose_model
 from app.domains.llm.service import LLMService
 from app.domains.search.embedders.fastembed_embedder import FastEmbedEmbedder
@@ -33,12 +32,12 @@ def get_db_session(request: Request) -> Iterator[Session]:
 
 def get_llm_provider() -> LLMProvider:
     """Fournisseur LLM réel. Les tests le remplacent par un faux (dependency_overrides)."""
-    api_key = get_settings().anthropic_api_key
-    if not api_key:
+    settings = get_settings()
+    if not settings.anthropic_api_key:
         raise HTTPException(
             status_code=503, detail="ANTHROPIC_API_KEY n'est pas configurée dans .env"
         )
-    return AnthropicProvider(anthropic.Anthropic(api_key=api_key))
+    return build_llm_provider(settings)
 
 
 def get_storage() -> FileStorage:

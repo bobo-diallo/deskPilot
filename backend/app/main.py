@@ -2,7 +2,18 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.api import agent, costs, evaluations, extractions, health, llm, reviews, search, test_page
+from app.api import (
+    agent,
+    costs,
+    evaluations,
+    extractions,
+    health,
+    llm,
+    llm_errors,
+    reviews,
+    search,
+    test_page,
+)
 from app.config import get_settings
 from app.core.database import build_engine, init_database
 
@@ -19,6 +30,7 @@ def create_app() -> FastAPI:
         engine.dispose()
 
     app = FastAPI(title=settings.app_name, lifespan=lifespan)
+    llm_errors.register(app)
     app.include_router(health.router)
     app.include_router(llm.router)
     app.include_router(extractions.router)
