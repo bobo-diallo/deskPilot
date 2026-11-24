@@ -16,7 +16,7 @@ chaque story. Légende : ✅ fait, 🔄 en cours, 📋 prévu, ❌ pas encore pl
 | 7 | Humain dans la boucle pour les cas douteux | statut `needs_review` (story 02), écran Revue (story 05) | 🔄 |
 | 8 | Validation métier du résultat du modèle (le modèle peut se tromper avec aplomb) | `validation.py` (story 02) | ✅ |
 | 9 | Gérer les refus du modèle | `LLMRefusedError` (story 01) | ✅ |
-| 10 | Gérer pannes, timeouts, limites de débit (429), nouvelles tentatives | réglages par défaut du SDK ; pas de traduction en erreur 502 propre | 📋 |
+| 10 | Gérer pannes, timeouts, limites de débit (429), nouvelles tentatives | story 07 : erreurs nommées, nouvelles tentatives à délai croissant sur les seules pannes passagères, délai maximum, réponses 502/503/504 propres | ✅ |
 | 11 | Secrets et configuration hors du code | `.env`, `pydantic-settings` | ✅ |
 | 12 | Confidentialité : choix API contre modèle local, pas de données réelles dans les démos | données factices ; essai Docling (non retenu) | 🔄 |
 | 13 | Traitement en masse à moitié prix (Batch API) pour les évaluations | non utilisé (l'évaluation mesure aussi la latence) | 📋 |
@@ -42,7 +42,7 @@ vrais produits. Chacune est rattachée à une story où elle sera réellement pr
 | A4 | Ingénierie des coûts : Batch API, prompt caching, texte extrait au lieu d'images, plus petit modèle suffisant, effort de réflexion | Diviser la facture sans perdre en qualité | story 03 (fait : modèle et texte) ; reste : caching, effort | 🔄 |
 | A5 | Prompts versionnés, comparés par l'évaluation, reliés à chaque résultat | Traiter les prompts comme du code | story 03 | 🔄 |
 | A6 | Modèles ouverts et inférence locale (Hugging Face, quantification), mesurés contre l'API | Savoir quand « local » est justifié | Docling essayé en story 03 (non retenu) ; Whisper local en story 04 (`small` retenu, trois tailles mesurées) | ✅ |
-| A7 | Résilience : replis entre modèles, coupe-circuit, relances avec délai croissant, idempotence | Un service qui survit aux pannes du fournisseur | à planifier | ❌ |
+| A7 | Résilience : replis entre modèles, coupe-circuit, relances avec délai croissant, idempotence | Un service qui survit aux pannes du fournisseur | story 07 (fait : relances à délai croissant avec hasard, `retry-after` respecté, appels idempotents) ; reste : repli entre modèles, coupe-circuit | 🔄 |
 | A8 | Pipeline asynchrone : file de tâches, traitement en arrière-plan, statut consultable | Les documents lourds ne bloquent pas la requête | à planifier | ❌ |
 | A9 | Voix : transcription (Whisper), découpage par locuteur, extraction depuis la transcription | Multimodalité de bout en bout | story 04 (fait : transcription et extraction ; reste : découpage par locuteur) | 🔄 |
 | A10 | Agents avancés : outils typés, limites de pas, validation des arguments, approbation humaine des actions sensibles, évaluation des trajectoires | Un agent fiable, pas une démo | story 05c (fait : outils typés, limites, validation, approbation humaine, outils appelés évalués ; reste : trajectoires détaillées) | 🔄 |
